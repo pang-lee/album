@@ -3,6 +3,7 @@ require('dotenv').config()
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
+  components: true,
   head: {
     titleTemplate: '%s - album',
     title: 'album',
@@ -30,7 +31,7 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -41,7 +42,7 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxtjs/dotenv',
+    '@nuxtjs/dotenv'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
