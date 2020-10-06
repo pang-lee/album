@@ -45,9 +45,16 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/apollo',
   ],
-
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://rickandmortyapi.com/graphql/',
+      }
+    }
+  },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 

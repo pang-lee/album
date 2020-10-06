@@ -17,6 +17,19 @@
             	    </keep-alive>
             	  </v-card-text>
             	</v-card>
+
+
+                {{c1}} -- c1
+                {{c2}} -- c2
+                <v-btn @click="test()">123</v-btn>
+
+                <ul>
+                    <li v-for="character in characters.results" :key="character.id">
+                        {{character.name}}
+                        {{character.status}}
+                    </li>
+                </ul>
+
             </v-col>
         </v-row>    
     </v-container>
@@ -26,6 +39,8 @@
 import * as icon from '@mdi/js'
 import login from '~/components/form/login'
 import register from '~/components/form/register'
+import gql from 'graphql-tag'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
     export default {
         components:{
@@ -41,10 +56,38 @@ import register from '~/components/form/register'
                 ]
             }
         },
+        computed:{
+            ...mapState('modA', {
+                c1: state => state.name,
+            }),
+            ...mapGetters('modA', {
+                c2: 'module'
+            }),
+        },
         methods:{
+            ...mapMutations('modA', {
+                setName: 'SET_NAME' 
+            }),
+            ...mapActions('modA', ['actionModule']),
             current_form(index){
                 return index == 0 ? this.form = 'login' : this.form = 'register'
+            },
+            test(){
+                this.setName('change to this')
+                this.actionModule("hello")
             }
+        },
+        apollo:{
+            characters: gql`
+                query getCharacters{
+                    characters{
+                        results{
+                            id
+                            name
+                            status
+                        }
+                    }
+                }`
         }
     }
 </script>

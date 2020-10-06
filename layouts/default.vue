@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app dense dark>
+        <v-app-bar app dark>
             <v-container fluid>
                 <navbar/>
             </v-container>
