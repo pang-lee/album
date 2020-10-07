@@ -35,9 +35,10 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
-import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
+import Swal from 'sweetalert2'
 
 export default {
     data(){
@@ -66,11 +67,12 @@ export default {
         }
     },
     methods:{
+        ...mapActions('authentication', ['fetchToken']),
         submit(){
             this.$validate()
                 .then((success) => {
                     if(success){
-                        alert(success)
+                        this.fetchToken(this.login)
                     }else{
                         Swal.fire({
                             type: 'error',

@@ -23,24 +23,19 @@
                 {{c2}} -- c2
                 <v-btn @click="test()">123</v-btn>
 
-                <ul>
-                    <li v-for="character in characters.results" :key="character.id">
-                        {{character.name}}
-                        {{character.status}}
-                    </li>
-                </ul>
+                {{getbook}}
+                {{getToken}}
 
             </v-col>
-        </v-row>    
+        </v-row>
     </v-container>
 </template>
 
 <script>
-import * as icon from '@mdi/js'
-import login from '~/components/form/login'
-import register from '~/components/form/register'
-import gql from 'graphql-tag'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import register from '~/components/form/register'
+import login from '~/components/form/login'
+import * as icon from '@mdi/js'
 
     export default {
         components:{
@@ -63,6 +58,8 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
             ...mapGetters('modA', {
                 c2: 'module'
             }),
+            ...mapGetters('books', ['getbook']),
+            ...mapGetters('authentication', ['getToken'])
         },
         methods:{
             ...mapMutations('modA', {
@@ -72,22 +69,12 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
             current_form(index){
                 return index == 0 ? this.form = 'login' : this.form = 'register'
             },
+            ...mapActions('books', ['fetchBookList']),
             test(){
                 this.setName('change to this')
                 this.actionModule("hello")
+                this.fetchBookList()
             }
-        },
-        apollo:{
-            characters: gql`
-                query getCharacters{
-                    characters{
-                        results{
-                            id
-                            name
-                            status
-                        }
-                    }
-                }`
         }
     }
 </script>
