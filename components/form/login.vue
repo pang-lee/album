@@ -78,7 +78,7 @@ export default {
                             type: 'error',
                             title: 'Oops...',
                             text: 'Something went wrong!',
-                            timer: 2000,
+                            timer: 2500,
                         })
                     }
             })
