@@ -66,22 +66,45 @@ export default {
             return Validator.value(value).required().minLength(6)
         }
     },
+    computed:{
+        ...mapGetters('authentication', ['getSuccessVerify'])
+    },
     methods:{
-        ...mapActions('authentication', ['fetchToken']),
+        ...mapActions('authentication', ['verify', 'fetchToken']),
         submit(){
             this.$validate()
                 .then((success) => {
                     if(success){
-                        this.fetchToken(this.login)
+                        return this.verify(this.login)
                     }else{
-                        Swal.fire({
+                        return Swal.fire({
                             type: 'error',
                             title: 'Oops...',
                             text: 'Something went wrong!',
                             timer: 2500,
                         })
                     }
-            })
+                }).then(() => {
+                    if(this.getSuccessVerify == true){
+                        return Swal.fire({
+                            title: 'Enter your Verification code',
+                            input: 'text',
+                            allowOutsideClick: false,
+                            showCancelButton: true,
+                            cancelButtonText: 'Re-Login',
+                            inputPlaceholder: 'Code Number',
+                            inputValidator: (value) => {
+                              if (!value) {
+                                return 'You need to write something!'
+                              }
+                            },
+                            preConfirm: (value) => {
+                              this.fetchToken(value)
+                            }
+                        })
+                    }
+                    else return null
+                })
         },
         async forget(){
             const { value: email } = await Swal.fire({

@@ -1,5 +1,6 @@
 const state = () => ({
-    token: {}
+    token: {},
+    success_verify: false
 })
 
 export default state
