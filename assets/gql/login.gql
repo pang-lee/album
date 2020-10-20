@@ -1,5 +1,5 @@
-mutation log($code: String) {
-  login(code: $code){
+mutation login($code: String!){
+   login(code: $code){
     id
     token
   }

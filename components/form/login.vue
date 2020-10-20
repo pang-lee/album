@@ -70,12 +70,12 @@ export default {
         ...mapGetters('authentication', ['getSuccessVerify'])
     },
     methods:{
-        ...mapActions('authentication', ['verify', 'fetchToken']),
+        ...mapActions('authentication', ['verify_login', 'fetchToken']),
         submit(){
             this.$validate()
                 .then((success) => {
                     if(success){
-                        return this.verify(this.login)
+                        return this.verify_login(this.login)
                     }else{
                         return Swal.fire({
                             type: 'error',

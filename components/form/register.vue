@@ -67,22 +67,45 @@ import * as icon from '@mdi/js'
                     return Validator.value(confirm).required().match(password)
                 }
             },
+            computed:{
+                ...mapGetters('authentication', ['getSuccessVerify'])
+            },
             methods:{
-                ...mapActions('authentication', ['registration']),
+                ...mapActions('authentication', ['verify_signup','signup']),
                 submit(){
                     this.$validate()
                         .then((success) => {
-                        if(success){
-                            this.registration(this.register)
-                        }else{
-                            Swal.fire({
-                                type: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
-                                timer: 2500,
-                            })
-                        }
-                    })
+                            if(success){
+                                return this.verify_signup(this.register)
+                            }else{
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    timer: 2500,
+                                })
+                            }
+                        }).then(() => {
+                            if(this.getSuccessVerify == true){
+                                return Swal.fire({
+                                    title: 'Enter your Verification code',
+                                    input: 'text',
+                                    allowOutsideClick: false,
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Re-Login',
+                                    inputPlaceholder: 'Code Number',
+                                    inputValidator: (value) => {
+                                      if (!value) {
+                                        return 'You need to write something!'
+                                      }
+                                    },
+                                    preConfirm: (value) => {
+                                      this.signup(value)
+                                    }
+                                })
+                            }
+                            else return null
+                        })
                 }
             }
     }

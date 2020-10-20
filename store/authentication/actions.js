@@ -1,14 +1,15 @@
 import registergql from '~/assets/gql/register.gql'
-import verifygql from '~/assets/gql/verify.gql'
+import verloggql from '~/assets/gql/verify_login.gql'
+import versingql from '~/assets/gql/verify_signup.gql'
 import logingql from '~/assets/gql/login.gql'
 import * as types from './mutation-types'
 import Swal from 'sweetalert2'
 
 export default{
-    async verify({ commit }, params){
+    async verify_login({ commit }, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: verifygql,
+                mutation: verloggql,
                 variables: {
                     "input": {
                         "email": params.email,
@@ -50,11 +51,10 @@ export default{
             })
         }
     },
-    async registration({ commit }, params){
-        console.log(params.first + params.last)
+    async verify_signup({ commit }, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: registergql,
+                mutation: versingql,
                 variables: {
                     "input": {
                         "email": params.email,
@@ -63,11 +63,32 @@ export default{
                     }
                 }
             })
+            if(response.data.verify !== '') commit(types.SET_VERIFY, true)
+            else commit(types.SET_VERIFY, false)
+        } catch (error) {
+            let displayError
+            if(error == 'Error: GraphQL error: Password Not Same') displayError = 'Password Incorrect!'
+            else if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found!'
+            return Swal.fire({
+                type: 'error',
+                title: `${displayError}`,
+                text: 'Please Try Again!',
+                timer: 2500,
+            })
+        }
+    },
+    async signup({ commit }, params){
+        try {
+            const response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: registergql,
+                variables: {
+                    "code": params
+                 }
+            })
             commit(types.SET_TOKEN, response.data.signup)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Email Duplicate') displayError = 'Email Have Been Used!'
-            else if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found'
+            if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
