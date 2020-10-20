@@ -1,0 +1,3 @@
+mutation versin($input: signupInput!){
+  verify_signup(input: $input)
+}

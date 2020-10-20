@@ -1,0 +1,3 @@
+mutation verlog($input: loginInput!){
+  verify_login(input: $input)
+}
