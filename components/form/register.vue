@@ -68,10 +68,10 @@ import * as icon from '@mdi/js'
                 }
             },
             computed:{
-                ...mapGetters('authentication', ['getSuccessVerify'])
+                ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
             },
             methods:{
-                ...mapActions('authentication', ['verify_signup','signup']),
+                ...mapActions('authentication', ['verify_signup', 'signup']),
                 submit(){
                     this.$validate()
                         .then((success) => {
@@ -91,20 +91,19 @@ import * as icon from '@mdi/js'
                                     title: 'Enter your Verification code',
                                     input: 'text',
                                     allowOutsideClick: false,
-                                    showCancelButton: true,
-                                    cancelButtonText: 'Re-Login',
+                                    showCloseButton:true,
                                     inputPlaceholder: 'Code Number',
                                     inputValidator: (value) => {
                                       if (!value) {
                                         return 'You need to write something!'
                                       }
                                     },
-                                    preConfirm: (value) => {
-                                      this.signup(value)
+                                    preConfirm: async (value) => {
+                                        await this.signup(value)
+                                        if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}`)
                                     }
                                 })
                             }
-                            else return null
                         })
                 }
             }

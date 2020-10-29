@@ -24,7 +24,8 @@
                 <v-btn @click="test()">123</v-btn>
 
                 {{getbook}}
-                {{getToken}}
+                {{getSuccessVerify}}
+                {{getUser}}
 
             </v-col>
         </v-row>
@@ -59,7 +60,7 @@ import * as icon from '@mdi/js'
                 c2: 'module'
             }),
             ...mapGetters('books', ['getbook']),
-            ...mapGetters('authentication', ['getToken'])
+            ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
         },
         methods:{
             ...mapMutations('modA', {

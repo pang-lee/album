@@ -55,7 +55,7 @@ export default {
                 email:'',
                 password:'',    
             },
-            show:false,
+            show:false
         }
     },
     validators:{
@@ -67,7 +67,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters('authentication', ['getSuccessVerify'])
+        ...mapGetters('authentication', ['getSuccessVerify', 'getUser']),
     },
     methods:{
         ...mapActions('authentication', ['verify_login', 'fetchToken']),
@@ -80,7 +80,7 @@ export default {
                         return Swal.fire({
                             type: 'error',
                             title: 'Oops...',
-                            text: 'Something went wrong!',
+                            text: 'Look like you miss something!',
                             timer: 2500,
                         })
                     }
@@ -90,20 +90,19 @@ export default {
                             title: 'Enter your Verification code',
                             input: 'text',
                             allowOutsideClick: false,
-                            showCancelButton: true,
-                            cancelButtonText: 'Re-Login',
+                            showCloseButton:true,
                             inputPlaceholder: 'Code Number',
                             inputValidator: (value) => {
                               if (!value) {
                                 return 'You need to write something!'
                               }
                             },
-                            preConfirm: (value) => {
-                              this.fetchToken(value)
+                            preConfirm: async (value) => {
+                                await this.fetchToken(value)
+                                if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}`)
                             }
                         })
                     }
-                    else return null
                 })
         },
         async forget(){

@@ -17,8 +17,8 @@ export default{
                     }
                 }
             })
-            if(response.data.verify !== '') commit(types.SET_VERIFY, true)
-            else commit(types.SET_VERIFY, false)
+            if(response.data.verify !== '') return commit(types.SET_VERIFY, true)
+            else return commit(types.SET_VERIFY, false)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Password Not Same') displayError = 'Password Incorrect!'
@@ -39,7 +39,7 @@ export default{
                    "code": params
                 }
             })
-            commit(types.SET_TOKEN, response.data.login)
+            commit(types.SET_USER, response.data.login)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -63,16 +63,15 @@ export default{
                     }
                 }
             })
-            if(response.data.verify !== '') commit(types.SET_VERIFY, true)
-            else commit(types.SET_VERIFY, false)
+            if(response.data.verify !== '') return commit(types.SET_VERIFY, true)
+            else return commit(types.SET_VERIFY, false)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Password Not Same') displayError = 'Password Incorrect!'
-            else if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found!'
+            if(error == 'Error: GraphQL error: Email Duplicate') displayError = 'Email Duplicate!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Please Try Again!',
+                text: 'Please try another email address!',
                 timer: 2500,
             })
         }
@@ -85,7 +84,7 @@ export default{
                     "code": params
                  }
             })
-            commit(types.SET_TOKEN, response.data.signup)
+            commit(types.SET_USER, response.data.signup)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'

@@ -1,4 +1,4 @@
 export default{
-    getToken: state => state.token,
+    getUser: state => state.users,
     getSuccessVerify: state => state.success_verify
 }

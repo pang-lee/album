@@ -1,5 +1,5 @@
 const state = () => ({
-    token: {},
+    users: {},
     success_verify: false
 })
 
