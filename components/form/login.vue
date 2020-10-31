@@ -28,7 +28,7 @@
             <span>Twitter</span>
         </v-tooltip>
         <v-spacer/>
-        <v-btn text x-small :ripple="false" class="mr-4" @click="forget()">Forget?</v-btn>
+        <v-btn text x-small :ripple="false" class="mr-4" @click="forget_password()">Forget?</v-btn>
         <v-btn color="primary" @click="submit">Login</v-btn>
         </v-card-actions>
     </div>
@@ -67,10 +67,10 @@ export default {
         }
     },
     computed:{
-        ...mapGetters('authentication', ['getSuccessVerify', 'getUser']),
+        ...mapGetters('authentication', ['getSuccessVerify', 'getUser', 'getResetStatus']),
     },
     methods:{
-        ...mapActions('authentication', ['verify_login', 'fetchToken']),
+        ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
         submit(){
             this.$validate()
                 .then((success) => {
@@ -81,7 +81,7 @@ export default {
                             type: 'error',
                             title: 'Oops...',
                             text: 'Look like you miss something!',
-                            timer: 2500,
+                            timer: 3000,
                         })
                     }
                 }).then(() => {
@@ -105,18 +105,23 @@ export default {
                     }
                 })
         },
-        async forget(){
+        async forget_password(){
             const { value: email } = await Swal.fire({
                 type: 'question',
                 title: 'Reset Your Password',
                 input: 'email',
                 inputPlaceholder: 'Enter your email address',
                 showCloseButton: true,
+                preConfirm: async (value) => {
+                    await this.forget(value)
+                    if(this.getResetStatus == true) return Swal.fire({
+                        type: 'success',
+                        title: 'Please Check Your Email!!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }
             })
-
-            if (email) {
-                Swal.fire(`Entered email: ${email}`)
-            }
         }
     }
 }

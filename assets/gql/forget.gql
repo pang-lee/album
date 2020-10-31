@@ -1,0 +1,3 @@
+mutation forget($email: String!){
+  forget(email: $email)
+}

@@ -82,7 +82,7 @@ import * as icon from '@mdi/js'
                                     type: 'error',
                                     title: 'Oops...',
                                     text: 'Something went wrong!',
-                                    timer: 2500,
+                                    timer: 3000,
                                 })
                             }
                         }).then(() => {
