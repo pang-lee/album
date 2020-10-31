@@ -93,9 +93,9 @@ export default {
                             showCloseButton:true,
                             inputPlaceholder: 'Code Number',
                             inputValidator: (value) => {
-                              if (!value) {
-                                return 'You need to write something!'
-                              }
+                                if (!value) {
+                                    return 'You need to write something!'
+                                }
                             },
                             preConfirm: async (value) => {
                                 await this.fetchToken(value)
