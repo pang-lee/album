@@ -41,15 +41,13 @@ export default{
                 }
             })
             commit(types.SET_USER, response.data.login)
-            localStorage.setItem('token', response.data.login.token)
-            localStorage.setItem('tokenExpiration', String(new Date().getTime() + 1000*60*60*24))
+            this.app.$cookies.set('jwt', response.data.login.token)
+            this.app.$cookies.set('expirationDate', new Date().getTime() + 1000*60*60*24)
             setTimeout(() => {
                 commit(types.SET_VERIFY, false)
-                if (process.client) {
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('tokenExpiration')
-                }
-            }, 9000)
+                this.app.$cookies.remove('jwt')
+                this.app.$cookies.remove('expirationDate')
+            }, 1000*60*60*24)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -95,14 +93,12 @@ export default{
                  }
             })
             commit(types.SET_USER, response.data.signup)
-            localStorage.setItem('token', response.data.signup.token)
-            localStorage.setItem('tokenExpiration', String(new Date().getTime() + 1000*60*60*24))
+            this.app.$cookies.set('jwt', response.data.signup.token)
+            this.app.$cookies.set('expirationDate', new Date().getTime() + 1000*60*60*24)
             setTimeout(() => {
                 commit(types.SET_VERIFY, false)
-                if (process.client) {
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('tokenExpiration')
-                }
+                this.app.$cookies.remove('jwt')
+                this.app.$cookies.remove('expirationDate')
             }, 1000*60*60*24)
         } catch (error) {
             let displayError
