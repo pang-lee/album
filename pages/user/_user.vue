@@ -9,6 +9,7 @@
 <script>
 export default {
   layout: 'user',
+  middleware: ['admin'],
   async asyncData({ $content }) {
     const doc = await $content('hello').fetch()
     return { doc }

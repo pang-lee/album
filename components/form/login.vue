@@ -11,7 +11,7 @@
         <v-card-actions>
         <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-                <v-icon color="indigo" v-bind="attrs" v-on="on" @click="facebook_login()">{{facebook}}</v-icon>
+                <v-icon color="indigo" v-bind="attrs" v-on="on">{{facebook}}</v-icon>
             </template>
             <span>Facebook</span>
         </v-tooltip>
