@@ -9,7 +9,7 @@
 <script>
 export default {
   layout: 'user',
-  middleware: ['admin'],
+  middleware: ['check-auth','admin'],
   async asyncData({ $content }) {
     const doc = await $content('hello').fetch()
     return { doc }

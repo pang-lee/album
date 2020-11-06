@@ -131,5 +131,31 @@ export default{
                 timer: 3000,
             })
         }
+    },
+    async initAuth({ commit, dispatch }, params){
+        try {
+            let token
+            let expirationDate
+            if (params) {
+                if (!params.headers.cookie) return null
+                const jwtCookie = params.headers.cookie.split(';').find((c) => c.trim().startsWith('jwt='))
+                if (!jwtCookie) return null
+                token = jwtCookie.split('=')[1]
+                expirationDate = params.headers.cookie.split(';').find((c) => c.trim().startsWith('expirationDate=')).split('=')[1]
+            }
+            if (new Date().getTime() > Number.parseInt(expirationDate) || !token) return dispatch('logout')
+            commit(types.SET_VERIFY, true)
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async logout({ commit }){
+        try {
+            commit(types.SET_VERIFY, false)
+            this.app.$cookies.remove('jwt')
+            this.app.$cookies.remove('expirationDate')            
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
