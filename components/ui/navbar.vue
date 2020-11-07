@@ -22,11 +22,12 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import * as icon from '@mdi/js'
+
     export default {
         data() {
             return{
-                auth: false,
                 drop: icon.mdiArrowDownDropCircleOutline,
                 links: [
                     'Dashboard',
@@ -38,6 +39,12 @@ import * as icon from '@mdi/js'
                 items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
             }
         },
+        computed: {
+            auth(){
+                if(this.$cookies.get('jwt')) return true
+                else return false
+            }
+        }
     }
 </script>
 
