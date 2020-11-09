@@ -1,6 +1,6 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar app color="white" flat>
+  <v-app>
+    <v-app-bar app color="white" extended extension-height="30" flat>
       <v-container class="py-0 fill-height">
         <navbar/>
       </v-container>
@@ -9,7 +9,7 @@
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="2">
+          <v-col cols="2" class="hidden-sm-and-down">
             <sidenav/>
           </v-col>
 
@@ -26,6 +26,6 @@
 
 <script>
   export default {
-    
+    middleware: ['check-auth','admin']
   }
 </script>
