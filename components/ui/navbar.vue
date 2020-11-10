@@ -94,12 +94,10 @@
       </v-menu>
     </v-col>
   </v-row>
-  <v-row v-else justify="center" no-gutters>
+  <v-row v-else no-gutters>
     <v-col cols="11">
-        <div class="text-center mt-4 pl-12">
-            <strong>Welcome To Memory Album</strong>
-            <br/>
-            <span class="font-italic">Create Your's Album Now!</span>
+        <div class="text-center mt-6 pl-12">
+          <strong class="font-italic">Create Your's Album Now!</strong>
         </div>
     </v-col>
     <v-col cols="1">
