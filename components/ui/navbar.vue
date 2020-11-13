@@ -96,9 +96,9 @@
   </v-row>
   <v-row v-else no-gutters>
     <v-col cols="11">
-        <div class="text-center mt-6 pl-12">
-          <strong class="font-italic">Create Your's Album Now!</strong>
-        </div>
+      <div class="text-center mt-6 pl-12">
+        <strong class="font-italic">Create Your's Album Now!</strong>
+      </div>
     </v-col>
     <v-col cols="1">
         <v-select :items="items" label="LANG" dense class="mt-4" :append-icon="drop" eager solo></v-select>
@@ -148,12 +148,15 @@ import * as icon from '@mdi/js'
         },
         methods: {
           ...mapActions('authentication', ['logout']),
+          ...mapMutations('admin', ['SET_SIDEBAR_STATUS']),
           to_destination(link){
             if(link.target == 'Logout'){
               this.logout()
               return this.$router.push(link.route)
+            } else {
+              this.SET_SIDEBAR_STATUS(link.target)
+              return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
             }
-            else return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
           },
           profile(){
             this.selected = 1
