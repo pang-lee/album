@@ -13,51 +13,46 @@
           </v-btn>
           <v-toolbar-title>Album</v-toolbar-title>
         </v-toolbar>
-        <v-list three-line subheader>
-          <v-subheader>User Controls</v-subheader>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Content filtering</v-list-item-title>
-              <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Password</v-list-item-title>
-              <v-list-item-subtitle>Require password for purchase or use password to restrict purchase</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list three-line subheader>
-          <v-subheader>General</v-subheader>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="notifications"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Notifications</v-list-item-title>
-              <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="sound"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Sound</v-list-item-title>
-              <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox v-model="widgets"></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Auto-add widgets</v-list-item-title>
-              <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+        <v-list>
+          <v-list-group v-for="(link, index) in links" :key="index">
+            <template v-slot:activator>
+              <v-list-item-title @click="to_destination(link)">{{ link.target }}</v-list-item-title>
+            </template>
+
+            <v-list-group sub-group v-for="(side, index) in sidebar" :key="index">
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title>{{ side.data }}</v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-list-group>
+
+          </v-list-group>
+
+
+          <!-- <v-list-group v-for="n in 2" :key="n">
+            <template v-slot:activator>
+              <v-list-item-title>Users{{n}}</v-list-item-title>
+            </template>
+
+            <v-list-group sub-group>
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title>Admin{{n}}</v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-list-group>
+
+            <v-list-group sub-group>
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title>Admin{{n}}</v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-list-group>
+
+          </v-list-group> -->
+
         </v-list>
       </v-card>
     </v-dialog>
@@ -69,7 +64,7 @@
             <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
           </v-avatar>
         </template>
-        <span>Tooltip</span>
+        <span>{{ FullName }}</span>
       </v-tooltip>
     </v-col>
 
@@ -119,19 +114,21 @@ import * as icon from '@mdi/js'
             drawer: false,
             selected: 0,
             links: [
-              { target: 'Dashboard', route: '/dashboard'},
-              { target: 'Profile', route: '/profile'},
-              { target: 'Setting', route: '/setting'},
+              { target: 'Dashboard', route: '/dashboard/self1'},
+              { target: 'Profile', route: '/profile/self1'},
+              { target: 'Setting', route: '/setting/self1'},
               { target: 'Logout', route: '/'}
             ],
             items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-            notifications: false,
-            sound: true,
-            widgets: false,
+            admins: [
+              ['Management', 'mdi-account-multiple-outline'],
+              ['Settings', 'mdi-cog-outline'],
+            ],
             FullName: 'John Doe'
           }
         },
         computed: {
+          ...mapGetters('admin', ['sidebar']),
           auth(){
             if(this.$cookies.get('jwt')) return true
             else return false
@@ -160,7 +157,8 @@ import * as icon from '@mdi/js'
           },
           profile(){
             this.selected = 1
-            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile`)
+            this.SET_SIDEBAR_STATUS('Profile')
+            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/self1`)
           }
         },
     }

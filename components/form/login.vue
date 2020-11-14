@@ -134,7 +134,7 @@ export default {
                             },
                             preConfirm: async (value) => {
                                 await this.fetchToken(value)
-                                if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard`)
+                                if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
                             }
                         })
                     }

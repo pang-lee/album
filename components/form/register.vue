@@ -100,7 +100,7 @@ import * as icon from '@mdi/js'
                                     },
                                     preConfirm: async (value) => {
                                         await this.signup(value)
-                                        if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}`)
+                                        if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
                                     }
                                 })
                             }
