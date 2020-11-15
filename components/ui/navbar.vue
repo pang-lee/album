@@ -14,45 +14,19 @@
           <v-toolbar-title>Album</v-toolbar-title>
         </v-toolbar>
         <v-list>
-          <v-list-group v-for="(link, index) in links" :key="index">
+          <v-list-group v-for="(link, index) in links" :key="index" :append-icon="`${link.target == 'Logout' ? '' : chevron}`">
             <template v-slot:activator>
               <v-list-item-title @click="to_destination(link)">{{ link.target }}</v-list-item-title>
             </template>
 
             <v-list-group sub-group v-for="(side, index) in sidebar" :key="index">
               <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>{{ side.data }}</v-list-item-title>
-                </v-list-item-content>
+                  <v-list-item nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + side.link}`" @click="drawer = false">
+                    <v-list-item-title>{{ side.data }}</v-list-item-title>
+                  </v-list-item>
               </template>
             </v-list-group>
-
           </v-list-group>
-
-
-          <!-- <v-list-group v-for="n in 2" :key="n">
-            <template v-slot:activator>
-              <v-list-item-title>Users{{n}}</v-list-item-title>
-            </template>
-
-            <v-list-group sub-group>
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>Admin{{n}}</v-list-item-title>
-                </v-list-item-content>
-              </template>
-            </v-list-group>
-
-            <v-list-group sub-group>
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>Admin{{n}}</v-list-item-title>
-                </v-list-item-content>
-              </template>
-            </v-list-group>
-
-          </v-list-group> -->
-
         </v-list>
       </v-card>
     </v-dialog>
@@ -72,7 +46,7 @@
       <v-btn text large nuxt @click="to_destination(link)">{{ link.target }}</v-btn>
     </v-col>
 
-    <v-col md="2" sm="2" class="hidden-md-and-up">
+    <v-col md="2" sm="2">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
@@ -80,9 +54,9 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item v-for="(link, index) in links" :key="index" @click="to_destination(link)">
-              <v-list-item-title>{{ link.target }}</v-list-item-title>
+          <v-list-item-group color="primary">
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-title>{{ item }}</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -111,8 +85,8 @@ import * as icon from '@mdi/js'
             drop: icon.mdiArrowDownDropCircleOutline,
             menu: icon.mdiMenu,
             close: icon.mdiClose,
+            chevron: icon.mdiChevronDown,
             drawer: false,
-            selected: 0,
             links: [
               { target: 'Dashboard', route: '/dashboard/self1'},
               { target: 'Profile', route: '/profile/self1'},
@@ -133,15 +107,6 @@ import * as icon from '@mdi/js'
             if(this.$cookies.get('jwt')) return true
             else return false
           }
-          ,
-          selectedItem:{
-            get(){
-              return this.selected
-            },
-            set(value){
-              return this.selected = value
-            }
-          }
         },
         methods: {
           ...mapActions('authentication', ['logout']),
@@ -156,7 +121,6 @@ import * as icon from '@mdi/js'
             }
           },
           profile(){
-            this.selected = 1
             this.SET_SIDEBAR_STATUS('Profile')
             return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/self1`)
           }
