@@ -89,7 +89,7 @@ import * as icon from '@mdi/js'
             drawer: false,
             links: [
               { target: 'Dashboard', route: '/dashboard/self1'},
-              { target: 'Profile', route: '/profile/self1'},
+              { target: 'Profile', route: '/profile/sticker'},
               { target: 'Setting', route: '/setting/self1'},
               { target: 'Logout', route: '/'}
             ],

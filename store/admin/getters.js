@@ -9,7 +9,7 @@ export default{
                 ]
             case 'Profile':
                 return [
-                    { link: '/profile/self1', data: 'b' },
+                    { link: '/profile/sticker', data: 'sticker' },
                     { link: '/profile/self2', data: 'a' },
                     { link: '/profile/self3', data: 'c' },
                 ]
