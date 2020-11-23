@@ -24,20 +24,31 @@
               </v-expansion-panel-header>       
               <v-expansion-panel-content>
                 <v-divider></v-divider>
+
                 <v-card-text v-if="message.name">
-                  <v-text-field v-model="first" label="First" outlined clearable :clear-icon="clear"></v-text-field>
-                  <v-text-field v-model="last" label="Last" outlined clearable :clear-icon="clear"></v-text-field>
+                  <div class="white" :class="{error: validation.hasError('first')}">
+                    <v-text-field v-model="first" label="First" outlined clearable :clear-icon="clear"></v-text-field>
+                    <div class="red--text font-italic font-weight-bold">{{ validation.firstError('first') }}</div>
+                  </div>
+                  <br/>
+                  <div class="white" :class="{error: validation.hasError('last')}">
+                    <v-text-field v-model="last" label="Last" outlined clearable :clear-icon="clear"></v-text-field>
+                    <div class="red--text font-italic font-weight-bold">{{ validation.firstError('last') }}</div>
+                  </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
                     <v-btn outlined color="primary">Save</v-btn>
                   </div>
                 </v-card-text>
 
-                <v-card-text v-else-if="message.topic == 'Password'">
+                 <v-card-text v-else-if="message.topic == 'Password'">
                   <div class="hidden-sm-and-down">
                     <div class="text-h6 text-center">Do you want to Reset your Password?</div>
                     <br/>
-                    <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter/>                   
+                    <div class="white" :class="{error: validation.hasError('reset')}">
+                      <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
+                      <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
+                    </div>               
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
                       <v-btn outlined color="primary">Save</v-btn>
@@ -56,11 +67,16 @@
                         <br/>
                         <v-divider></v-divider>
                         <br/>
-                        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+                        <v-card-text>
+                          <div class="white" :class="{error: validation.hasError('reset')}">
+                            <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
+                            <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
+                          </div> 
+                        </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn color="green darken-1" text @click="mobile_reset = false">Disagree</v-btn>
-                          <v-btn color="green darken-1" text @click="mobile_reset = false">Agree</v-btn>
+                          <v-btn color="red" outlined @click="mobile_reset = false">Cancel</v-btn>
+                          <v-btn color="primary" outlined @click="mobile_reset = false">Save</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
@@ -68,17 +84,17 @@
                 </v-card-text>
 
                 <v-card-text v-else-if="message.topic == 'Birthday'">
-                  <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent width="290px">
+                  <v-dialog v-model="modal" width="290px">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field v-model="date" label="Birthday" :prepend-icon="year" readonly v-bind="attrs" v-on="on"></v-text-field>
                     </template>
                     <v-date-picker v-model="date" scrollable :year-icon="year" :prev-icon="preyear" :next-icon="nextyear">
-                      <v-spacer></v-spacer>
-                      <br/>
-                      <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
-                      <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
                     </v-date-picker>
                   </v-dialog>
+                  <v-divider></v-divider>
+                  <div class="d-flex justify-center mt-5">
+                    <v-btn outlined color="primary">Save</v-btn>
+                  </div>
                 </v-card-text>
 
                 <v-card-text v-else-if="message.topic == 'Gender'">
@@ -103,6 +119,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
 
   export default {
@@ -114,17 +132,34 @@ import * as icon from '@mdi/js'
         visibility: icon.mdiEye,
         visibility_off: icon.mdiEyeOff,
         show: false,
-        date: new Date().toISOString().substr(0, 10),
         modal: false,
         year: icon.mdiCalendarRange,
         preyear: icon.mdiSkipPrevious,
         nextyear: icon.mdiSkipNext,
         unchecked: icon.mdiCheckboxBlankCircleOutline,
         checked: icon.mdiCheckboxBlankCircle,
-        messages: [
+        reset:'123456',
+        mobile_reset: false,
+      }
+    },
+    validators:{
+      first(value){
+        return Validator.value(value).required()
+      },
+      last(value){
+        return Validator.value(value).required()
+      },
+      reset(value){
+        return Validator.value(value).required().minLength(6)
+      }
+    },
+    computed: {
+      ...mapGetters('admin', ['user']),
+      messages(){
+        return [
           {
-            avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
-            name: 'John Leider'
+            avatar: this.user.avatar,
+            name: `${this.user.first} ${this.user.last}`
           },
           {
             color: 'red',
@@ -141,14 +176,46 @@ import * as icon from '@mdi/js'
             icon: icon.mdiHumanMaleFemale,
             topic: 'Gender'
           }
-        ],
-        first:'Hello',
-        last:'Hello',
-        reset:'123456',
-        mobile_reset: false,
-        gender: null
+        ]
+      },
+      first: {
+        get(){
+          return this.user.first
+        },
+        set(value){
+          if(!value) return this.SET_FIRST('')
+          else return this.SET_FIRST(value)
+        }
+      },
+      last: {
+        get(){
+          return this.user.last
+        },
+        set(value){
+          if(!value) return this.SET_LAST('')
+          else return this.SET_LAST(value)
+        }
+      },
+      gender: {
+        get(){
+          return this.user.gender
+        },
+        set(value){
+          return this.SET_GENDER(value)
+        }
+      },
+      date: {
+        get(){
+          return this.user.date
+        },
+        set(value){
+          return this.SET_DATE(value)
+        }
       }
-    }
+    },
+    methods: {
+      ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE'])
+    },
   }
 </script>
 

@@ -38,7 +38,7 @@
             <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
           </v-avatar>
         </template>
-        <span>{{ FullName }}</span>
+        <span>{{ user.first }} {{ user.last }}</span>
       </v-tooltip>
     </v-col>
 
@@ -98,11 +98,11 @@ import * as icon from '@mdi/js'
               ['Management', 'mdi-account-multiple-outline'],
               ['Settings', 'mdi-cog-outline'],
             ],
-            FullName: 'John Doe'
+            // FullName: 'John Doe'
           }
         },
         computed: {
-          ...mapGetters('admin', ['sidebar']),
+          ...mapGetters('admin', ['sidebar', 'user']),
           auth(){
             if(this.$cookies.get('jwt')) return true
             else return false
@@ -122,7 +122,7 @@ import * as icon from '@mdi/js'
           },
           profile(){
             this.SET_SIDEBAR_STATUS('Profile')
-            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/self1`)
+            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
           }
         },
     }

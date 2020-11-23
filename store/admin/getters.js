@@ -1,4 +1,5 @@
 export default{
+    user: state => state.user_info,
     sidebar: state => {
         switch (state.sidebar_status) {
             case 'Dashboard':
@@ -10,8 +11,7 @@ export default{
             case 'Profile':
                 return [
                     { link: '/profile/sticker', data: 'sticker' },
-                    { link: '/profile/information', data: 'profile' },
-                    { link: '/profile/self3', data: 'c' },
+                    { link: '/profile/information', data: 'profile' }
                 ]
             case 'Setting':
                 return [
