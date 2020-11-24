@@ -26,7 +26,10 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/validate.js'
+    '~/plugins/validate.js',
+    '~/plugins/translate.js',
+    { src: '~/plugins/image-crop.js', mode: 'client' },
+    { src: '~/plugins/image-resize.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

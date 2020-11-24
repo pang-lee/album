@@ -114,7 +114,6 @@ import * as icon from '@mdi/js'
             }
           },
           profile(device){
-            console.log(device)
             this.SET_SIDEBAR_STATUS('Profile')
             if(device == 'mobile') this.drawer = !this.drawer
             return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
