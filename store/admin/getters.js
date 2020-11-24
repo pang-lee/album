@@ -1,3 +1,5 @@
+import * as icon from '@mdi/js'
+
 export default{
     user: state => state.user_info,
     sidebar: state => {
@@ -10,14 +12,13 @@ export default{
                 ]
             case 'Profile':
                 return [
-                    { link: '/profile/sticker', data: 'sticker' },
-                    { link: '/profile/information', data: 'profile' }
+                    { link: '/profile/sticker', data: 'sticker', icon: icon.mdiStickerCircleOutline},
+                    { link: '/profile/information', data: 'profile', icon: icon.mdiBookAccountOutline }
                 ]
             case 'Setting':
                 return [
-                    { link: '/setting/self1', data: 'c' },
-                    { link: '/setting/self2', data: 'b' },
-                    { link: '/setting/self3', data: 'a' },
+                    { link: '/setting/privacy', data: 'privacy', icon: icon.mdiAccountLockOutline },
+                    { link: '/setting/language', data: 'language', icon: icon.mdiEarth },
                 ]
             default: return [
                 { link: '/dashboard/self1', data: 'a' },

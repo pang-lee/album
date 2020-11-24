@@ -14,15 +14,29 @@
           <v-toolbar-title>Album</v-toolbar-title>
         </v-toolbar>
         <v-list>
+
+          <v-list-item @click.prevent="profile('mobile')">
+            <div class="d-flex">
+              <v-list-item-avatar>
+                <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="avatar"></v-img>
+              </v-list-item-avatar>
+              <div class="text-h6 mt-3">{{ user.first }} {{ user.last }}</div>
+            </div>
+          </v-list-item>
+
           <v-list-group v-for="(link, index) in links" :key="index" :append-icon="`${link.target == 'Logout' ? '' : chevron}`">
             <template v-slot:activator>
-              <v-list-item-title @click="to_destination(link)">{{ link.target }}</v-list-item-title>
+              <v-list-item-title @click="to_destination(link)">
+                <v-icon>{{ link.icon }}</v-icon>&nbsp;{{ link.target }}
+              </v-list-item-title>
             </template>
 
             <v-list-group sub-group v-for="(side, index) in sidebar" :key="index">
               <template v-slot:activator>
                   <v-list-item nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + side.link}`" @click="drawer = false">
-                    <v-list-item-title>{{ side.data }}</v-list-item-title>
+                    <v-list-item-title>
+                      <v-icon>{{ side.icon }}</v-icon>&nbsp;{{ side.data }}
+                    </v-list-item-title>
                   </v-list-item>
               </template>
             </v-list-group>
@@ -31,11 +45,11 @@
       </v-card>
     </v-dialog>
 
-    <v-col>
+    <v-col class="hidden-sm-and-down">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-avatar size="60" class="ml-2" v-bind="attrs" v-on="on" @click.prevent="profile()">
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+          <v-avatar size="60" class="ml-2" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="avatar">
           </v-avatar>
         </template>
         <span>{{ user.first }} {{ user.last }}</span>
@@ -43,24 +57,9 @@
     </v-col>
 
     <v-col v-for="(link, index) in links" :key="index" class="hidden-sm-and-down">
-      <v-btn text large nuxt @click="to_destination(link)">{{ link.target }}</v-btn>
-    </v-col>
-
-    <v-col md="2" sm="2">
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>{{ drop }}</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item-group color="primary">
-            <v-list-item v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item }}</v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-menu>
+      <v-btn text large nuxt @click="to_destination(link)">
+        <v-icon>{{ link.icon }}</v-icon>&nbsp;{{ link.target }}
+      </v-btn>
     </v-col>
   </v-row>
   <v-row v-else no-gutters>
@@ -88,17 +87,11 @@ import * as icon from '@mdi/js'
             chevron: icon.mdiChevronDown,
             drawer: false,
             links: [
-              { target: 'Dashboard', route: '/dashboard/self1'},
-              { target: 'Profile', route: '/profile/sticker'},
-              { target: 'Setting', route: '/setting/self1'},
-              { target: 'Logout', route: '/'}
-            ],
-            items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-            admins: [
-              ['Management', 'mdi-account-multiple-outline'],
-              ['Settings', 'mdi-cog-outline'],
-            ],
-            // FullName: 'John Doe'
+              { target: 'Dashboard', route: '/dashboard/self1', icon: icon.mdiViewDashboardOutline },
+              { target: 'Profile', route: '/profile/sticker', icon: icon.mdiFaceOutline },
+              { target: 'Setting', route: '/setting/privacy', icon: icon.mdiCogOutline },
+              { target: 'Logout', route: '/', icon: icon.mdiLogout }
+            ]
           }
         },
         computed: {
@@ -120,8 +113,10 @@ import * as icon from '@mdi/js'
               return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
             }
           },
-          profile(){
+          profile(device){
+            console.log(device)
             this.SET_SIDEBAR_STATUS('Profile')
+            if(device == 'mobile') this.drawer = !this.drawer
             return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
           }
         },

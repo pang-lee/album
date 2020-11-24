@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-form>
-            <div class="white" :class="{error: validation.hasError('login')}">
+            <div class="white" :class="{ error: validation.hasError('login') }">
                 <v-text-field label="Email *" name="login" :prepend-icon="account" clearable :clear-icon="clear" v-model="login.email"/>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('login.email') }}</div>
                 <v-text-field label="Password *" name="password" :prepend-icon="lock" clearable :clear-icon="clear" v-model="login.password" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter/>

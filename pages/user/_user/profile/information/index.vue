@@ -26,12 +26,12 @@
                 <v-divider></v-divider>
 
                 <v-card-text v-if="message.name">
-                  <div class="white" :class="{error: validation.hasError('first')}">
+                  <div class="white" :class="{ error: validation.hasError('first') }">
                     <v-text-field v-model="first" label="First" outlined clearable :clear-icon="clear"></v-text-field>
                     <div class="red--text font-italic font-weight-bold">{{ validation.firstError('first') }}</div>
                   </div>
                   <br/>
-                  <div class="white" :class="{error: validation.hasError('last')}">
+                  <div class="white" :class="{ error: validation.hasError('last') }">
                     <v-text-field v-model="last" label="Last" outlined clearable :clear-icon="clear"></v-text-field>
                     <div class="red--text font-italic font-weight-bold">{{ validation.firstError('last') }}</div>
                   </div>
@@ -45,7 +45,7 @@
                   <div class="hidden-sm-and-down">
                     <div class="text-h6 text-center">Do you want to Reset your Password?</div>
                     <br/>
-                    <div class="white" :class="{error: validation.hasError('reset')}">
+                    <div class="white" :class="{ error: validation.hasError('reset') }">
                       <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
                       <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
                     </div>               
@@ -68,7 +68,7 @@
                         <v-divider></v-divider>
                         <br/>
                         <v-card-text>
-                          <div class="white" :class="{error: validation.hasError('reset')}">
+                          <div class="white" :class="{ error: validation.hasError('reset') }">
                             <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
                             <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
                           </div> 
