@@ -28,8 +28,7 @@ export default {
   plugins: [
     '~/plugins/validate.js',
     '~/plugins/translate.js',
-    { src: '~/plugins/image-crop.js', mode: 'client' },
-    { src: '~/plugins/image-resize.js', mode: 'client' }
+    { src: '~/plugins/image-crop.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

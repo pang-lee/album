@@ -69,7 +69,7 @@
       </div>
     </v-col>
     <v-col cols="1">
-        <v-select :items="items" label="LANG" dense class="mt-4" :append-icon="drop" eager solo></v-select>
+        <!-- <v-select :items="items" label="LANG" dense class="mt-4" :append-icon="drop" eager solo></v-select> -->
     </v-col>
   </v-row>
 </template>

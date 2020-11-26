@@ -24,8 +24,7 @@
     "nuxt-sweetalert2": "^1.0.0",
     "simple-vue-validator": "^0.16.0",
     "typeface-roboto": "1.1.13",
-    "vue-image-crop-upload": "^2.5.0",
-    "vue-image-upload-resize": "^2.3.0"
+    "vue-image-crop-upload": "^2.5.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2"
