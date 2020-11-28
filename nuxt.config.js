@@ -50,7 +50,7 @@ export default {
     '@nuxt/content',
     '@nuxtjs/dotenv',
     '@nuxtjs/apollo',
-    'cookie-universal-nuxt',
+    'cookie-universal-nuxt'
   ],
   apollo: {
     clientConfigs: {

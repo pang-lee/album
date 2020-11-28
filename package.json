@@ -18,10 +18,10 @@
     "@nuxtjs/pwa": "^3.2.2",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.7.0",
-    "flipbook-vue": "^0.10.1",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.14.7",
     "nuxt-sweetalert2": "^1.0.0",
+    "page-flip": "^2.0.0",
     "simple-vue-validator": "^0.16.0",
     "typeface-roboto": "1.1.13",
     "vue-image-crop-upload": "^2.5.0"
