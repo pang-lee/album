@@ -1,480 +1,99 @@
 <template>
-  <div>
-<div class="container">
-    <div>
-        <button type="button" class="btn-prev">Previous page</button>
-        [<span class="page-current">1</span> of <span class="page-total">-</span>]
-        <button type="button" class="btn-next">Next page</button>
-    </div>
+  <div class="container">
+    <div class="book-wrapper" id="book">
+      <div class="page" data-density="soft">
+        <div class="pages-content">
+          <div class="pages-background"></div>
+          <div class="content-inner">
+            <h1>Chapter 1</h1>
+            <div class="text"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas ea non vitae a assumenda sint quod, dolores laboriosam velit corrupti nobis cupiditate perspiciatis natus exercitationem, architecto esse ratione blanditiis! Itaque.</p></div>
+          </div>
+        </div>
+      </div>
 
-    <div>
-        State: <i class="page-state">read</i>, orientation: <i class="page-orientation">landscape</i>
-    </div>
-</div>
+      <div class="ml-5 page">
+        <div class="pages-content">
+          <div class="content-inner">
+            <h1>Chapter 2</h1>
+            <div class="text">
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, cumque autem! Magni eligendi qui officiis? Fugit iste voluptatum atque voluptatibus totam! Nisi accusantium saepe hic. Aut nobis nesciunt mollitia error.</p>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam odio modi, hic ratione fugit quod natus, excepturi quae minus voluptatum cupiditate quia magnam eveniet ex, reiciendis voluptates ipsam iste laudantium!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati deserunt magnam, at perspiciatis aut. Voluptatem consequuntur neque quisquam?</p>
+              </div>
+          </div>
+        </div>
+      </div>
 
-<div class="container">
-    <div class="flip-book" id="demoBookExample">
-        <div class="page page-cover page-cover-top" data-density="hard">
-            <div class="page-content">
-                <h2>BOOK TITLE</h2>
+      <div class="page">
+        <div class="pages-content">
+          <div class="content-inner">
+            <h1>Chapter 3</h1>
+            <div class="text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate voluptas molestiae tempore amet adipisci dicta incidunt nisi alias distinctio fugit blanditiis dignissimos nobis deserunt eum consequuntur ipsam, perspiciatis numquam repellendus.</p>
+              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus in odio deserunt est hic minima inventore, mollitia, officia aspernatur eaque voluptatibus? Amet, molestias adipisci delectus ea eligendi sit numquam illo.</p>
             </div>
+          </div>
         </div>
-        <div class="page">
-            <div class="page-content">
-                <h2 class="page-header">Page header 1</h2>
-                <div class="page-image" style="background-image: url(images/html/1.jpg)"></div>
-                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
-                <div class="page-footer">2</div>
-            </div>
+      </div>
+
+      <div class="ml-5 page">
+        <div class="pages-content">
+          <div class="content-inner">
+            <h1>The End</h1>
+          </div>
         </div>
-        <!-- PAGES .... -->
-        <div class="page">
-            <div class="page-content">
-                <h2 class="page-header">Page header - 15</h2>
-                <div class="page-image" style="background-image: url(images/html/7.jpg)"></div>
-                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
-                <div class="page-footer">16</div>
-            </div>
-        </div>
-        <div class="page">
-            <div class="page-content">
-                <h2 class="page-header">Page header - 16</h2>
-                <div class="page-image" style="background-image: url(images/html/8.jpg)"></div>
-                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
-                <div class="page-footer">17</div>
-            </div>
-        </div>
-        <div class="page page-cover page-cover-bottom" data-density="hard">
-            <div class="page-content">
-                <h2>THE END</h2>
-            </div>
-        </div>
+      </div>
     </div>
-</div>
   </div>
 </template>
 
 <script>
-import {PageFlip} from 'page-flip'
-import 'page-flip/src/Style/stPageFlip.css'
+import { PageFlip } from 'page-flip'
 
   export default {
     mounted() {
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    const pageFlip = new PageFlip(
-        document.getElementById("demoBookExample"),
-        {
-            width: 550, // base page width
-            height: 733, // base page height
-
-            size: "stretch",
-            // set threshold values:
-            minWidth: 315,
-            maxWidth: 1000,
-            minHeight: 420,
-            maxHeight: 1350,
-
-            maxShadowOpacity: 0.5, // Half shadow intensity
-            showCover: true,
-            mobileScrollSupport: false // disable content scrolling on mobile devices
+      const pageFlip = new PageFlip(document.getElementById("book"), {
+          width: 550, // base page width
+          height: 733, // base page height
+          size: "stretch",
+          // set threshold values:
+          minWidth: 315,
+          maxWidth: 1000,
+          minHeight: 420,
+          maxHeight: 1350,
+          maxShadowOpacity: 0.5, // Half shadow intensity
+          showCover: true,
+          mobileScrollSupport: false // disable content scrolling on mobile devices
         }
-    );
+      )
 
-    // load pages
-    pageFlip.loadFromHTML(document.querySelectorAll(".page"));
-
-    document.querySelector(".page-total").innerText = pageFlip.getPageCount();
-    document.querySelector(
-        ".page-orientation"
-    ).innerText = pageFlip.getOrientation();
-
-    document.querySelector(".btn-prev").addEventListener("click", () => {
-        pageFlip.flipPrev(); // Turn to the previous page (with animation)
-    });
-
-    document.querySelector(".btn-next").addEventListener("click", () => {
-        pageFlip.flipNext(); // Turn to the next page (with animation)
-    });
-
-    // triggered by page turning
-    pageFlip.on("flip", (e) => {
-        document.querySelector(".page-current").innerText = e.data + 1;
-    });
-
-    // triggered when the state of the book changes
-    pageFlip.on("changeState", (e) => {
-        document.querySelector(".page-state").innerText = e.data;
-    });
-
-    // triggered when page orientation changes
-    pageFlip.on("changeOrientation", (e) => {
-        document.querySelector(".page-orientation").innerText = e.data;
-    });
-});
-
+      // load pages
+      pageFlip.loadFromHTML(document.querySelectorAll(".page"));
     }
   }
 </script>
 
 <style scoped>
 
-/* copy from https://codepen.io/casper392945/embed/vYNMPBK?height=600&default-tab=result&embed-version=2 */
+/* 
+Reference:
+  https://nodlik.github.io/StPageFlip/demo.html
+  https://codepen.io/casper392945/embed/vYNMPBK?height=600&default-tab=result&embed-version=2 
+  https://codepen.io/slyka85/pen/opjzPg
+*/
 
-*,
-::after,
-::before {
-  box-sizing: border-box;
-}
-h2 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-/* button {
-  border-radius: 0;
-}
-button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-}
-button {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-button {
-  overflow: visible;
-}
-button {
-  text-transform: none;
-}
-[type="button"],
-button {
-  -webkit-appearance: button;
-}
-[type="button"]::-moz-focus-inner,
-button::-moz-focus-inner {
-  padding: 0;
-  border-style: none;
-} */
-h2 {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  line-height: 1.2;
-}
-h2 {
-  font-size: 2rem;
-}
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  background-size: cover;
+  background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
 }
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-/* .btn {
-  display: inline-block;
-  font-weight: 400;
-  color: #212529;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-@media (prefers-reduced-motion: reduce) {
-  .btn {
-    transition: none;
-  }
-}
-.btn:hover {
-  color: #212529;
-  text-decoration: none;
-}
-.btn:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-.btn:disabled {
-  opacity: 0.65;
-}
-.btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-}
-.btn-primary:focus {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-}
-.btn-primary:disabled {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-.btn-secondary {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-.btn-secondary:hover {
-  color: #fff;
-  background-color: #5a6268;
-  border-color: #545b62;
-}
-.btn-secondary:focus {
-  color: #fff;
-  background-color: #5a6268;
-  border-color: #545b62;
-  box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
-}
-.btn-secondary:disabled {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-.btn-info {
-  color: #fff;
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-}
-.btn-info:hover {
-  color: #fff;
-  background-color: #138496;
-  border-color: #117a8b;
-}
-.btn-info:focus {
-  color: #fff;
-  background-color: #138496;
-  border-color: #117a8b;
-  box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
-}
-.btn-info:disabled {
-  color: #fff;
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-}
-.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  border-radius: 0.2rem;
-}
-.btn-group {
+
+.book-wrapper {
   position: relative;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  vertical-align: middle;
+  margin-top: 2%;
 }
-.btn-group > .btn {
-  position: relative;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-.btn-group > .btn:hover {
-  z-index: 1;
-}
-.btn-group > .btn:active,
-.btn-group > .btn:focus {
-  z-index: 1;
-}
-.btn-group > .btn:not(:first-child) {
-  margin-left: -1px;
-}
-.btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.btn-group > .btn:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.bg-light {
-  background-color: #f8f9fa !important;
-}
-.overflow-hidden {
-  overflow: hidden !important;
-}
-.mb-2 {
-  margin-bottom: 0.5rem !important;
-}
-.mt-3 {
-  margin-top: 1rem !important;
-}
-.mb-3 {
-  margin-bottom: 1rem !important;
-}
-.pt-3 {
-  padding-top: 1rem !important;
-}
-.pb-3 {
-  padding-bottom: 1rem !important;
-}
-.text-center {
-  text-align: center !important;
-} */
-@media print {
-  *,
-  ::after,
-  ::before {
-    text-shadow: none !important;
-    box-shadow: none !important;
-  }
-  h2 {
-    orphans: 3;
-    widows: 3;
-  }
-  h2 {
-    page-break-after: avoid;
-  }
-  .container {
-    min-width: 992px !important;
-  }
-}
-/*! CSS Used from: https://nodlik.github.io/StPageFlip/static/style.css */
-.demo-block {
-  border-top: solid 5px #dcdcdc;
-  border-bottom: solid 5px #dcdcdc;
-}
-.flip-book {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-  margin: 0 auto;
-  display: none;
-}
+
 .page {
-  padding: 20px;
-  background-color: #fdfaf7;
-  color: #785e3a;
-  border: solid 1px #c2b5a3;
-  overflow: hidden;
-}
-.page .page-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-}
-.page .page-content .page-header {
-  height: 30px;
-  font-size: 100%;
-  text-transform: uppercase;
-  text-align: center;
-}
-.page .page-content .page-image {
-  height: 100%;
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-.page .page-content .page-text {
-  height: 100%;
-  flex-grow: 1;
-  font-size: 80%;
-  text-align: justify;
-  margin-top: 10px;
-  padding-top: 10px;
-  box-sizing: border-box;
-  border-top: solid 1px #f4e8d7;
-}
-.page .page-content .page-footer {
-  height: 30px;
-  border-top: solid 1px #f4e8d7;
-  font-size: 80%;
-  color: #998466;
-}
-.page.--left {
-  border-right: 0;
-  box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
-}
-.page.--right {
-  border-left: 0;
-  box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.4);
-}
-.page.--right .page-footer {
-  text-align: right;
-}
-/*! CSS Used from: Embedded */
-.stf__wrapper {
-  position: relative;
-  display: block;
-  box-sizing: border-box;
-  transform: translateZ(0);
-}
-.stf__wrapper canvas {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-}
-.stf__block {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-}
-.stf__item {
-  display: none;
-  position: absolute;
+	background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
+  background-size: auto 100%;
 }
 </style>
