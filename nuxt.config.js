@@ -1,5 +1,7 @@
 // import colors from 'vuetify/es5/util/colors'
 require('dotenv').config()
+const Sass = require('sass')
+const Fiber = require('fibers')
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -88,5 +90,13 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    loader: {
+      scss: {
+        implementation: Sass,
+        sassOptions: {
+          fiber: Fiber
+        }
+      }
+    }
   }
 }

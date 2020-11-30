@@ -1,47 +1,41 @@
 <template>
   <div class="container">
-    <div class="book-wrapper" id="book">
-      <div class="page" data-density="soft">
-        <div class="pages-content">
-          <div class="pages-background"></div>
-          <div class="content-inner">
-            <h1>Chapter 1</h1>
-            <div class="text"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas ea non vitae a assumenda sint quod, dolores laboriosam velit corrupti nobis cupiditate perspiciatis natus exercitationem, architecto esse ratione blanditiis! Itaque.</p></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ml-5 page">
-        <div class="pages-content">
-          <div class="content-inner">
-            <h1>Chapter 2</h1>
-            <div class="text">
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, cumque autem! Magni eligendi qui officiis? Fugit iste voluptatum atque voluptatibus totam! Nisi accusantium saepe hic. Aut nobis nesciunt mollitia error.</p>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam odio modi, hic ratione fugit quod natus, excepturi quae minus voluptatum cupiditate quia magnam eveniet ex, reiciendis voluptates ipsam iste laudantium!</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati deserunt magnam, at perspiciatis aut. Voluptatem consequuntur neque quisquam?</p>
-              </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="page">
-        <div class="pages-content">
-          <div class="content-inner">
-            <h1>Chapter 3</h1>
-            <div class="text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate voluptas molestiae tempore amet adipisci dicta incidunt nisi alias distinctio fugit blanditiis dignissimos nobis deserunt eum consequuntur ipsam, perspiciatis numquam repellendus.</p>
-              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus in odio deserunt est hic minima inventore, mollitia, officia aspernatur eaque voluptatibus? Amet, molestias adipisci delectus ea eligendi sit numquam illo.</p>
+    <div class="flip-book" id="book">
+        <div class="page page-cover page-cover-top" data-density="hard">
+            <div class="page-content">
+                <h2>BOOK TITLE</h2>
             </div>
-          </div>
         </div>
-      </div>
-
-      <div class="ml-5 page">
-        <div class="pages-content">
-          <div class="content-inner">
-            <h1>The End</h1>
-          </div>
+        <div class="page">
+            <div class="page-content">
+                <h2 class="page-header">Page header 1</h2>
+                <div class="page-image" style="background-image: url(images/html/1.jpg)"></div>
+                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-footer">2</div>
+            </div>
         </div>
-      </div>
+        <!-- PAGES .... -->
+        <div class="page">
+            <div class="page-content">
+                <h2 class="page-header">Page header - 15</h2>
+                <div class="page-image" style="background-image: url(images/html/7.jpg)"></div>
+                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-footer">16</div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="page-content">
+                <h2 class="page-header">Page header - 16</h2>
+                <div class="page-image" style="background-image: url(images/html/8.jpg)"></div>
+                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-footer">17</div>
+            </div>
+        </div>
+        <div class="page page-cover page-cover-bottom" data-density="hard">
+            <div class="page-content">
+                <h2>THE END</h2>
+            </div>
+        </div>
     </div>
   </div>
 </template>
@@ -52,27 +46,24 @@ import { PageFlip } from 'page-flip'
   export default {
     mounted() {
       const pageFlip = new PageFlip(document.getElementById("book"), {
-          width: 550, // base page width
-          height: 733, // base page height
-          size: "stretch",
-          // set threshold values:
-          minWidth: 315,
-          maxWidth: 1000,
-          minHeight: 420,
-          maxHeight: 1350,
-          maxShadowOpacity: 0.5, // Half shadow intensity
-          showCover: true,
-          mobileScrollSupport: false // disable content scrolling on mobile devices
-        }
-      )
+        width: 550,
+        height: 733,
+        size: "stretch",
+        minWidth: 315,
+        maxWidth: 1000,
+        minHeight: 420,
+        maxHeight: 1350,
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        // mobileScrollSupport: false // disable content scrolling on mobile devices
+      })
 
-      // load pages
       pageFlip.loadFromHTML(document.querySelectorAll(".page"));
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 /* 
 Reference:
@@ -81,19 +72,99 @@ Reference:
   https://codepen.io/slyka85/pen/opjzPg
 */
 
+
 .container {
-  width: 100%;
   background-size: cover;
   background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
 }
 
-.book-wrapper {
+.flip-book {
+  display: none;
+  background-size: cover;
   position: relative;
   margin-top: 2%;
 }
 
 .page {
+  padding: 20px;
+
 	background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
-  background-size: auto 100%;
+  background-size: cover;
+  border: solid 1px hsl(35, 20, 70);
+
+  overflow: hidden;
+
+  .page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .page-header {
+      height: 30px;
+      font-size: 100%;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .page-image {
+      height: 100%;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .page-text {
+      height: 100%;
+      flex-grow: 1;
+      font-size: 80%;
+      text-align: justify;
+      margin-top: 10px;
+      padding-top: 10px;
+      box-sizing: border-box;
+      border-top: solid 1px hsl(35, 55, 90);
+    }
+
+    .page-footer {
+      height: 30px;
+      border-top: solid 1px hsl(35, 55, 90);
+      font-size: 80%;
+      color: hsl(35, 20, 50);
+    }
+  }
+
+  &.--left {
+    border-right: 0;
+    box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
+  }
+
+  &.--right {
+    border-left: 0;
+    box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.4);
+
+    .page-footer {
+      text-align: right;
+    }
+  }
+
+  &.page-cover {
+    border: solid 1px hsl(35, 20, 50);
+
+    h2 {
+      text-align: center;
+      padding-top: 50%;
+      font-size: 210%;
+    }
+
+    &.page-cover-top {
+      box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    &.page-cover-bottom {
+      box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
+    }
+  }
 }
 </style>
