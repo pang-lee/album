@@ -1,7 +1,36 @@
 <template>
-  <div class="container">
-    <div class="flip-book" ref="book">
-      <div class="page page-cover page-cover-top" data-density="hard">
+    <div class="container">
+        <div class="flip-book" ref="book">
+
+
+        <div v-for="n in page + 1" :key="n" ref="page" class="page">
+
+            <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
+                <div class="page-content">
+                    <h2>BOOK TITLE</h2>
+                </div>
+            </div>
+            <div v-else-if="n == page + 1" class="page-cover page-cover-bottom" data-density="hard">
+                <div class="page-content">
+                    <h2 @click="page++">Plus</h2>
+                </div>
+            </div>
+            <div v-else>
+                <div class="page-content">
+                    <h2 @dblclick="edit1 = true">{{ n }}</h2>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- <div class="page page-cover page-cover-bottom" data-density="hard">
+            <div class="page-content">
+                <h2 @click="page++">Plus</h2>
+            </div>
+        </div> -->
+
+
+      <!-- <div class="page page-cover page-cover-top" data-density="hard">
         <div class="page-content">
           <h2>BOOK TITLE</h2>
         </div>
@@ -14,7 +43,6 @@
           <div class="page-footer">2</div>
         </div>
       </div>
-        <!-- PAGES .... -->
       <div class="page">
         <div class="page-content">
           <h2 class="page-header">Page header - 15</h2>
@@ -35,15 +63,21 @@
         <div class="page-content">
           <h2>THE END</h2>
         </div>
-      </div>
+      </div> -->
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 import { PageFlip } from 'page-flip'
 
   export default {
+    data() {
+        return {
+            page: 5,
+            edit1: false
+        }
+    },
     mounted() {
       const pageFlip = new PageFlip(this.$refs.book, {
         width: 550,
@@ -58,7 +92,7 @@ import { PageFlip } from 'page-flip'
         // mobileScrollSupport: false // disable content scrolling on mobile devices
       })
 
-      pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+      pageFlip.loadFromHTML(this.$refs.page);
     }
   }
 </script>
