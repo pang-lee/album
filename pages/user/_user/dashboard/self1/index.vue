@@ -1,19 +1,28 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <nuxt-content :document="doc"/>
-    </v-col>
-  </v-row>
+  <div>
+    <book :page="page" :key="componentKey" v-on:addPage="onAddPage"></book>
+  </div>
 </template>
 
 <script>
-export default {
-  layout: 'user',
-  async asyncData({ $content }) {
-    const doc = await $content('hello').fetch()
-    return { doc }
+  export default {
+    layout: 'user',
+    data() {
+      return {
+        componentKey: 0,
+        page: 1
+      }
+    },
+    methods: {
+      forceRerender() {
+        this.componentKey += 1
+      },
+      onAddPage(update) {
+        this.page = update
+        this.forceRerender()
+      }
+    }
   }
-}
 </script>
 
 <style>
