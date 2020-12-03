@@ -16,7 +16,8 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css',  integrity:'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=', crossorigin: 'anonymous' }
     ]
   },
 
@@ -53,7 +54,8 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/apollo',
     'cookie-universal-nuxt',
-    'nuxt-clipboard2'
+    'nuxt-clipboard2',
+    'vue-social-sharing/nuxt'
   ],
   apollo: {
     clientConfigs: {
