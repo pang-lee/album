@@ -6,7 +6,6 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <h2>BOOK TITLE</h2>
-              <!-- <iconify-icon :icon="icons.chevronsSquareUpRight" /> -->
             </div>
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
@@ -122,9 +121,9 @@ import * as icon from '@mdi/js'
       }
     },
     methods: {
-      copy(){
-        this.$copyText(process.env.BASE_URL + this.$route.fullPath)
-        .then(() => {
+      async copy(){
+        try {
+          await this.$copyText(process.env.BASE_URL + this.$route.fullPath)
           Swal.fire({
             type: 'success',
             title: 'Success Copy Url',
@@ -132,15 +131,14 @@ import * as icon from '@mdi/js'
             timer: 3000
           })
           this.dialog = false
-        })
-        .catch(() => {
+        } catch (error) {
           Swal.fire({
             type: 'error',
             title: 'Oops...',
             text: 'Something went wrong!',
             timer: 3000
           })
-        })
+        }
       }
     },
     mounted() {
