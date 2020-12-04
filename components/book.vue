@@ -8,9 +8,14 @@
               <h2>BOOK TITLE</h2>
             </div>
           </div>
+          <div v-else-if="!mouseEvent && n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
+            <div class="page-content">
+              <h2 @click="pages++">plus</h2>
+            </div>
+          </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
-              <h2 @click="pages++">Plus</h2>
+              <h2>Thank You</h2>
             </div>
           </div>
           <div v-else>
@@ -21,41 +26,16 @@
         </div>
       </div>
     </div>
-    <br/>
-    <v-divider></v-divider>
-    <div class="d-flex justify-center mt-5">
-      <v-btn-toggle v-model="text" tile color="primary" mandatory group>
-        <v-btn value="preview">Preview</v-btn>
-        <v-btn value="edit">Edit</v-btn>
-        <v-btn value="save">Save</v-btn>
-        <v-btn value="share" @click.stop="dialog = true">Share</v-btn>
-        <v-dialog v-model="dialog">
-          <v-card>
-            <br/>
-            <v-card-subtitle class="text-center font-weight-black font-italic">Share With Your Friend</v-card-subtitle>
-            <v-divider></v-divider>
-            <br/>
-            <v-card-actions>
-              <div class="share-network-list">
-                <ShareNetwork v-for="network in networks" :network="network.network" :key="network.network" :style="{backgroundColor: network.color}" :url="sharing.url" :title="sharing.title" :description="sharing.description" :quote="sharing.quote" :hashtags="sharing.hashtags" :twitterUser="sharing.twitterUser">
-                  <i :class="network.icon"></i>
-                  <span>{{ network.name }}</span>
-                </ShareNetwork>
-                <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
-              </div>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-btn-toggle>
+    <div v-if="!mouseEvent" class="d-flex justify-center mt-5">
+      <v-btn color="primary" outlined @click="prev()">Previous</v-btn>&nbsp;
+      <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
+      <v-btn color="primary" outlined @click="next()">Next</v-btn>
     </div>
-    <br/>
   </div>
 </template>
 
 <script>
 import { PageFlip } from 'page-flip'
-import Swal from 'sweetalert2'
-import * as icon from '@mdi/js'
 
   export default {
     props: {
@@ -63,51 +43,18 @@ import * as icon from '@mdi/js'
         type: Number,
         default: 1,
         required: true,
+      },
+      mouseEvent: {
+        type: Boolean,
+        default: true,
+        required: true
       }
     },
     data() {
       return {
-        text: 'preview',
-        dialog: false,
-        sharing: {
-          url: 'https://news.vuejs.org/issues/180',
-          title: 'Say hi to Vite! A brand new, extremely fast development setup for Vue.',
-          description: 'This week, I’d like to introduce you to "Vite", which means "Fast". It’s a brand new development setup created by Evan You.',
-          quote: 'The hot reload is so fast it\'s near instant. - Evan You',
-          hashtags: 'vuejs,vite,javascript',
-          twitterUser: 'youyuxi'
-        },
-        networks: [
-          { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
-          { network: 'buffer', name: 'Buffer', icon: 'fab fah fa-lg fa-buffer', color: '#323b43' },
-          { network: 'email', name: 'Email', icon: 'far fah fa-lg fa-envelope', color: '#333333' },
-          { network: 'evernote', name: 'Evernote', icon: 'fab fah fa-lg fa-evernote', color: '#2dbe60' },
-          { network: 'facebook', name: 'Facebook', icon: 'fab fah fa-lg fa-facebook-f', color: '#1877f2' },
-          { network: 'flipboard', name: 'Flipboard', icon: 'fab fah fa-lg fa-flipboard', color: '#e12828' },
-          { network: 'hackernews', name: 'HackerNews', icon: 'fab fah fa-lg fa-hacker-news', color: '#ff4000' },
-          { network: 'instapaper', name: 'Instapaper', icon: 'fas fah fa-lg fa-italic', color: '#428bca' },
-          { network: 'line', name: 'Line', icon: 'fab fah fa-lg fa-line', color: '#00c300' },
-          { network: 'linkedin', name: 'LinkedIn', icon: 'fab fah fa-lg fa-linkedin', color: '#007bb5' },
-          { network: 'odnoklassniki', name: 'Odnoklassniki', icon: 'fab fah fa-lg fa-odnoklassniki', color: '#ed812b' },
-          { network: 'pinterest', name: 'Pinterest', icon: 'fab fah fa-lg fa-pinterest', color: '#bd081c' },
-          { network: 'pocket', name: 'Pocket', icon: 'fab fah fa-lg fa-get-pocket', color: '#ef4056' },
-          { network: 'quora', name: 'Quora', icon: 'fab fah fa-lg fa-quora', color: '#a82400' },
-          { network: 'reddit', name: 'Reddit', icon: 'fab fah fa-lg fa-reddit-alien', color: '#ff4500' },
-          { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
-          { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
-          { network: 'stumbleupon', name: 'StumbleUpon', icon: 'fab fah fa-lg fa-stumbleupon', color: '#eb4924' },
-          { network: 'telegram', name: 'Telegram', icon: 'fab fah fa-lg fa-telegram-plane', color: '#0088cc' },
-          { network: 'tumblr', name: 'Tumblr', icon: 'fab fah fa-lg fa-tumblr', color: '#35465c' },
-          { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: '#1da1f2' },
-          { network: 'viber', name: 'Viber', icon: 'fab fah fa-lg fa-viber', color: '#59267c' },
-          { network: 'vk', name: 'Vk', icon: 'fab fah fa-lg fa-vk', color: '#4a76a8' },
-          { network: 'weibo', name: 'Weibo', icon: 'fab fah fa-lg fa-weibo', color: '#e9152d' },
-          { network: 'whatsapp', name: 'Whatsapp', icon: 'fab fah fa-lg fa-whatsapp', color: '#25d366' },
-          { network: 'wordpress', name: 'Wordpress', icon: 'fab fah fa-lg fa-wordpress', color: '#21759b' },
-          { network: 'xing', name: 'Xing', icon: 'fab fah fa-lg fa-xing', color: '#026466' },
-          { network: 'yammer', name: 'Yammer', icon: 'fab fah fa-lg fa-yammer', color: '#0072c6' }
-        ],
-        copyLink: icon.mdiLinkVariant,
+        current: this.page,
+        total: 0,
+        pageFlip: {},
       }
     },
     computed: {
@@ -121,28 +68,21 @@ import * as icon from '@mdi/js'
       }
     },
     methods: {
-      async copy(){
-        try {
-          await this.$copyText(process.env.BASE_URL + this.$route.fullPath)
-          Swal.fire({
-            type: 'success',
-            title: 'Success Copy Url',
-            text: 'Now You Can Share With Your Friend',
-            timer: 3000
-          })
-          this.dialog = false
-        } catch (error) {
-          Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-            timer: 3000
-          })
-        }
+      prev(){
+        this.pageFlip.flipPrev()
+        this.pageFlip.on("flip", (event) => {
+          this.current = event.data + 1
+        })
+      },
+      next(){
+        this.pageFlip.flipNext()
+        this.pageFlip.on("flip", (event) => {
+          this.current = event.data + 1
+        })
       }
     },
     mounted() {
-      const pageFlip = new PageFlip(this.$refs.book, {
+      this.pageFlip = new PageFlip(this.$refs.book, {
         width: 550,
         height: 733,
         size: "stretch",
@@ -151,11 +91,18 @@ import * as icon from '@mdi/js'
         minHeight: 420,
         maxHeight: 1350,
         maxShadowOpacity: 0.5,
-        showCover: true
+        showCover: true,
+        useMouseEvents: this.mouseEvent
       })
 
-      pageFlip.loadFromHTML(this.$refs.page)
-      pageFlip.turnToPage(this.page - 1)
+      if(this.mouseEvent == false){
+        this.pageFlip.loadFromHTML(this.$refs.page)
+        this.total = this.pageFlip.getPageCount()
+        this.pageFlip.turnToPage(this.page - 1)
+      } else {
+        this.pageFlip.loadFromHTML(this.$refs.page)
+        this.pageFlip.turnToPage(this.page - 1)
+      }
     }
   }
 </script>
@@ -263,40 +210,5 @@ Reference:
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
     }
   }
-}
-
-.share-network-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 1000px;
-  margin: auto;
-}
-
-a[class^="share-network-"] {
-  flex: none;
-  color: #FFFFFF;
-  background-color: #333;
-  border-radius: 3px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin: 0 10px 10px 0;
-}
-
-a[class^="share-network-"] .fah {
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  flex: 0 1 auto;
-}
-
-a[class^="share-network-"] span {
-  padding: 0 10px;
-  flex: 1 1 0%;
-  font-weight: 500;
 }
 </style>
