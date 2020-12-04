@@ -20,7 +20,10 @@
           </div>
           <div v-else>
             <div class="page-content">
-              <h2>{{ n }}</h2>
+              <h2 class="page-header">Page header {{ n }}</h2>
+                <div class="page-image"></div>
+                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-footer">{{ n }}</div>
             </div>
           </div>
         </div>
@@ -54,7 +57,7 @@ import { PageFlip } from 'page-flip'
       return {
         current: this.page,
         total: 0,
-        pageFlip: {},
+        pageFlip: {}
       }
     },
     computed: {
@@ -154,7 +157,7 @@ Reference:
     }
 
     .page-image {
-      height: 100%;
+      // height: 100%;
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
@@ -195,12 +198,6 @@ Reference:
 
   &.page-cover {
     border: solid 1px hsl(35, 20, 50);
-
-    h2 {
-      text-align: center;
-      padding-top: 50%;
-      font-size: 210%;
-    }
 
     &.page-cover-top {
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
