@@ -124,6 +124,7 @@ import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
 
   export default {
+    name: 'information',
     layout: 'user',
     data() {
       return {

@@ -22,40 +22,53 @@
             <div class="page-content">
               <h2 class="page-header">Page header {{ n }}</h2>
                 <div class="page-image" @click="dialog = true">
-                  <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters" ></v-img>
-                  <v-dialog v-model="dialog" width="250" overlay-opacity="0">
+                  <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
+                    <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
+                    <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
+                    <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
+                  </v-img>
+                  <v-dialog v-model="dialog" width="300" overlay-opacity="0">
                     <v-card>
                       <v-card-title class="headline grey lighten-2">
-                        Privacy Policy
+                        Photo Setting
                       </v-card-title>
                       <perfect-scrollbar>
-                        <v-card-text>
-                          <strong>Grayscale ({{grayscale}})</strong>
-                          <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
-                          <strong>Sepia ({{sepia}})</strong>
-                          <v-slider  v-model="sepia" max="1" min="0" step="0.01"></v-slider>
-                          <strong>Saturate ({{saturate}})</strong>
-                          <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
-                          <strong>Hue Rotate ({{hueRotate}} deg)</strong>
-                          <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
-                          <strong>Invert ({{invert}})</strong>
-                          <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
-                          <strong>Brightness ({{brightness}})</strong>
-                          <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
-                          <strong>Contrast ({{contrast}})</strong>
-                          <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
-                          <strong>Blur ({{blur}}px)</strong>
-                          <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
+                        <v-card-text v-if="filteImage">
+                          <strong>Grayscale ({{photo.grayscale}})</strong>
+                          <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Sepia ({{photo.sepia}})</strong>
+                          <v-slider  v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Saturate ({{photo.saturate}})</strong>
+                          <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Hue Rotate ({{photo.hueRotate}} deg)</strong>
+                          <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
+                          <strong>Invert ({{photo.invert}})</strong>
+                          <v-slider v-model="photo.invert" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Brightness ({{photo.brightness}})</strong>
+                          <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>
+                          <strong>Contrast ({{photo.contrast}})</strong>
+                          <v-slider v-model="photo.contrast" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Blur ({{photo.blur}}px)</strong>
+                          <v-slider v-model="photo.blur" max="50" min="0" step="0.1"></v-slider>
+                        </v-card-text>
+                        <v-card-text v-else>
+                          <v-expansion-panels focusable popout>
+                            <v-expansion-panel v-for="(item, index) in items" :key="index">
+                              <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
+                              <v-expansion-panel-content>
+                                <br/>
+                                <v-text-field v-model="item.href" :label="item.title" outlined clearable></v-text-field>
+                              </v-expansion-panel-content>
+                            </v-expansion-panel>
+                          </v-expansion-panels>
                         </v-card-text>
                       </perfect-scrollbar>
-                      
                       <v-divider></v-divider>
-
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" text @click="dialog = false">
-                          I accept
-                        </v-btn>
+                        <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
+                        <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
+                        <v-btn color="primary" text @click="dialog = false">OK</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -77,8 +90,10 @@
 
 <script>
 import { PageFlip } from 'page-flip'
+import * as icon from '@mdi/js'
 
   export default {
+    name: 'book',
     props: {
       page: {
         type: Number,
@@ -96,19 +111,31 @@ import { PageFlip } from 'page-flip'
         current: this.page,
         total: 0,
         pageFlip: {},
-        grayscale: 0,
-        sepia: 0,
-        saturate: 1,
-        hueRotate: 0,
-        invert: 0,
-        brightness: 1,
-        contrast: 1,
-        blur: 0,
-        suffix: {
-          hueRotate: 'deg',
-          blur: 'px'
+        dialog: false,
+        photo:{
+          grayscale: 0,
+          sepia: 0,
+          saturate: 1,
+          hueRotate: 0,
+          invert: 0,
+          brightness: 1,
+          contrast: 1,
+          blur: 0,
+          suffix: {
+            hueRotate: 'deg',
+            blur: 'px'
+          }
         },
-        dialog: false
+        filteImage: true,
+        items:[
+          { title: 'Update Image', href: '' },
+          { title: 'Add Post Link', href: '' },
+          { title: 'Add Live Stream Link', href: '' },
+          { title: 'Add Video Link', href: ''}
+        ],
+        link: icon.mdiLinkVariantPlus,
+        live: icon.mdiVideoAccount,
+        video: icon.mdiVideoBox
       }
     },
     computed: {
@@ -121,7 +148,7 @@ import { PageFlip } from 'page-flip'
         }
       },
       filters() {
-        return { filter: Object.entries(this._data).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.suffix[item[0]] || ''})`).join(' ') }
+        return { filter: Object.entries(this._data.photo).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.photo.suffix[item[0]] || ''})`).join(' ') }
       }
     },
     methods: {

@@ -79,46 +79,47 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import * as icon from '@mdi/js'
 
     export default {
-        data() {
-          return{
-            drop: icon.mdiArrowDownDropCircleOutline,
-            menu: icon.mdiMenu,
-            close: icon.mdiClose,
-            chevron: icon.mdiChevronDown,
-            drawer: false,
-            links: [
-              { target: 'Dashboard', route: '/dashboard/self1', icon: icon.mdiViewDashboardOutline },
-              { target: 'Profile', route: '/profile/sticker', icon: icon.mdiFaceOutline },
-              { target: 'Setting', route: '/setting/privacy', icon: icon.mdiCogOutline },
-              { target: 'Logout', route: '/', icon: icon.mdiLogout }
-            ]
+      name: 'navbar',
+      data() {
+        return{
+          drop: icon.mdiArrowDownDropCircleOutline,
+          menu: icon.mdiMenu,
+          close: icon.mdiClose,
+          chevron: icon.mdiChevronDown,
+          drawer: false,
+          links: [
+            { target: 'Dashboard', route: '/dashboard/self1', icon: icon.mdiViewDashboardOutline },
+            { target: 'Profile', route: '/profile/sticker', icon: icon.mdiFaceOutline },
+            { target: 'Setting', route: '/setting/privacy', icon: icon.mdiCogOutline },
+            { target: 'Logout', route: '/', icon: icon.mdiLogout }
+          ]
+        }
+      },
+      computed: {
+        ...mapGetters('admin', ['sidebar', 'user']),
+        auth(){
+          if(this.$cookies.get('jwt')) return true
+          else return false
+        }
+      },
+      methods: {
+        ...mapActions('authentication', ['logout']),
+        ...mapMutations('admin', ['SET_SIDEBAR_STATUS']),
+        to_destination(link){
+          if(link.target == 'Logout'){
+            this.logout()
+            return this.$router.push(link.route)
+          } else {
+            this.SET_SIDEBAR_STATUS(link.target)
+            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
           }
         },
-        computed: {
-          ...mapGetters('admin', ['sidebar', 'user']),
-          auth(){
-            if(this.$cookies.get('jwt')) return true
-            else return false
-          }
-        },
-        methods: {
-          ...mapActions('authentication', ['logout']),
-          ...mapMutations('admin', ['SET_SIDEBAR_STATUS']),
-          to_destination(link){
-            if(link.target == 'Logout'){
-              this.logout()
-              return this.$router.push(link.route)
-            } else {
-              this.SET_SIDEBAR_STATUS(link.target)
-              return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
-            }
-          },
-          profile(device){
-            this.SET_SIDEBAR_STATUS('Profile')
-            if(device == 'mobile') this.drawer = !this.drawer
-            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
-          }
-        },
+        profile(device){
+          this.SET_SIDEBAR_STATUS('Profile')
+          if(device == 'mobile') this.drawer = !this.drawer
+          return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
+        }
+      },
     }
 </script>
 

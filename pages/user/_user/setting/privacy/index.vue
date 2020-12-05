@@ -19,6 +19,7 @@
 
 <script>
     export default {
+        name: 'privacy',
         layout: 'user',
         data(){
             return {

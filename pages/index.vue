@@ -39,6 +39,7 @@ import login from '~/components/form/login'
 import * as icon from '@mdi/js'
 
     export default {
+        name: 'index',
         components:{
             login,
             register

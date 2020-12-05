@@ -6,7 +6,8 @@
 
 <script>
     export default {
-        layout: 'user',
+        name: 'language',
+        layout: 'user'
     }
 </script>
 

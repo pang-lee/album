@@ -16,13 +16,15 @@
             <v-divider></v-divider>
             <br/>
             <v-card-actions>
-              <div class="share-network-list">
-                <ShareNetwork v-for="network in networks" :network="network.network" :key="network.network" :style="{backgroundColor: network.color}" :url="sharing.url" :title="sharing.title" :description="sharing.description" :quote="sharing.quote" :hashtags="sharing.hashtags" :twitterUser="sharing.twitterUser">
-                  <i :class="network.icon"></i>
-                  <span>{{ network.name }}</span>
-                </ShareNetwork>
-                <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
-              </div>
+              <perfect-scrollbar>
+                <div class="share-network-list">
+                  <ShareNetwork v-for="network in networks" :network="network.network" :key="network.network" :style="{backgroundColor: network.color}" :url="sharing.url" :title="sharing.title" :description="sharing.description" :quote="sharing.quote" :hashtags="sharing.hashtags" :twitterUser="sharing.twitterUser">
+                    <i :class="network.icon"></i>
+                    <span>{{ network.name }}</span>
+                  </ShareNetwork>
+                  <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
+                </div>
+              </perfect-scrollbar>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -130,7 +132,6 @@ import Swal from 'sweetalert2'
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 1000px;
   margin: auto;
 }
 
@@ -159,4 +160,8 @@ a[class^="share-network-"] span {
   flex: 1 1 0%;
   font-weight: 500;
 }
-</style> 
+
+.ps {
+  height: 250px;
+}
+</style>

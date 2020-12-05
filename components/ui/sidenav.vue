@@ -16,6 +16,7 @@
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
     export default {
+        name: 'sidenav',
         computed: {
             ...mapGetters('admin', ['sidebar'])
         }

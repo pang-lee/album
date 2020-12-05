@@ -22,6 +22,7 @@
 import * as icon from '@mdi/js'
     
   export default {
+    name: 'foot',
     data(){
       return{
         icons: [ icon.mdiFacebook, icon.mdiTwitter, icon.mdiLinkedin, icon.mdiInstagram ],

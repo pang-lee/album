@@ -29,84 +29,85 @@ import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
 
     export default {
-           data(){
-                return{
-                    colorize:icon.mdiPencilPlusOutline,
-                    clear:icon.mdiClose,
-                    edit:icon.mdiPencilPlus,
-                    email:icon.mdiEmail,
-                    lock:icon.mdiLock,
-                    lock_confirm:icon.mdiLockOutline,
-                    visibility:icon.mdiEye,
-                    visibility_off:icon.mdiEyeOff,
-                    register:{
-                        first:'',
-                        last:'',
-                        email:'',
-                        password:'',
-                        confirm:''
-                    },
-                    show1:false,
-                    show2:false
-                }
-            },
-            validators:{
-                'register.first'(value){
-                    return Validator.value(value).required()
+        name: 'register',
+        data(){
+            return{
+                colorize:icon.mdiPencilPlusOutline,
+                clear:icon.mdiClose,
+                edit:icon.mdiPencilPlus,
+                email:icon.mdiEmail,
+                lock:icon.mdiLock,
+                lock_confirm:icon.mdiLockOutline,
+                visibility:icon.mdiEye,
+                visibility_off:icon.mdiEyeOff,
+                register:{
+                    first:'',
+                    last:'',
+                    email:'',
+                    password:'',
+                    confirm:''
                 },
-                'register.last'(value){
-                    return Validator.value(value).required()
-                },
-                'register.email'(value){
-                    return Validator.value(value).required().email()
-                },
-                'register.password'(value){
-                    return Validator.value(value).required().minLength(6)
-                },
-                'register.confirm, register.password'(password, confirm){
-                    return Validator.value(confirm).required().match(password)
-                }
-            },
-            computed:{
-                ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
-            },
-            methods:{
-                ...mapActions('authentication', ['verify_signup', 'signup']),
-                submit(){
-                    this.$validate()
-                        .then((success) => {
-                            if(success){
-                                return this.verify_signup(this.register)
-                            }else{
-                                Swal.fire({
-                                    type: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                    timer: 3000,
-                                })
-                            }
-                        }).then(() => {
-                            if(this.getSuccessVerify == true){
-                                return Swal.fire({
-                                    title: 'Enter your Verification code',
-                                    input: 'text',
-                                    allowOutsideClick: false,
-                                    showCloseButton:true,
-                                    inputPlaceholder: 'Code Number',
-                                    inputValidator: (value) => {
-                                      if (!value) {
-                                        return 'You need to write something!'
-                                      }
-                                    },
-                                    preConfirm: async (value) => {
-                                        await this.signup(value)
-                                        if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
-                                    }
-                                })
-                            }
-                        })
-                }
+                show1:false,
+                show2:false
             }
+         },
+         validators:{
+            'register.first'(value){
+                return Validator.value(value).required()
+            },
+            'register.last'(value){
+                return Validator.value(value).required()
+            },
+            'register.email'(value){
+                return Validator.value(value).required().email()
+            },
+            'register.password'(value){
+                return Validator.value(value).required().minLength(6)
+            },
+            'register.confirm, register.password'(password, confirm){
+                return Validator.value(confirm).required().match(password)
+            }
+         },
+         computed:{
+            ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
+         },
+         methods:{
+            ...mapActions('authentication', ['verify_signup', 'signup']),
+            submit(){
+                this.$validate()
+                    .then((success) => {
+                        if(success){
+                            return this.verify_signup(this.register)
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                timer: 3000,
+                            })
+                        }
+                    }).then(() => {
+                        if(this.getSuccessVerify == true){
+                            return Swal.fire({
+                                title: 'Enter your Verification code',
+                                input: 'text',
+                                allowOutsideClick: false,
+                                showCloseButton:true,
+                                inputPlaceholder: 'Code Number',
+                                inputValidator: (value) => {
+                                  if (!value) {
+                                    return 'You need to write something!'
+                                  }
+                                },
+                                preConfirm: async (value) => {
+                                    await this.signup(value)
+                                    if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
+                                }
+                            })
+                        }
+                    })
+             }
+         }
     }
 </script>
 

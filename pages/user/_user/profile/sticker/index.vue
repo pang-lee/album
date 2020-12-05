@@ -56,6 +56,7 @@
 import * as icon from '@mdi/js'
 
   export default {
+    name: 'sticker',
     layout: 'user',
     data() {
       return {

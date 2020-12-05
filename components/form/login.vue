@@ -63,6 +63,7 @@ import * as icon from '@mdi/js'
 import Swal from 'sweetalert2'
 
 export default {
+    name: 'login',
     data(){
         return{
             facebook: icon.mdiFacebook,
