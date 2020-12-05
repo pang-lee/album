@@ -27,7 +27,8 @@
     "typeface-roboto": "1.1.13",
     "vue-image-crop-upload": "^2.5.0",
     "vue-social-chat": "^0.1.5",
-    "vue-social-sharing": "^3.0.4"
+    "vue-social-sharing": "^3.0.4",
+    "vue2-perfect-scrollbar": "^1.5.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",

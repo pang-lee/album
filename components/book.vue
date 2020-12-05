@@ -21,7 +21,45 @@
           <div v-else>
             <div class="page-content">
               <h2 class="page-header">Page header {{ n }}</h2>
-                <div class="page-image"></div>
+                <div class="page-image" @click="dialog = true">
+                  <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters" ></v-img>
+                  <v-dialog v-model="dialog" width="250" overlay-opacity="0">
+                    <v-card>
+                      <v-card-title class="headline grey lighten-2">
+                        Privacy Policy
+                      </v-card-title>
+                      <perfect-scrollbar>
+                        <v-card-text>
+                          <strong>Grayscale ({{grayscale}})</strong>
+                          <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Sepia ({{sepia}})</strong>
+                          <v-slider  v-model="sepia" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Saturate ({{saturate}})</strong>
+                          <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Hue Rotate ({{hueRotate}} deg)</strong>
+                          <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
+                          <strong>Invert ({{invert}})</strong>
+                          <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Brightness ({{brightness}})</strong>
+                          <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
+                          <strong>Contrast ({{contrast}})</strong>
+                          <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
+                          <strong>Blur ({{blur}}px)</strong>
+                          <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
+                        </v-card-text>
+                      </perfect-scrollbar>
+                      
+                      <v-divider></v-divider>
+
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" text @click="dialog = false">
+                          I accept
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </div>
                 <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
                 <div class="page-footer">{{ n }}</div>
             </div>
@@ -57,7 +95,20 @@ import { PageFlip } from 'page-flip'
       return {
         current: this.page,
         total: 0,
-        pageFlip: {}
+        pageFlip: {},
+        grayscale: 0,
+        sepia: 0,
+        saturate: 1,
+        hueRotate: 0,
+        invert: 0,
+        brightness: 1,
+        contrast: 1,
+        blur: 0,
+        suffix: {
+          hueRotate: 'deg',
+          blur: 'px'
+        },
+        dialog: false
       }
     },
     computed: {
@@ -68,6 +119,9 @@ import { PageFlip } from 'page-flip'
         set(newValue){
           return this.$emit('addPage', newValue)
         }
+      },
+      filters() {
+        return { filter: Object.entries(this._data).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.suffix[item[0]] || ''})`).join(' ') }
       }
     },
     methods: {
@@ -82,7 +136,8 @@ import { PageFlip } from 'page-flip'
         this.pageFlip.on("flip", (event) => {
           this.current = event.data + 1
         })
-      }
+      },
+      toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase()
     },
     mounted() {
       this.pageFlip = new PageFlip(this.$refs.book, {
@@ -157,7 +212,7 @@ Reference:
     }
 
     .page-image {
-      // height: 100%;
+      height: 100%;
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
@@ -207,5 +262,9 @@ Reference:
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
     }
   }
+}
+
+.ps {
+  height: 250px;
 }
 </style>

@@ -31,6 +31,7 @@ export default {
   plugins: [
     '~/plugins/validate.js',
     '~/plugins/translate.js',
+    '~/plugins/scrollbar.js',
     { src: '~/plugins/image-crop.js', mode: 'client' }
   ],
 
