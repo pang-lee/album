@@ -18,9 +18,23 @@
               <h2>Thank You</h2>
             </div>
           </div>
-          <div v-else>
+          <div v-else-if="mouseEvent">
             <div class="page-content">
               <h2 class="page-header">Page header {{ n }}</h2>
+              <div class="page-image">
+                <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
+                  <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
+                  <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
+                  <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
+                </v-img>
+                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-footer">{{ n }}</div>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <div class="page-content">
+              <input class="page-header" v-model="sharing.header"/>
                 <div class="page-image" @click="dialog = true">
                   <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
                     <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
@@ -135,7 +149,10 @@ import * as icon from '@mdi/js'
         ],
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
-        video: icon.mdiVideoBox
+        video: icon.mdiVideoBox,
+        sharing:{
+          header: 'Page header'
+        }
       }
     },
     computed: {
