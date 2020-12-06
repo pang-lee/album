@@ -34,18 +34,16 @@
           </div>
           <div v-else>
             <div class="page-content">
-              <input class="page-header" v-model="sharing.header"/>
+              <input class="page-header" type="text" v-model="sharing.header"/>
                 <div class="page-image" @click="dialog = true">
                   <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
-                    <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
-                    <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
-                    <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
+                    <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
+                    <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
+                    <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ video }}</v-icon></v-btn>
                   </v-img>
                   <v-dialog v-model="dialog" width="300" overlay-opacity="0">
                     <v-card>
-                      <v-card-title class="headline grey lighten-2">
-                        Photo Setting
-                      </v-card-title>
+                      <div class="text-h6 font-weight-black text-center grey lighten-2">Photo Setting</div>
                       <perfect-scrollbar>
                         <v-card-text v-if="filteImage">
                           <strong>Grayscale ({{photo.grayscale}})</strong>
@@ -87,7 +85,9 @@
                     </v-card>
                   </v-dialog>
                 </div>
-                <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+                <div class="page-text">
+                  <textarea rows="8" v-model="sharing.text"></textarea>
+                </div>
                 <div class="page-footer">{{ n }}</div>
             </div>
           </div>
@@ -150,8 +150,10 @@ import * as icon from '@mdi/js'
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
+        rules: [v => v.length <= 380 || 'Max 380 characters'],
         sharing:{
-          header: 'Page header'
+          header: 'Page Header',
+          text: 'Type Down Your Story.'
         }
       }
     },
@@ -274,6 +276,8 @@ Reference:
     }
 
     .page-footer {
+      position: relative;
+      margin-top: 4%;
       height: 30px;
       border-top: solid 1px hsl(35, 55, 90);
       font-size: 80%;
@@ -310,5 +314,36 @@ Reference:
 
 .ps {
   height: 250px;
+}
+
+
+textarea {
+  scrollbar-width: thin;
+  outline: none;
+  resize: none;
+  box-shadow: 0 0 0 4px rgba(#9E9E9E, 0.3);
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+  border-radius: 5px;
+  // padding: 5px;
+  border: 1px solid#9E9E9E;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(#E0E0E0, 0.5);
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 0 5px 5px 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #BDBDBD;
+    border-radius: 5px;
+  }
 }
 </style>
