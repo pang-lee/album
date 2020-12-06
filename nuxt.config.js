@@ -32,7 +32,8 @@ export default {
     '~/plugins/validate.js',
     '~/plugins/translate.js',
     '~/plugins/scrollbar.js',
-    { src: '~/plugins/image-crop.js', mode: 'client' }
+    { src: '~/plugins/image-crop.js', mode: 'client' },
+    { src: '~/plugins/core-image-upload.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

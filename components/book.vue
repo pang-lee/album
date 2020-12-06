@@ -3,21 +3,25 @@
     <div class="container">
       <div class="flip-book" ref="book">
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
-              <h2>BOOK TITLE</h2>
+              <h2 class="page-cover">BOOK TITLE</h2>
             </div>
           </div>
+
           <div v-else-if="!mouseEvent && n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
               <h2 @click="pages++">plus</h2>
             </div>
           </div>
+
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
               <h2>Thank You</h2>
             </div>
           </div>
+
           <div v-else-if="mouseEvent">
             <div class="page-content">
               <h2 class="page-header">Page header {{ n }}</h2>
@@ -32,10 +36,18 @@
               </div>
             </div>
           </div>
+
           <div v-else>
             <div class="page-content">
               <input class="page-header" type="text" v-model="sharing.header"/>
-                <div class="page-image" @click="dialog = true">
+
+                <div v-if="!photoupload" class="page-image">
+                  <vue-core-image-upload class="empty-state" crop-ratio="auto" crop="local" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                    <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                  </vue-core-image-upload>
+                </div>
+
+                <div  v-else class="page-image" @click="dialog = true">
                   <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
                     <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
                     <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
@@ -150,11 +162,14 @@ import * as icon from '@mdi/js'
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
-        rules: [v => v.length <= 380 || 'Max 380 characters'],
         sharing:{
           header: 'Page Header',
           text: 'Type Down Your Story.'
-        }
+        },
+        upload:{
+          src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png'
+        },
+        photoupload: false
       }
     },
     computed: {
@@ -183,7 +198,12 @@ import * as icon from '@mdi/js'
           this.current = event.data + 1
         })
       },
-      toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase()
+      toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
+      imageuploaded(res) {
+        if (res.errcode == 0) {
+          this.src = 'http://img1.vued.vanthink.cn/vued751d13a9cb5376b89cb6719e86f591f3.png'
+        }
+      }
     },
     mounted() {
       this.pageFlip = new PageFlip(this.$refs.book, {
@@ -316,7 +336,6 @@ Reference:
   height: 250px;
 }
 
-
 textarea {
   scrollbar-width: thin;
   outline: none;
@@ -326,7 +345,6 @@ textarea {
   min-height: 50px;
   max-height: 200px;
   border-radius: 5px;
-  // padding: 5px;
   border: 1px solid#9E9E9E;
 
   &:hover,
@@ -344,6 +362,20 @@ textarea {
   &::-webkit-scrollbar-thumb {
     background-color: #BDBDBD;
     border-radius: 5px;
+  }
+}
+
+.empty-state {
+  position: relative;
+  padding: 22.5% 0% 22.5% 0%;
+  border-color: rgba(0, 0, 0, .15);
+  border-style: dashed;
+  border-width: 2px;
+  cursor: pointer;
+  transition: border .2s ease-out;
+
+  &:hover {
+   border-color: #3897f0;
   }
 }
 </style>
