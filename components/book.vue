@@ -1,6 +1,132 @@
 <template>
   <div>
     <div class="container">
+      <div v-if="!mouseEvent" class="flip-book" ref="book">
+        <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+          <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
+            <div class="page-content">
+              <span class="page-first-last">
+                <input style="text-align: center;" v-model="sharing.bookTitle"/>
+              </span>
+            </div>
+          </div>
+          <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
+            <div class="page-content">
+              <span class="page-first-last">
+                <v-btn x-large text fab icon @click="pages++">
+                  <v-icon x-large>{{ plus }}</v-icon>
+                </v-btn>
+              </span>
+            </div>
+          </div>
+          <div v-else class="page-content">
+            <input class="page-header" type="text" v-model="sharing.header"/>
+
+            <div v-if="!upload.src" class="page-image">
+              <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+              </vue-core-image-upload>
+            </div>
+
+            <div v-else class="page-image" @click="dialog = true">
+              <v-img :src="upload.src" aspect-ratio="1.79" :style="filters">
+                <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
+                <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
+                <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ video }}</v-icon></v-btn>
+              </v-img>
+              <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
+                <v-card>
+                  <div class="text-h6 font-weight-black text-center">Photo Setting</div>
+                  <v-img :src="upload.src" :style="filters"></v-img>
+                  <perfect-scrollbar>
+                    <v-card-text v-if="filteImage">
+                      <strong>Grayscale ({{photo.grayscale}})</strong>
+                      <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
+                      <strong>Sepia ({{photo.sepia}})</strong>
+                      <v-slider  v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
+                      <strong>Saturate ({{photo.saturate}})</strong>
+                      <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
+                      <strong>Hue Rotate ({{photo.hueRotate}} deg)</strong>
+                      <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
+                      <strong>Invert ({{photo.invert}})</strong>
+                      <v-slider v-model="photo.invert" max="1" min="0" step="0.01"></v-slider>
+                      <strong>Brightness ({{photo.brightness}})</strong>
+                      <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>
+                      <strong>Contrast ({{photo.contrast}})</strong>
+                      <v-slider v-model="photo.contrast" max="1" min="0" step="0.01"></v-slider>
+                      <strong>Blur ({{photo.blur}}px)</strong>
+                      <v-slider v-model="photo.blur" max="50" min="0" step="0.1"></v-slider>
+                    </v-card-text>
+                    <v-card-text v-else>
+                      <v-expansion-panels focusable popout>
+                        <v-expansion-panel v-for="(item, index) in items" :key="index">
+                          <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
+                          <v-expansion-panel-content>
+                            <br/>
+                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                              <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                            </vue-core-image-upload>
+                            <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
+                          </v-expansion-panel-content>
+                        </v-expansion-panel>
+                      </v-expansion-panels>
+                    </v-card-text>
+                  </perfect-scrollbar>
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
+                    <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
+                    <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
+            <div>
+              <textarea class="page-text" rows="8" v-model="sharing.text"></textarea>
+            </div>
+            <div class="page-footer">{{ n }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="flip-book" ref="book">
+        <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+          <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
+            <div class="page-content">
+              <h2 class="page-first-last">BOOK TITLE</h2>
+            </div>
+          </div>
+          <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
+            <div class="page-content">
+              <h2 class="page-first-last">Thank You</h2>
+            </div>
+          </div>
+          <div v-else class="page-content">
+            <h2 class="page-header">Page header {{ n }}</h2>
+            <div class="page-image">
+              <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
+                <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
+                <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
+                <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
+              </v-img>
+              <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+              <div class="page-footer">{{ n }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="!mouseEvent" class="d-flex justify-center mt-5">
+      <v-btn color="primary" outlined @click="prev()">Previous</v-btn>&nbsp;
+      <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
+      <v-btn color="primary" outlined @click="next()">Next</v-btn>
+    </div>
+  </div>
+
+  <!-- <div>
+    <div class="container">
       <div class="flip-book" ref="book">
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
 
@@ -12,7 +138,9 @@
 
           <div v-else-if="!mouseEvent && n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
-              <h2 @click="pages++">plus</h2>
+              <v-btn x-large text @click="pages++">
+                <v-icon x-large>{{ plus }}</v-icon>
+              </v-btn>
             </div>
           </div>
 
@@ -41,21 +169,22 @@
             <div class="page-content">
               <input class="page-header" type="text" v-model="sharing.header"/>
 
-                <div v-if="!photoupload" class="page-image">
-                  <vue-core-image-upload class="empty-state" crop-ratio="auto" crop="local" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                <div v-if="!upload.src" class="page-image">
+                  <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
                     <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                   </vue-core-image-upload>
                 </div>
 
-                <div  v-else class="page-image" @click="dialog = true">
-                  <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
+                <div v-else class="page-image" @click="dialog = true">
+                  <v-img :src="upload.src" aspect-ratio="1.79" :style="filters">
                     <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
                     <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
                     <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ video }}</v-icon></v-btn>
                   </v-img>
-                  <v-dialog v-model="dialog" width="300" overlay-opacity="0">
+                  <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
                     <v-card>
-                      <div class="text-h6 font-weight-black text-center grey lighten-2">Photo Setting</div>
+                      <div class="text-h6 font-weight-black text-center">Photo Setting</div>
+                      <v-img :src="upload.src" :style="filters"></v-img>
                       <perfect-scrollbar>
                         <v-card-text v-if="filteImage">
                           <strong>Grayscale ({{photo.grayscale}})</strong>
@@ -81,7 +210,10 @@
                               <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                               <v-expansion-panel-content>
                                 <br/>
-                                <v-text-field v-model="item.href" :label="item.title" outlined clearable></v-text-field>
+                                <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                                  <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                                </vue-core-image-upload>
+                                <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
                               </v-expansion-panel-content>
                             </v-expansion-panel>
                           </v-expansion-panels>
@@ -111,7 +243,7 @@
       <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
       <v-btn color="primary" outlined @click="next()">Next</v-btn>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -162,14 +294,15 @@ import * as icon from '@mdi/js'
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
+        plus: icon.mdiPlusBoxMultipleOutline,
         sharing:{
+          bookTitle: 'BOOK TITLE',
           header: 'Page Header',
           text: 'Type Down Your Story.'
         },
         upload:{
-          src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png'
-        },
-        photoupload: false
+          src: ''
+        }
       }
     },
     computed: {
@@ -199,10 +332,15 @@ import * as icon from '@mdi/js'
         })
       },
       toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
-      imageuploaded(res) {
-        if (res.errcode == 0) {
-          this.src = 'http://img1.vued.vanthink.cn/vued751d13a9cb5376b89cb6719e86f591f3.png'
+      imagechanged(res) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.upload.src = e.target.result
         }
+        reader.readAsDataURL(res)
+      },
+      imageuploaded(res) {
+        console.log("this is the imageuploaded ", res)
       }
     },
     mounted() {
@@ -278,7 +416,6 @@ Reference:
     }
 
     .page-image {
-      height: 100%;
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
@@ -330,6 +467,12 @@ Reference:
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
     }
   }
+
+  .page-first-last {
+    text-align: center;
+    padding-top: 50%;
+    font-size: 210%;
+  }
 }
 
 .ps {
@@ -342,8 +485,7 @@ textarea {
   resize: none;
   box-shadow: 0 0 0 4px rgba(#9E9E9E, 0.3);
   width: 100%;
-  min-height: 50px;
-  max-height: 200px;
+  height: 21vh;
   border-radius: 5px;
   border: 1px solid#9E9E9E;
 
