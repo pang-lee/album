@@ -6,7 +6,7 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
-                <input style="text-align: center;" v-model="sharing.bookTitle"/>
+                <input style="text-align: center;" v-model="book.bookTitle"/>
               </span>
             </div>
           </div>
@@ -20,7 +20,7 @@
             </div>
           </div>
           <div v-else class="page-content">
-            <input class="page-header" type="text" v-model="sharing.header"/>
+            <input class="page-header" type="text" v-model="book.header"/>
 
             <div v-if="!upload.src" class="page-image">
               <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
@@ -83,7 +83,7 @@
               </v-dialog>
             </div>
             <div>
-              <textarea class="page-text" rows="8" v-model="sharing.text"></textarea>
+              <textarea class="page-text" rows="8" v-model="book.text"></textarea>
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -167,7 +167,7 @@
 
           <div v-else>
             <div class="page-content">
-              <input class="page-header" type="text" v-model="sharing.header"/>
+              <input class="page-header" type="text" v-model="book.header"/>
 
                 <div v-if="!upload.src" class="page-image">
                   <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
@@ -230,7 +230,7 @@
                   </v-dialog>
                 </div>
                 <div class="page-text">
-                  <textarea rows="8" v-model="sharing.text"></textarea>
+                  <textarea rows="8" v-model="book.text"></textarea>
                 </div>
                 <div class="page-footer">{{ n }}</div>
             </div>
@@ -295,7 +295,7 @@ import * as icon from '@mdi/js'
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
         plus: icon.mdiPlusBoxMultipleOutline,
-        sharing:{
+        book:{
           bookTitle: 'BOOK TITLE',
           header: 'Page Header',
           text: 'Type Down Your Story.'
