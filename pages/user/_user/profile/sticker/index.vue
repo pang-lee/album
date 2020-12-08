@@ -6,36 +6,20 @@
         <v-divider></v-divider>
         <br/>
         <client-only>
-          <avatar field="img" @crop-success="cropSuccessAvatar" @crop-upload-success="cropUploadSuccessAvatar" @crop-upload-fail="cropUploadFailAvatar" v-model="avatar.show" url="/upload" :params="avatar.params" :headers="avatar.headers" img-format="jpg"></avatar>
-          <avatar field="img" @crop-success="cropSuccessBackground" @crop-upload-success="cropUploadSuccessBackground" @crop-upload-fail="cropUploadFailBackground" v-model="background.show" :width="(window.width) / 1.8" :height="(window.height) / 1.8" url="/upload" :params="background.params" :headers="background.headers" img-format="jpg"></avatar>
+          <upload field="img" @crop-success="cropSuccessAvatar" @crop-upload-success="cropUploadSuccessAvatar" @crop-upload-fail="cropUploadFailAvatar" v-model="avatar.show" url="/upload" :params="avatar.params" :headers="avatar.headers" img-format="jpg"></upload>
+          <upload field="img" @crop-success="cropSuccessBackground" @crop-upload-success="cropUploadSuccessBackground" @crop-upload-fail="cropUploadFailBackground" v-model="background.show" :width="(window.width) / 1.8" :height="(window.height) / 1.8" url="/upload" :params="background.params" :headers="background.headers" img-format="jpg"></upload>
         </client-only>
 
-        <div class="d-flex justify-center">
-	        <v-img v-if="background.imgDataUrl" :src="background.imgDataUrl" :max-height="window.height" :max-width="(window.width) * 0.5">
-            <div class="d-flex justify-center" v-if="avatar.imgDataUrl">
-              <v-avatar :size="(window.width / window.height) * 75">
+	      <v-img :src="background.imgDataUrl" aspect-ratio="1.6">
+          <div class="d-flex justify-center">
+            <v-avatar color="white" size="160">
+              <v-avatar v-if="avatar.imgDataUrl" size="150">
                 <v-img :src="avatar.imgDataUrl"></v-img>
               </v-avatar>
-            </div>
-            <div class="d-flex justify-center" v-else>
-              <v-avatar color="black" :size="(window.width / window.height) * 75">
-                <v-icon dark>{{ defaultAvatar }}</v-icon>
-              </v-avatar>
-            </div>
-          </v-img>
-	        <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/house.jpg" :max-height="window.height" :max-width="(window.width) * 0.5">
-            <div class="d-flex justify-center" v-if="avatar.imgDataUrl">
-              <v-avatar :size="(window.width / window.height) * 75">
-                <v-img :src="avatar.imgDataUrl"></v-img>
-              </v-avatar>
-            </div>
-            <div class="d-flex justify-center" v-else>
-              <v-avatar color="black" :size="(window.width / window.height) * 75">
-                <v-icon dark>{{ defaultAvatar }}</v-icon>
-              </v-avatar>
-            </div>
-          </v-img>
-        </div>
+              <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
+            </v-avatar>
+          </div>
+        </v-img>
         <v-card-text>
           <v-divider></v-divider>
           <div class="d-flex justify-center justify-space-around mt-5">
@@ -54,7 +38,6 @@
 
 <script>
 import * as icon from '@mdi/js'
-
   export default {
     name: 'sticker',
     layout: 'user',
@@ -83,7 +66,7 @@ import * as icon from '@mdi/js'
 			    headers: {
 			  	  smail: '*_~'
 			    },
-          imgDataUrl: '',
+          imgDataUrl: 'https://cdn.vuetifyjs.com/images/cards/house.jpg',
         },
         window: {
           width: 0,
@@ -144,5 +127,4 @@ import * as icon from '@mdi/js'
 </script>
 
 <style lang="scss" scoped>
-
 </style>
