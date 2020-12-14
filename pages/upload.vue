@@ -7,12 +7,10 @@
         </client-only>
 
         <v-img :src="upload.src"></v-img>
-        <v-btn @click="save()">123</v-btn>
     </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
     export default {
         data(){
@@ -28,16 +26,13 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
                 const reader = new FileReader()
                 reader.onload = (e) => {
                     this.upload.src = e.target.result
-                    console.log("Here are upload.src", this.upload.src)
+                    console.log(res)
                 }
                 reader.readAsDataURL(res)
             },
             imageuploaded(res) {
                 this.fetchSave(this.upload.src)
                 console.log("this is the imageuploaded ", res)
-            },
-            save(){
-                this.fetchSave(this.upload.src)    
             }
         },
     }
