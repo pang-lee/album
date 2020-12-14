@@ -1,8 +1,8 @@
-import registergql from '~/assets/gql/register.gql'
-import verloggql from '~/assets/gql/verify_login.gql'
-import versingql from '~/assets/gql/verify_signup.gql'
-import logingql from '~/assets/gql/login.gql'
-import forgetgql from '~/assets/gql/forget.gql'
+import registergql from '~/static/gql/register.gql'
+import verloggql from '~/static/gql/verify_login.gql'
+import versingql from '~/static/gql/verify_signup.gql'
+import logingql from '~/static/gql/login.gql'
+import forgetgql from '~/static/gql/forget.gql'
 import * as types from './mutation-types'
 import Swal from 'sweetalert2'
 
