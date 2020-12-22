@@ -1,6 +1,11 @@
 import * as types from './mutation-types'
 
 export default {
+    [types.SET_USER](state, data){
+        console.log("pass in data", data)
+        state.user_info.first =  data.username.split(' ')[0]
+        state.user_info.last = data.username.split(' ')[1]
+    },
     [types.SET_FIRST](state, data){
         state.user_info.first = data
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="getSuccessVerify" align="center">
+  <v-row v-if="auth" align="center">
     <v-col class="hidden-md-and-up">
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>{{ menu }}</v-icon>
@@ -97,7 +97,10 @@ import * as icon from '@mdi/js'
       },
       computed: {
         ...mapGetters('admin', ['sidebar', 'user']),
-        ...mapGetters('authentication', ['getSuccessVerify'])
+        auth(){
+          if(this.$cookies.get('album_access_token')) return true
+          else return false
+        }
       },
       methods: {
         ...mapActions('authentication', ['logout']),

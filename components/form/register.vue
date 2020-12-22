@@ -69,7 +69,7 @@ import * as icon from '@mdi/js'
             }
          },
          computed:{
-            ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
+            ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
          },
          methods:{
             ...mapActions('authentication', ['verify_signup', 'signup']),
@@ -101,7 +101,7 @@ import * as icon from '@mdi/js'
                                 },
                                 preConfirm: async (value) => {
                                     await this.signup(value)
-                                    if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
+                                    if(this.getToken.id) return this.$router.push(`/user/${this.getToken.id}/dashboard/self1`)
                                 }
                             })
                         }

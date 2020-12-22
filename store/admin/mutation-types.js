@@ -1,3 +1,5 @@
+export const SET_USER = 'SET_USER'
+
 export const SET_FIRST = 'SET_FIRST'
 
 export const SET_LAST = 'SET_LAST'

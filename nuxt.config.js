@@ -64,6 +64,9 @@ export default {
       default: {
         // httpEndpoint: 'https://rickandmortyapi.com/graphql/',
         httpEndpoint: 'http://localhost:3001/graphql',
+        httpLinkOptions: {
+          credentials: 'include'
+        },
       }
     }
   },

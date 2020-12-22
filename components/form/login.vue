@@ -103,7 +103,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters('authentication', ['getSuccessVerify', 'getUser', 'getResetStatus']),
+        ...mapGetters('authentication', ['getSuccessVerify', 'getToken', 'getResetStatus']),
     },
     methods:{
         ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
@@ -134,8 +134,9 @@ export default {
                                 }
                             },
                             preConfirm: async (value) => {
+                                console.log("this is preconfirm", value)
                                 await this.fetchToken(value)
-                                if(this.getUser.id) return this.$router.push(`/user/${this.getUser.id}/dashboard/self1`)
+                                if(this.getToken.id) return this.$router.push(`/user/${this.getToken.id}/dashboard/self1`)
                             }
                         })
                     }

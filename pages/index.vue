@@ -25,7 +25,7 @@
 
                 {{getbook}}
                 {{getSuccessVerify}}
-                {{getUser}}
+                {{getToken}}
 
             </v-col>
         </v-row>
@@ -61,7 +61,7 @@ import * as icon from '@mdi/js'
                 c2: 'module'
             }),
             ...mapGetters('books', ['getbook']),
-            ...mapGetters('authentication', ['getSuccessVerify', 'getUser'])
+            ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
         },
         methods:{
             ...mapMutations('modA', {
