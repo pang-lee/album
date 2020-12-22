@@ -1,6 +1,7 @@
 mutation login($code: String!){
    login(code: $code){
     id
-    token
+    access_token
+    refresh_token
   }
 }

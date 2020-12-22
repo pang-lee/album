@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="auth" align="center">
+  <v-row v-if="getSuccessVerify" align="center">
     <v-col class="hidden-md-and-up">
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>{{ menu }}</v-icon>
@@ -97,10 +97,7 @@ import * as icon from '@mdi/js'
       },
       computed: {
         ...mapGetters('admin', ['sidebar', 'user']),
-        auth(){
-          if(this.$cookies.get('jwt')) return true
-          else return false
-        }
+        ...mapGetters('authentication', ['getSuccessVerify'])
       },
       methods: {
         ...mapActions('authentication', ['logout']),

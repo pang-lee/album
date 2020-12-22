@@ -4,6 +4,7 @@ mutation signup($code: String!){
     username
   	email
     password
-    token
+    access_token
+    refresh_token
   }
 }

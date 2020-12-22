@@ -41,13 +41,17 @@ export default{
                 }
             })
             commit(types.SET_USER, response.data.login)
-            this.app.$cookies.set('jwt', response.data.login.token)
-            this.app.$cookies.set('expirationDate', new Date().getTime() + 1000*60*60*24)
+            this.app.$cookies.set('album_access_token', response.data.login.access_token)
+            this.app.$cookies.set('album_access_token_expirationDate', new Date().getTime() + 1000 * 60 * 60 * 24)
+            this.app.$cookies.set('album_refresh_token', response.data.login.refresh_token)
+            this.app.$cookies.set('album_refresh_token_expirationDate', new Date().getTime() + 1000 * 60 * 60 * 24)
             setTimeout(() => {
                 commit(types.SET_VERIFY, false)
-                this.app.$cookies.remove('jwt')
-                this.app.$cookies.remove('expirationDate')
-            }, 1000*60*60*24)
+                this.app.$cookies.remove('album_access_token')
+                this.app.$cookies.remove('access_album_access_token_expirationDate')
+                this.app.$cookies.remove('album_refresh_token')
+                this.app.$cookies.remove('album_refresh_token_expirationDate')
+            }, 1000 * 60 * 60 * 24)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -99,7 +103,7 @@ export default{
                 commit(types.SET_VERIFY, false)
                 this.app.$cookies.remove('jwt')
                 this.app.$cookies.remove('expirationDate')
-            }, 1000*60*60*24)
+            }, 1000 * 60 * 60 * 24 )
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -134,28 +138,36 @@ export default{
     },
     async initAuth({ commit, dispatch }, params){
         try {
-            let token
-            let expirationDate
-            if (params) {
+            let access_token
+            let access_token_expirationDate
+            let refresh_token
+            let refresh_token_expirationDate
+
+            if(params){
                 if (!params.headers.cookie) return null
-                const jwtCookie = params.headers.cookie.split(';').find((c) => c.trim().startsWith('jwt='))
-                if (!jwtCookie) return null
-                token = jwtCookie.split('=')[1]
-                expirationDate = params.headers.cookie.split(';').find((c) => c.trim().startsWith('expirationDate=')).split('=')[1]
+                let accessCookie = params.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token='))
+                let refreshCookie = params.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token='))
+                if (!accessCookie || !refreshCookie) return null
+                access_token = accessCookie.split('=')[1]
+                refresh_token = refreshCookie.split('=')[1]
+                access_token_expirationDate =  params.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token_expirationDate=')).split('=')[1]
+                refresh_token_expirationDate =  params.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token_expirationDate=')).split('=')[1]
             }
-            if (new Date().getTime() > Number.parseInt(expirationDate) || !token) return dispatch('logout')
+            if (new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token) return dispatch('logout')
             commit(types.SET_VERIFY, true)
         } catch (error) {
-            console.log(error)
+            console.log('authentication initAuth error', error)
         }
     },
     async logout({ commit }){
         try {
             commit(types.SET_VERIFY, false)
-            this.app.$cookies.remove('jwt')
-            this.app.$cookies.remove('expirationDate')            
+            this.app.$cookies.remove('album_access_token')
+            this.app.$cookies.remove('album_access_token_expirationDate')
+            this.app.$cookies.remove('album_refresh_token')
+            this.app.$cookies.remove('album_refresh_token_expirationDate')
         } catch (error) {
-            console.log(error)
+            console.log('authentication logout error', error)
         }
     }
 }
