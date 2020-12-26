@@ -5,12 +5,18 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
     export default {
         computed:{
             ...mapGetters('upload', ['getImage'])
-        }
+        },
+        methods: {
+            ...mapActions('upload', ['fetchImg'])
+        },
+        created() {
+            this.fetchImg()
+        },
     }
 </script>
 

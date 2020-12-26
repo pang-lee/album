@@ -1,10 +1,8 @@
 mutation signup($code: String!){
   signup(code: $code){
-    id
-    username
-  	email
-    password
-    access_token
+		access_token
     refresh_token
+    access_token_expirationDate
+    refresh_token_expirationDate
   }
 }

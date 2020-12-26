@@ -4,19 +4,22 @@ import gql from 'graphql-tag'
 export default{
     async fetchMe({ commit }, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.query({
+            const user = await this.app.apolloProvider.defaultClient.query({
                 query:gql`
                     query {
                         getMe{
-                            email
-                            password
+                            id
                             username
+                            gender
+                            birthday
                         }
                     }
                 `
             })
-            console.log("This is response data getMe", response.data)
-            commit(types.SET_USER, response.data.getMe)
+            const img = await this.$axios.get()
+            console.log("This is img", img.data)
+            console.log("This is response data getMe", user.data)
+            commit(types.SET_USER, user.data.getMe)
         } catch (error) {
             console.log("admin fetchMe error" ,error)
         }

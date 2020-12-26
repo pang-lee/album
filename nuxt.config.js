@@ -62,16 +62,18 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        // httpEndpoint: 'https://rickandmortyapi.com/graphql/',
-        httpEndpoint: 'http://localhost:3001/graphql',
+        // httpEndpoint: 'http://localhost:3001/graphql',
+        httpEndpoint: process.env.GRAPHQL_URL,
         httpLinkOptions: {
           credentials: 'include'
-        },
+        }
       }
     }
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: process.env.AXIOS_URL
+  },
 
   // Content module configuration (https://go.nuxtjs.dev/content-config)
   content: {},

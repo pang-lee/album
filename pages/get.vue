@@ -2,6 +2,8 @@
     <div>
         {{user}}
         <v-btn @click="fetchMe()">123</v-btn>
+        <!-- <v-img :src=""></v-img> -->
+
     </div>
 </template>
 

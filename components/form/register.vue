@@ -69,7 +69,8 @@ import * as icon from '@mdi/js'
             }
          },
          computed:{
-            ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
+            ...mapGetters('authentication', ['getSuccessVerify'])
+            // ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
          },
          methods:{
             ...mapActions('authentication', ['verify_signup', 'signup']),
