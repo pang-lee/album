@@ -15,7 +15,7 @@
     export default {
         data(){
             return{
-                url: 'http://localhost:3001/upload',
+                url: 'http://localhost:3001/upload/avatar',
                 upload: {
                     src:''
                 }

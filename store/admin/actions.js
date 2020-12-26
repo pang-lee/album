@@ -16,8 +16,8 @@ export default{
                     }
                 `
             })
-            const img = await this.$axios.get()
-            console.log("This is img", img.data)
+            const img = await this.$axios.$get('/upload')
+            console.log("This is img", img)
             console.log("This is response data getMe", user.data)
             commit(types.SET_USER, user.data.getMe)
         } catch (error) {
