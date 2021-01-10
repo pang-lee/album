@@ -1,7 +1,7 @@
 <template>
     <div>
         <client-only>
-            <vue-core-image-upload :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="url">
+            <vue-core-image-upload :crop="false" inputOfFile="test" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="url">
                 <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
             </vue-core-image-upload>
         </client-only>
