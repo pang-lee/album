@@ -1,18 +1,12 @@
 const state = () => ({
     user_info: {
+        id: '',
         avatar: '',
         first: '',
         last: '',
         gender: '',
         date: ''
     },
-    // user_info: {
-    //     avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-    //     first: 'John',
-    //     last: 'Doe',
-    //     gender: 'Male',
-    //     date: new Date().toISOString().substr(0, 10)
-    // },
     sidebar_status: 'Dashboard'
 })
 

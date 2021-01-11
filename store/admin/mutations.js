@@ -1,9 +1,8 @@
 import * as types from './mutation-types'
 
 export default {
-    [types.SET_USER](state, data){
-        state.user_info.first =  data.username.split(' ')[0]
-        state.user_info.last = data.username.split(' ')[1]
+    [types.SET_ID](state, data){
+        state.user_info.id = data
     },
     [types.SET_AVATAR](state, data){
         state.user_info.avatar = data

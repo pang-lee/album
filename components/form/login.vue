@@ -104,10 +104,11 @@ export default {
     },
     computed:{
         ...mapGetters('authentication', ['getSuccessVerify', 'getResetStatus']),
-        // ...mapGetters('authentication', ['getSuccessVerify', 'getToken', 'getResetStatus']),
+        ...mapGetters('admin', ['user'])
     },
     methods:{
         ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
+        ...mapActions('admin', ['fetchMe']),
         submit(){
             this.$validate()
                 .then((success) => {
@@ -136,7 +137,8 @@ export default {
                             },
                             preConfirm: async (value) => {
                                 await this.fetchToken(value)
-                                if(this.getToken.id) return this.$router.push(`/user/${this.getToken.id}/dashboard/self1`)
+                                await this.fetchMe()
+                                if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
                             }
                         })
                     }

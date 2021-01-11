@@ -18,7 +18,7 @@
           <v-list-item @click.prevent="profile('mobile')">
             <div class="d-flex">
               <v-list-item-avatar>
-                <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="avatar"></v-img>
+                <v-img :src="user.avatar" alt="avatar"></v-img>
               </v-list-item-avatar>
               <div class="text-h6 mt-3">{{ user.first }} {{ user.last }}</div>
             </div>
@@ -49,7 +49,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-avatar size="60" class="ml-2" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="avatar">
+            <v-img :src="user.avatar" alt="avatar"></v-img>
           </v-avatar>
         </template>
         <span>{{ user.first }} {{ user.last }}</span>

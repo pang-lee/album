@@ -69,11 +69,14 @@ import * as icon from '@mdi/js'
             }
          },
          computed:{
-            ...mapGetters('authentication', ['getSuccessVerify'])
+            ...mapGetters('authentication', ['getSuccessVerify']),
+            ...mapGetters('admin', ['user'])
+
             // ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
          },
          methods:{
             ...mapActions('authentication', ['verify_signup', 'signup']),
+            ...mapActions('admin', ['fetchMe']),
             submit(){
                 this.$validate()
                     .then((success) => {
@@ -102,7 +105,8 @@ import * as icon from '@mdi/js'
                                 },
                                 preConfirm: async (value) => {
                                     await this.signup(value)
-                                    if(this.getToken.id) return this.$router.push(`/user/${this.getToken.id}/dashboard/self1`)
+                                    await this.fetchMe()
+                                    if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
                                 }
                             })
                         }
