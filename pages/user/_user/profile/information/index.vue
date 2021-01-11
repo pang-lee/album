@@ -12,7 +12,9 @@
                 <v-row align="center" justify="center" no-gutters>
                   <v-col cols="4" sm="2" md="1">
                     <v-avatar size="36px">
-                      <v-img v-if="message.avatar" alt="Avatar" :src="message.avatar"></v-img>
+                      <client-only v-if="message.avatar">
+                        <v-img alt="Avatar" :src="message.avatar"></v-img>
+                      </client-only>
                       <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                     </v-avatar>
                   </v-col>

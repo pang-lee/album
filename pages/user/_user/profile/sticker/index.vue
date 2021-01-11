@@ -37,7 +37,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import * as icon from '@mdi/js'
+
   export default {
     name: 'sticker',
     layout: 'user',
@@ -73,6 +75,9 @@ import * as icon from '@mdi/js'
           height: 0
         }
       }
+    },
+    computed:{
+      ...mapGetters('admin', ['user'])
     },
     methods: {
       toggleShowAvatar() {

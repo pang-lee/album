@@ -13,11 +13,11 @@
     "@nnm/page-translator": "^1.1.1",
     "@nuxt/content": "^1.11.1",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
-    "@nuxtjs/axios": "^5.12.4",
+    "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/pwa": "^3.3.3",
+    "@nuxtjs/pwa": "^3.3.4",
     "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.8.1",
+    "core-js": "^3.8.2",
     "filepond": "^4.25.1",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.14.12",
@@ -31,12 +31,13 @@
     "vue-image-crop-upload": "^2.5.0",
     "vue-social-chat": "^0.1.6",
     "vue-social-sharing": "^3.0.4",
-    "vue2-perfect-scrollbar": "^1.5.0"
+    "vue2-perfect-scrollbar": "^1.5.0",
+    "vuex-persistedstate": "^4.0.0-beta.2"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",
     "fibers": "^5.0.0",
-    "sass": "^1.30.0",
+    "sass": "^1.32.2",
     "sass-loader": "^10.1.0"
   }
 }
