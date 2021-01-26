@@ -6,27 +6,27 @@
         <v-divider></v-divider>
         <br/>
         <client-only>
-          <upload field="img" @crop-success="cropSuccessAvatar" @crop-upload-success="cropUploadSuccessAvatar" @crop-upload-fail="cropUploadFailAvatar" v-model="avatar.show" url="/upload" :params="avatar.params" :headers="avatar.headers" img-format="jpg"></upload>
-          <upload field="img" @crop-success="cropSuccessBackground" @crop-upload-success="cropUploadSuccessBackground" @crop-upload-fail="cropUploadFailBackground" v-model="background.show" :width="(window.width) / 1.8" :height="(window.height) / 1.8" url="/upload" :params="background.params" :headers="background.headers" img-format="jpg"></upload>
-        </client-only>
+          <upload field="avatar" :withCredentials="true" @crop-success="cropSuccessAvatar" @crop-upload-success="cropUploadSuccessAvatar" @crop-upload-fail="cropUploadFailAvatar" v-model="avatar.show" url="http://localhost:3001/upload/avatar" img-format="jpg"></upload>
+          <upload field="background" @crop-success="cropSuccessBackground" @crop-upload-success="cropUploadSuccessBackground" @crop-upload-fail="cropUploadFailBackground" v-model="background.show" url="/upload" img-format="jpg"></upload>
 
-	      <v-img :src="background.imgDataUrl" aspect-ratio="1.6">
-          <div class="d-flex justify-center">
-            <v-avatar color="white" size="160">
-              <v-avatar v-if="avatar.imgDataUrl" size="150">
-                <v-img :src="avatar.imgDataUrl"></v-img>
+	        <v-img :src="background.imgDataUrl" aspect-ratio="1.6">
+            <div class="d-flex justify-center">
+              <v-avatar color="white" size="160">
+                <v-avatar v-if="avatar.imgDataUrl" size="150">
+                  <v-img :src="avatar.imgDataUrl"></v-img>
+                </v-avatar>
+                <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
               </v-avatar>
-              <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
-            </v-avatar>
-          </div>
-        </v-img>
+            </div>
+          </v-img>
+        </client-only>
         <v-card-text>
           <v-divider></v-divider>
           <div class="d-flex justify-center justify-space-around mt-5">
-            <v-btn outlined color="primary" @click="toggleShowAvatar('avatar')">
+            <v-btn outlined color="primary" @click="avatar.show = !avatar.show">
               <v-icon>{{ setAvatar }}</v-icon>&nbsp;<span class="hidden-sm-and-down">set avatar</span>
             </v-btn>
-            <v-btn outlined color="primary" @click="toggleShowBackground('background')">
+            <v-btn outlined color="primary" @click="background.show = !background.show">
               <v-icon>{{ setBackground }}</v-icon>&nbsp;<span class="hidden-sm-and-down">set background</span>
             </v-btn>
           </div>          
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import * as icon from '@mdi/js'
 
   export default {
@@ -50,55 +50,44 @@ import * as icon from '@mdi/js'
         defaultAvatar: icon.mdiAccountCircle,
         avatar: {
           show: false,
-			    params: {
-			  	  token: '123456798',
-			  	  name: 'avatar'
-			    },
-			    headers: {
-			  	  smail: '*_~'
-			    },
-          imgDataUrl: '',
+          imgDataUrl: ''
         },
         background: {
           show: false,
-			    params: {
-			  	  token: '987654321',
-			  	  name: 'background'
-			    },
-			    headers: {
-			  	  smail: '*_~'
-			    },
+			    // params: {
+			  	//   token: '987654321',
+			  	//   name: 'background'
+			    // },
+			    // headers: {
+			  	//   smail: '*_~'
+			    // },
           imgDataUrl: 'https://cdn.vuetifyjs.com/images/cards/house.jpg',
         },
-        window: {
-          width: 0,
-          height: 0
-        }
+        // window: {
+        //   width: 0,
+        //   height: 0
+        // }
       }
     },
     computed:{
       ...mapGetters('admin', ['user'])
     },
     methods: {
-      toggleShowAvatar() {
-        this.avatar.show = !this.avatar.show
-			},
+      ...mapMutations('admin', ['SET_AVATAR']),
 			cropSuccessAvatar(imgDataUrl, field){
         console.log('-------- crop success --------')
-        this.avatar.imgDataUrl = imgDataUrl;
+        this.avatar.imgDataUrl = imgDataUrl
 			},
 			cropUploadSuccessAvatar(jsonData, field){
 				console.log('-------- upload success --------');
 				console.log(jsonData);
-				console.log('field: ' + field);
+        console.log('field: ' + field);
+        this.SET_AVATAR(window.URL.createObjectURL(new Blob([jsonData], { type: 'image/*' })))
 			},
 			cropUploadFailAvatar(status, field){
 				console.log('-------- upload fail --------');
 				console.log('field: ' + field);
       },
-      toggleShowBackground() {
-        this.background.show = !this.background.show;
-			},
 			cropSuccessBackground(imgDataUrl, field){
         console.log('-------- crop success --------')
         this.background.imgDataUrl = imgDataUrl;
@@ -112,22 +101,26 @@ import * as icon from '@mdi/js'
 				console.log('-------- upload fail --------');
 				console.log('field: ' + field);
       },
-      handleResize() {
-        this.window.width = window.innerWidth
-        this.window.height = window.innerHeight
-      }
+      // handleResize() {
+      //   this.window.width = window.innerWidth
+      //   this.window.height = window.innerHeight
+      // }
     },
-    created() {
-      if(process.client){
-        window.addEventListener('resize', this.handleResize)
-        this.handleResize()          
-      }
-    },
-    destroyed() {
-      if(process.client){
-        window.removeEventListener('resize', this.handleResize)
-      }
+    created(){
+      this.avatar.imgDataUrl = this.user.avatar
     }
+    // created() {
+      // if(process.client){
+    //     window.addEventListener('resize', this.handleResize)
+    //     this.handleResize()
+        // this.avatar.imgDataUrl = this.user.avatar
+      // }
+    // },
+    // destroyed() {
+    //   if(process.client){
+    //     window.removeEventListener('resize', this.handleResize)
+    //   }
+    // }
   }
 </script>
 

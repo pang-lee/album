@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
 
@@ -218,7 +218,7 @@ import * as icon from '@mdi/js'
     },
     methods: {
       ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE'])
-    },
+    }
   }
 </script>
 

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-
+import {mapGetters} from 'vuex'
     export default {
         data(){
             return{
@@ -20,6 +20,9 @@
                     src:''
                 }
             }
+        },
+        computed:{
+            ...mapGetters('admin', ['user'])
         },
         methods: {
             // ...mapActions('upload', ['fetchSave']),

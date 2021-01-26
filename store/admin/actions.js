@@ -2,7 +2,7 @@ import * as types from './mutation-types'
 import gql from 'graphql-tag'
 
 export default{
-    async fetchMe({ commit, dispatch }, params){
+    async fetchMe({ commit, dispatch }, _){
         try {
             const user = await this.app.apolloProvider.defaultClient.query({
                 query:gql`
@@ -26,9 +26,9 @@ export default{
             console.log("admin fetchMe error" ,error)
         }
     },
-    async fetchImage({ commit }, params){
+    async fetchImage({ commit }, _){
         try {
-            const img = await this.$axios.$get('/upload', { responseType: 'blob' })
+            const img = await this.$axios.$get('/upload/avatar', { responseType: 'blob' })
             commit(types.SET_AVATAR, window.URL.createObjectURL(new Blob([img], { type: 'image/*' })))
             // const reader = new FileReader()
             // reader.readAsDataURL(new Blob([img], { type: 'image/*' }))

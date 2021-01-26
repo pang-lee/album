@@ -46,7 +46,7 @@
         </v-list>
       </v-card>
     </v-dialog>
-
+    
     <v-col class="hidden-sm-and-down">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import * as icon from '@mdi/js'
 
     export default {
@@ -123,7 +123,7 @@ import * as icon from '@mdi/js'
           if(device == 'mobile') this.drawer = !this.drawer
           return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
         }
-      },
+      }
     }
 </script>
 
