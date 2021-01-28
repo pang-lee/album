@@ -6,6 +6,7 @@ const state = () => ({
         last: '',
         gender: '',
         date: ''
+        // background: '',
     },
     sidebar_status: 'Dashboard'
 })

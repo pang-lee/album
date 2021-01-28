@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
     export default {
         name: 'sidenav',

@@ -7,6 +7,7 @@ export default {
     [types.SET_AVATAR](state, data){
         state.user_info.avatar = data
     },
+
     [types.SET_FIRST](state, data){
         state.user_info.first = data
     },
@@ -22,4 +23,8 @@ export default {
     [types.SET_SIDEBAR_STATUS](state, data){
         state.sidebar_status = data
     }
+    // Background mutation
+    // [types.SET_BACKGROUND](state, data){
+    //     state.user_info.background = data
+    // },
 }

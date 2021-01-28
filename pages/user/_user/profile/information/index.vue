@@ -13,7 +13,8 @@
                   <v-col cols="4" sm="2" md="1">
                     <v-avatar size="36px">
                       <client-only v-if="message.avatar">
-                        <v-img alt="Avatar" :src="message.avatar"></v-img>
+                        <v-icon v-if="message.avatar == 'empty'" color="black">{{ message.icon }}</v-icon>
+                        <v-img v-else :src="message.avatar" alt="Avatar"></v-img>
                       </client-only>
                       <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                     </v-avatar>
@@ -161,8 +162,9 @@ import * as icon from '@mdi/js'
       messages(){
         return [
           {
-            avatar: this.user.avatar,
-            name: `${this.user.first} ${this.user.last}`
+            avatar: this.user.avatar ? this.user.avatar : 'empty',
+            name: `${this.user.first} ${this.user.last}`,
+            icon: icon.mdiAccountCircle,
           },
           {
             color: 'red',

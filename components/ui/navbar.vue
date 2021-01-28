@@ -19,7 +19,8 @@
             <div class="d-flex">
               <v-list-item-avatar>
                 <client-only>
-                  <v-img :src="user.avatar" alt="avatar"></v-img>
+                  <v-img v-if="user.avatar" :src="user.avatar" alt="avatar"></v-img>
+                  <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
                 </client-only>
               </v-list-item-avatar>
               <div class="text-h6 mt-3">{{ user.first }} {{ user.last }}</div>
@@ -52,7 +53,8 @@
         <template v-slot:activator="{ on, attrs }">
           <v-avatar size="60" class="ml-2" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
           <client-only>
-            <v-img :src="user.avatar" alt="avatar"></v-img>
+            <v-img v-if="user.avatar" :src="user.avatar" alt="avatar"></v-img>
+            <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
           </client-only>
           </v-avatar>
         </template>
@@ -90,6 +92,7 @@ import * as icon from '@mdi/js'
           menu: icon.mdiMenu,
           close: icon.mdiClose,
           chevron: icon.mdiChevronDown,
+          defaultAvatar: icon.mdiAccountCircle,
           drawer: false,
           links: [
             { target: 'Dashboard', route: '/dashboard/self1', icon: icon.mdiViewDashboardOutline },

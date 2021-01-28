@@ -11,3 +11,5 @@ export const SET_GENDER = 'SET_GENDER'
 export const SET_DATE = 'SET_DATE'
 
 export const SET_SIDEBAR_STATUS = 'SET_SIDEBAR_STATUS'
+
+export const SET_BACKGROUND = 'SET_BACKGROUND'
