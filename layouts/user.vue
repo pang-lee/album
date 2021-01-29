@@ -45,33 +45,23 @@ import * as icon from '@mdi/js'
       return {
         attendants: [
           {
-            app: 'whatsapp',
-            label: 'Support',
-            name: 'Alan Ktquez',
-            number: 'YOUR_PHONE_NUMBER',
+            app: 'messenger',
+            label: 'Technical support',
+            name: 'Chiang Young',
+            id: '100010979950960',
             avatar: {
               src: 'https://avatars0.githubusercontent.com/u/8084606?s=460&u=20b6499a416cf7129a18e5c168cf387e159edb1a&v=4',
-              alt: 'Avatar Support Alan Ktquez'
+              alt: 'Chiang Young avatar'
             }
           },
           {
             app: 'messenger',
             label: 'Technical support',
-            name: 'Alan Ktquez',
-            id: 'YOUR_FACEBOOK_ID',
+            name: 'Pang',
+            id: '101317471923604',
             avatar: {
               src: 'https://avatars0.githubusercontent.com/u/8084606?s=460&u=20b6499a416cf7129a18e5c168cf387e159edb1a&v=4',
-              alt: 'Alan Ktquez avatar'
-            }
-          },
-          {
-            app: 'twitter',
-            label: 'Human Resources',
-            name: 'Alan Ktquez',
-            id: 'YOUR_TWITTER_ID',
-            avatar: {
-              src: 'https://avatars0.githubusercontent.com/u/8084606?s=460&u=20b6499a416cf7129a18e5c168cf387e159edb1a&v=4',
-              alt: 'Avatar Support Alan Ktquez'
+              alt: 'Pang'
             }
           }
         ],
