@@ -34,7 +34,7 @@ export default{
             })
         }
     },
-    async fetchToken({ commit }, params){
+    async fetchToken(_, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: logingql,
@@ -45,7 +45,7 @@ export default{
             this.app.$cookies.set('album_access_token', response.data.login.access_token)
             this.app.$cookies.set('album_access_token_expirationDate', response.data.login.access_token_expirationDate)
             this.app.$cookies.set('album_refresh_token', response.data.login.refresh_token)
-            this.app.$cookies.set('album_refresh_token_expirationDate', response.data.login.refresh_token_expirationDate)
+            return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.login.refresh_token_expirationDate)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -82,7 +82,7 @@ export default{
             })
         }
     },
-    async signup({ commit }, params){
+    async signup(_, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: registergql,
@@ -93,7 +93,7 @@ export default{
             this.app.$cookies.set('album_access_token', response.data.signup.access_token)
             this.app.$cookies.set('album_access_token_expirationDate', response.data.signup.access_token_expirationDate)
             this.app.$cookies.set('album_refresh_token', response.data.signup.refresh_token)
-            this.app.$cookies.set('album_refresh_token_expirationDate', response.data.signup.refresh_token_expirationDate)
+            return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.signup.refresh_token_expirationDate)
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
@@ -116,6 +116,7 @@ export default{
             if(response.data.forget !== '') return commit(types.SET_PASSWORD, true)
             else return commit(types.SET_PASSWORD, false)
         } catch (error) {
+            commit(types.SET_PASSWORD, false)
             let displayError
             if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found!'
             return Swal.fire({

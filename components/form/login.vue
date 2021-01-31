@@ -109,43 +109,34 @@ export default {
     methods:{
         ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
         ...mapActions('admin', ['fetchMe']),
-        submit(){
-            this.$validate()
-                .then((success) => {
-                    if(success){
-                        return this.verify_login(this.login)
-                    }else{
-                        return Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Look like you miss something!',
-                            timer: 3000,
-                        })
-                    }
-                }).then(() => {
-                    if(this.getSuccessVerify == true){
-                        return Swal.fire({
-                            title: 'Enter your Verification code',
-                            input: 'text',
-                            allowOutsideClick: false,
-                            showCloseButton:true,
-                            inputPlaceholder: 'Code Number',
-                            inputValidator: (value) => {
-                                if (!value) {
-                                    return 'You need to write something!'
-                                }
-                            },
-                            preConfirm: async (value) => {
-                                await this.fetchToken(value)
-                                await this.fetchMe()
-                                if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
-                            }
-                        })
-                    }
-                })
+        async submit(){
+            let result = await this.$validate()
+            if(result) await this.verify_login(this.login)
+            else return Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Look like you miss something!',
+                timer: 3000
+            })
+            if(this.getSuccessVerify == true) return Swal.fire({
+                title: 'Enter your Verification code',
+                input: 'text',
+                allowOutsideClick: false,
+                showCloseButton:true,
+                inputPlaceholder: 'Code Number',
+                inputValidator: (value) => {
+                    if (!value) return 'You need to write something!'
+                },
+                preConfirm: async (value) => {
+                    await this.fetchToken(value)
+                    if(this.$cookies.getAll().length == 0) return
+                    await this.fetchMe()
+                    if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
+                }
+            })
         },
         async forget_password(){
-            const { value: email } = await Swal.fire({
+            return await Swal.fire({
                 type: 'question',
                 title: 'Reset Your Password',
                 input: 'email',

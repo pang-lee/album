@@ -17,13 +17,13 @@
         </v-form>
         <v-card-actions>
         <v-spacer/>
-            <v-btn color="primary" @click="submit">Register</v-btn>
+            <v-btn color="primary" @click="submit()">Register</v-btn>
         </v-card-actions>
     </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
@@ -50,8 +50,8 @@ import * as icon from '@mdi/js'
                 show1:false,
                 show2:false
             }
-         },
-         validators:{
+        },
+        validators:{
             'register.first'(value){
                 return Validator.value(value).required()
             },
@@ -67,52 +67,41 @@ import * as icon from '@mdi/js'
             'register.confirm, register.password'(password, confirm){
                 return Validator.value(confirm).required().match(password)
             }
-         },
-         computed:{
+        },
+        computed:{
             ...mapGetters('authentication', ['getSuccessVerify']),
             ...mapGetters('admin', ['user'])
-
-            // ...mapGetters('authentication', ['getSuccessVerify', 'getToken'])
-         },
-         methods:{
+        },
+        methods:{
             ...mapActions('authentication', ['verify_signup', 'signup']),
             ...mapActions('admin', ['fetchMe']),
-            submit(){
-                this.$validate()
-                    .then((success) => {
-                        if(success){
-                            return this.verify_signup(this.register)
-                        }else{
-                            Swal.fire({
-                                type: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
-                                timer: 3000,
-                            })
-                        }
-                    }).then(() => {
-                        if(this.getSuccessVerify == true){
-                            return Swal.fire({
-                                title: 'Enter your Verification code',
-                                input: 'text',
-                                allowOutsideClick: false,
-                                showCloseButton:true,
-                                inputPlaceholder: 'Code Number',
-                                inputValidator: (value) => {
-                                  if (!value) {
-                                    return 'You need to write something!'
-                                  }
-                                },
-                                preConfirm: async (value) => {
-                                    await this.signup(value)
-                                    await this.fetchMe()
-                                    if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
-                                }
-                            })
-                        }
-                    })
-             }
-         }
+            async submit(){
+                let result = await this.$validate()
+                if(result) await this.verify_signup(this.register)
+                else return Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Look like you miss something!',
+                    timer: 3000
+                })
+                if(this.getSuccessVerify == true) return Swal.fire({
+                    title: 'Enter your Verification code',
+                    input: 'text',
+                    allowOutsideClick: false,
+                    showCloseButton:true,
+                    inputPlaceholder: 'Code Number',
+                    inputValidator: (value) => {
+                      if (!value) return 'You need to write something!'
+                    },
+                    preConfirm: async (value) => {
+                        await this.signup(value)
+                        if(this.$cookies.getAll().length == 0) return
+                        await this.fetchMe()
+                        if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
+                    }
+                })
+            }
+        }
     }
 </script>
 
