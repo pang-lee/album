@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
 import Swal from 'sweetalert2'

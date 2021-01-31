@@ -1,5 +1,10 @@
+import changename from '~/static/gql/setname.gql'
+import resetpassword from '~/static/gql/resetpassword.gql'
+import changegender from '~/static/gql/gender.gql'
+import changedate from '~/static/gql/date.gql'
 import * as types from './mutation-types'
 import gql from 'graphql-tag'
+import Swal from 'sweetalert2'
 
 export default{
     async fetchMe({ commit, dispatch }, _){
@@ -49,6 +54,77 @@ export default{
         } catch (error) {
             console.log('fetch image error', error)
         }
-
+    },
+    async setname({ getters }, params){
+        try {
+            let response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: changename,
+                variables: {
+                    "name": params
+                }
+            })
+            return Swal.fire({
+                title: getters.user.first + ' ' + getters.user.last,
+                type: 'info',
+                text: `${response.data.set_username}`,
+                timer: 3000,
+            })
+        } catch (error) {
+            console.log('set name error', error)
+        }        
+    },
+    async resetpassword(_, params){
+        try {
+            let response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: resetpassword,
+                variables:{
+                    "password": params
+                }
+            })
+            return Swal.fire({
+                title: 'Successfully Update',
+                type: 'info',
+                text: `${response.data.set_password}`,
+                timer: 3000,
+            })
+        } catch (error) {
+            console.log('reset password error', error)
+        }
+    },
+    async setgender(_, params){
+        try {
+            let response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: changegender,
+                variables: {
+                    "gender": params
+                }
+            })
+            return Swal.fire({
+                title: 'Successfully Update',
+                type: 'info',
+                text: `${response.data.set_gender}`,
+                timer: 3000,
+            })
+        } catch (error) {
+            console.log('This is set gender error', error)
+        }
+    },
+    async setdate(_, params){
+        try {
+            let response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: changedate,
+                variables: {
+                    "date": params
+                }
+            })
+            return Swal.fire({
+                title: 'Successfully Update',
+                type: 'info',
+                text: `${response.data.set_date}`,
+                timer: 3000,
+            })
+        } catch (error) {
+            console.log('This is set date error', error)
+        }
     }
 }

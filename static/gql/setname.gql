@@ -1,0 +1,3 @@
+mutation changename($name: String!){
+  set_username(name: $name)
+}

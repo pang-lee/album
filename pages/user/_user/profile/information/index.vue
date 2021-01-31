@@ -40,7 +40,7 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary">Save</v-btn>
+                    <v-btn outlined color="primary" @click="set_name()">Save</v-btn>
                   </div>
                 </v-card-text>
 
@@ -54,7 +54,7 @@
                     </div>               
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
-                      <v-btn outlined color="primary">Save</v-btn>
+                      <v-btn outlined color="primary" @click="reset_password()">Save</v-btn>
                     </div>
                   </div>
 
@@ -79,7 +79,7 @@
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn color="red" outlined @click="mobile_reset = false">Cancel</v-btn>
-                          <v-btn color="primary" outlined @click="mobile_reset = false">Save</v-btn>
+                          <v-btn color="primary" outlined @click="reset_password('mobile')">Save</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
@@ -96,7 +96,7 @@
                   </v-dialog>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary">Save</v-btn>
+                    <v-btn outlined color="primary" @click="set_date()">Save</v-btn>
                   </div>
                 </v-card-text>
 
@@ -109,7 +109,7 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary">Save</v-btn>
+                    <v-btn outlined color="primary" @click="set_gender()">Save</v-btn>
                   </div>
                 </v-card-text>
               </v-expansion-panel-content>
@@ -122,9 +122,10 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
+import Swal from 'sweetalert2'
 
   export default {
     name: 'information',
@@ -142,7 +143,7 @@ import * as icon from '@mdi/js'
         nextyear: icon.mdiSkipNext,
         unchecked: icon.mdiCheckboxBlankCircleOutline,
         checked: icon.mdiCheckboxBlankCircle,
-        reset:'123456',
+        reset:'',
         mobile_reset: false,
       }
     },
@@ -219,7 +220,44 @@ import * as icon from '@mdi/js'
       }
     },
     methods: {
-      ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE'])
+      ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE']),
+      ...mapActions('admin', ['setname', 'resetpassword', 'setgender', 'setdate']),
+      async set_name(){
+        let validate = await this.$validate()
+        if(validate){
+          return this.setname(this.user.first + ' ' + this.user.last)
+        } else {
+          return Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Look like you miss something!',
+            timer: 3000,
+          })
+        }
+      },
+      async reset_password(mode){
+        let validate = await this.$validate()
+        if(validate){
+          if(mode == 'mobile'){
+            this.resetpassword(this.reset)
+            return this.mobile_reset = false            
+          }
+          return this.resetpassword(this.reset)
+        } else {
+          return Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Look like you miss something!',
+            timer: 3000,
+          })
+        }
+      },
+      async set_gender(){
+        return this.setgender(this.user.gender)
+      },
+      async set_date(){
+        return this.setdate(this.user.date)
+      }
     }
   }
 </script>

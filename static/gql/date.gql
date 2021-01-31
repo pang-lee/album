@@ -1,0 +1,3 @@
+mutation changedate($date: String!){
+  set_date(date: $date)
+}

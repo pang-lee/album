@@ -1,0 +1,3 @@
+mutation changegneder($gender: String!){
+  set_gender(gender: $gender)
+}
