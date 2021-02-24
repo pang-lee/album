@@ -111,6 +111,7 @@
                 <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
               </v-img>
               <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
+              <!-- <div class="page-text">{{book.text}}</div> -->
               <div class="page-footer">{{ n }}</div>
             </div>
           </div>
@@ -317,6 +318,24 @@ import * as icon from '@mdi/js'
       filters() {
         return { filter: Object.entries(this._data.photo).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.photo.suffix[item[0]] || ''})`).join(' ') }
       }
+    },
+    watch: {
+      'book.bookTitle': function(newValue, _){
+        this.$emit('bookTitleValue', newValue)
+      },
+      'book.header': function(newValue, _){
+        this.$emit('bookHeaderValue', newValue)
+      },
+      'book.text': function(newValue, _){
+        this.$emit('bookTextValue', newValue)
+      }
+      // book:{
+      //   handler: function(newValue, _){
+      //     this.$emit('bookValue', newValue)
+      //   },
+      //   deep: true,
+      //   immediate: false
+      // }
     },
     methods: {
       prev(){

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <book :page="page" :key="componentKey" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
+    <book :page="page" :key="componentKey" v-on:addPage="onAddPage" v-on:bookTitleValue="currentBookTitle($event)" v-on:bookHeaderValue="currentBookHeadr($event)" v-on:bookTextValue="currentBookText($event)" :mouseEvent="mouseEvent"></book>
     <br/>
     <v-divider></v-divider>
     <div class="d-flex justify-center mt-5">
       <v-btn-toggle v-model="text" tile color="primary" mandatory group>
         <v-btn @click="preview()">Preview</v-btn>
         <v-btn @click="edit()">Edit</v-btn>
-        <v-btn value="save">Save</v-btn>
+        <v-btn value="save" @click="save()">Save</v-btn>
         <v-btn value="share" @click.stop="dialog = true">Share</v-btn>
         <v-dialog v-model="dialog">
           <v-card>
@@ -46,6 +46,9 @@ import Swal from 'sweetalert2'
         text: 'preview',
         dialog: false,
         mouseEvent: true,
+        finalBookTitle:'',
+        finalBookHeader:'',
+        finalBookText:'',
         sharing: {
           url: 'https://news.vuejs.org/issues/180',
           title: 'Say hi to Vite! A brand new, extremely fast development setup for Vue.',
@@ -114,6 +117,15 @@ import Swal from 'sweetalert2'
           })
         }
       },
+      currentBookTitle(e){
+        this.finalBookTitle = e
+      },
+      currentBookHeadr(e){
+        this.finalBookHeader = e
+      },
+      currentBookText(e){
+        this.finalBookText = e
+      },
       edit(){
         this.mouseEvent = false
         this.forceRerender()
@@ -121,6 +133,9 @@ import Swal from 'sweetalert2'
       preview(){
         this.mouseEvent = true
         this.forceRerender()
+      },
+      async save(){
+        console.log(this.page)
       }
     }
   }
