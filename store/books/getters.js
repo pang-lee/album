@@ -1,3 +1,3 @@
 export default{
-    getbook: state => state.books
+    book: state => state.book_info
 }

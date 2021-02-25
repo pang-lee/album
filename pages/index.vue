@@ -17,22 +17,12 @@
             	    </keep-alive>
             	  </v-card-text>
             	</v-card>
-
-
-                {{c1}} -- c1
-                {{c2}} -- c2
-                <v-btn @click="test()">123</v-btn>
-
-                {{getbook}}
-                {{getSuccessVerify}}
-
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import register from '~/components/form/register'
 import login from '~/components/form/login'
 import * as icon from '@mdi/js'
@@ -52,29 +42,9 @@ import * as icon from '@mdi/js'
                 ]
             }
         },
-        computed:{
-            ...mapState('modA', {
-                c1: state => state.name,
-            }),
-            ...mapGetters('modA', {
-                c2: 'module'
-            }),
-            ...mapGetters('books', ['getbook']),
-            ...mapGetters('authentication', ['getSuccessVerify'])
-        },
         methods:{
-            ...mapMutations('modA', {
-                setName: 'SET_NAME' 
-            }),
-            ...mapActions('modA', ['actionModule']),
             current_form(index){
                 return index == 0 ? this.form = 'login' : this.form = 'register'
-            },
-            ...mapActions('books', ['fetchBookList']),
-            test(){
-                this.setName('change to this')
-                this.actionModule("hello")
-                this.fetchBookList()
             }
         }
     }

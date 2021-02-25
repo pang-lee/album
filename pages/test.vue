@@ -1,6 +1,6 @@
 <template>
   <div>
-    <book :page="page" :key="componentKey" v-on:addPage="onAddPage" v-on:bookTitleValue="currentBookTitle($event)" v-on:bookHeaderValue="currentBookHeadr($event)" v-on:bookTextValue="currentBookText($event)" :mouseEvent="mouseEvent"></book>
+    <book :page="page" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
     <br/>
     <v-divider></v-divider>
     <div class="d-flex justify-center mt-5">
@@ -37,6 +37,7 @@
 <script>
 import * as icon from '@mdi/js'
 import Swal from 'sweetalert2'
+import { mapGetters, mapActions } from 'vuex'
 
   export default {
     data() {
@@ -49,6 +50,7 @@ import Swal from 'sweetalert2'
         finalBookTitle:'',
         finalBookHeader:'',
         finalBookText:'',
+        isSave: false,
         sharing: {
           url: 'https://news.vuejs.org/issues/180',
           title: 'Say hi to Vite! A brand new, extremely fast development setup for Vue.',
@@ -90,6 +92,9 @@ import Swal from 'sweetalert2'
         copyLink: icon.mdiLinkVariant
       }
     },
+    computed:{
+      ...mapGetters('books', ['book'])
+    },
     methods: {
       forceRerender() {
         this.componentKey += 1
@@ -117,15 +122,6 @@ import Swal from 'sweetalert2'
           })
         }
       },
-      currentBookTitle(e){
-        this.finalBookTitle = e
-      },
-      currentBookHeadr(e){
-        this.finalBookHeader = e
-      },
-      currentBookText(e){
-        this.finalBookText = e
-      },
       edit(){
         this.mouseEvent = false
         this.forceRerender()
@@ -135,7 +131,10 @@ import Swal from 'sweetalert2'
         this.forceRerender()
       },
       async save(){
-        console.log(this.page)
+        this.mouseEvent = true
+        // if(this.page == 1) console.log('BOOKTITLE', this.finalBookTitle)
+        // else console.log(this.finalBookHeader)
+        this.isSave = !this.isSave
       }
     }
   }

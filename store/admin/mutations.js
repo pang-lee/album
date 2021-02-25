@@ -7,7 +7,6 @@ export default {
     [types.SET_AVATAR](state, data){
         state.user_info.avatar = data
     },
-
     [types.SET_FIRST](state, data){
         state.user_info.first = data
     },
