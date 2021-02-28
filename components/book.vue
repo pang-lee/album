@@ -63,7 +63,7 @@
                           <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                           <v-expansion-panel-content>
                             <br/>
-                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="server" cropRatio="2:1" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
                               <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                             </vue-core-image-upload>
                             <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
@@ -111,9 +111,7 @@
                 <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
               </v-img>
               <div class="page-text">
-                <div class="text">
-                  {{ book.text }}
-                </div>
+                <div class="text">{{ book.text }}</div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
@@ -180,7 +178,7 @@ import * as icon from '@mdi/js'
           { title: 'Update Image', href: '' },
           { title: 'Add Post Link', href: '' },
           { title: 'Add Live Stream Link', href: '' },
-          { title: 'Add Video Link', href: ''}
+          { title: 'Add Video Link', href: 'https://www.youtube.com/watch?v=ov0KsTvLs5g'}
         ],
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
@@ -263,6 +261,7 @@ import * as icon from '@mdi/js'
       }
     },
     mounted() {
+      this.upload.src = this.book.img
       this.pageFlip = new PageFlip(this.$refs.book, {
         width: 550,
         height: 733,
@@ -273,6 +272,7 @@ import * as icon from '@mdi/js'
         maxHeight: 1350,
         maxShadowOpacity: 0.5,
         showCover: true,
+        disableFlipByClick: true,
         useMouseEvents: this.mouseEvent
       })
 
