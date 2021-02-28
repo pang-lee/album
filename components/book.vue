@@ -6,7 +6,6 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
-                <!-- <input style="text-align: center;" v-model="book.bookTitle"/> -->
                 <input style="text-align: center;" v-model="title"/>
               </span>
             </div>
@@ -21,7 +20,6 @@
             </div>
           </div>
           <div v-else class="page-content">
-            <!-- <input class="page-header" type="text" v-model="book.header"/> -->
             <input class="page-header" type="text" v-model="header"/>
 
             <div v-if="!upload.src" class="page-image">
@@ -31,7 +29,7 @@
             </div>
 
             <div v-else class="page-image" @click="dialog = true">
-              <v-img :src="upload.src" aspect-ratio="1.79" :style="filters">
+              <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
                 <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
                 <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
                 <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ video }}</v-icon></v-btn>
@@ -42,21 +40,21 @@
                   <v-img :src="upload.src" :style="filters"></v-img>
                   <perfect-scrollbar>
                     <v-card-text v-if="filteImage">
-                      <strong>Grayscale ({{photo.grayscale}})</strong>
+                      <strong>Grayscale ({{ photo.grayscale }})</strong>
                       <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Sepia ({{photo.sepia}})</strong>
+                      <strong>Sepia ({{ photo.sepia }})</strong>
                       <v-slider  v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Saturate ({{photo.saturate}})</strong>
+                      <strong>Saturate ({{ photo.saturate }})</strong>
                       <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Hue Rotate ({{photo.hueRotate}} deg)</strong>
+                      <strong>Hue Rotate ({{ photo.hueRotate }} deg)</strong>
                       <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
-                      <strong>Invert ({{photo.invert}})</strong>
+                      <strong>Invert ({{ photo.invert }})</strong>
                       <v-slider v-model="photo.invert" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Brightness ({{photo.brightness}})</strong>
+                      <strong>Brightness ({{ photo.brightness }})</strong>
                       <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>
-                      <strong>Contrast ({{photo.contrast}})</strong>
+                      <strong>Contrast ({{ photo.contrast }})</strong>
                       <v-slider v-model="photo.contrast" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Blur ({{photo.blur}}px)</strong>
+                      <strong>Blur ({{ photo.blur }}px)</strong>
                       <v-slider v-model="photo.blur" max="50" min="0" step="0.1"></v-slider>
                     </v-card-text>
                     <v-card-text v-else>
@@ -65,7 +63,7 @@
                           <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                           <v-expansion-panel-content>
                             <br/>
-                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="server" cropRatio="2:1" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
                               <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                             </vue-core-image-upload>
                             <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
@@ -85,8 +83,7 @@
               </v-dialog>
             </div>
             <div>
-              <!-- <textarea class="page-text" rows="8" v-model="book.text"></textarea> -->
-              <textarea class="page-text" rows="8" v-model="text"></textarea>
+              <textarea rows="8" v-model="text"></textarea>
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -97,8 +94,7 @@
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
-              <!-- <h2 class="page-first-last">BOOK TITLE</h2> -->
-              <h2 class="page-first-last">{{book.title}}</h2>
+              <h2 class="page-first-last">{{ book.title }}</h2>
             </div>
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
@@ -107,16 +103,18 @@
             </div>
           </div>
           <div v-else class="page-content">
-            <!-- <h2 class="page-header">Page header {{ n }}</h2> -->
-            <h2 class="page-header">{{book.header}}</h2>
+            <h2 class="page-header">{{ book.header }}</h2>
             <div class="page-image">
-              <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" :style="filters">
+              <v-img :src="book.img" aspect-ratio="1.79" :style="filters">
                 <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
                 <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
                 <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
               </v-img>
-              <div class="page-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque non justo vel nibh sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus mollis nibh, non convallis ex convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat. Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra metus, a venenatis tellus tellus id magna.</div>
-              <!-- <div class="page-text">{{book.text}}</div> -->
+              <div class="page-text">
+                <div class="text">
+                  {{ book.text }}
+                </div>
+              </div>
               <div class="page-footer">{{ n }}</div>
             </div>
           </div>
@@ -238,7 +236,7 @@ import * as icon from '@mdi/js'
       }
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKTITLE', 'SET_BOOKHEADER', 'SET_BOOKTEXT']),
+      ...mapMutations('books', ['SET_BOOKTITLE', 'SET_BOOKIMG', 'SET_BOOKHEADER', 'SET_BOOKTEXT']),
       prev(){
         this.pageFlip.flipPrev()
         this.pageFlip.on("flip", (event) => {
@@ -257,6 +255,7 @@ import * as icon from '@mdi/js'
         reader.onload = (e) => {
           this.upload.src = e.target.result
         }
+        this.SET_BOOKIMG(res)
         reader.readAsDataURL(res)
       },
       imageuploaded(res) {
@@ -313,11 +312,9 @@ Reference:
 
 .page {
   padding: 20px;
-
 	background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
   background-size: cover;
   border: solid 1px hsl(35, 20, 70);
-
   overflow: hidden;
 
   .page-content {
@@ -340,9 +337,16 @@ Reference:
       background-position: center center;
       background-repeat: no-repeat;
     }
+    
+    @keyframes moveSlideshow {
+      100% {
+        transform: translateY(calc(-100% + 200px));
+      }
+    }
 
     .page-text {
-      height: 100%;
+      overflow: hidden;
+      height: 32vh;
       flex-grow: 1;
       font-size: 80%;
       text-align: justify;
@@ -350,6 +354,23 @@ Reference:
       padding-top: 10px;
       box-sizing: border-box;
       border-top: solid 1px hsl(35, 55, 90);
+    }
+
+    .text:hover{
+      overflow: auto;
+      scrollbar-width: thin;
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #BDBDBD;
+      }
+      cursor: pointer;
+      animation: moveSlideshow 60s linear;
+      animation-fill-mode: forwards;
     }
 
     .page-footer {
@@ -405,7 +426,7 @@ textarea {
   resize: none;
   box-shadow: 0 0 0 4px rgba(#9E9E9E, 0.3);
   width: 100%;
-  height: 21vh;
+  height: 30vh;
   border-radius: 5px;
   border: 1px solid#9E9E9E;
 

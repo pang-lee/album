@@ -47,9 +47,6 @@ import { mapGetters, mapActions } from 'vuex'
         text: 'preview',
         dialog: false,
         mouseEvent: true,
-        finalBookTitle:'',
-        finalBookHeader:'',
-        finalBookText:'',
         isSave: false,
         sharing: {
           url: 'https://news.vuejs.org/issues/180',
@@ -101,6 +98,7 @@ import { mapGetters, mapActions } from 'vuex'
       },
       onAddPage(update) {
         this.page = update
+        this.isSave = false
         this.forceRerender()
       },
       async copy(){
@@ -131,9 +129,6 @@ import { mapGetters, mapActions } from 'vuex'
         this.forceRerender()
       },
       async save(){
-        this.mouseEvent = true
-        // if(this.page == 1) console.log('BOOKTITLE', this.finalBookTitle)
-        // else console.log(this.finalBookHeader)
         this.isSave = !this.isSave
       }
     }
