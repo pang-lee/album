@@ -6,7 +6,7 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
-                <input style="text-align: center;" v-model="title"/>
+                <textarea style="text-align: center;" v-model="title"/>
               </span>
             </div>
           </div>
@@ -30,9 +30,9 @@
 
             <div v-else class="page-image" @click="dialog = true">
               <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-                <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ link }}</v-icon></v-btn>
-                <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ live }}</v-icon></v-btn>
-                <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank" @click.stop="dialog = false"><v-icon>{{ video }}</v-icon></v-btn>
+                <v-btn v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+                <v-btn v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+                <v-btn v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
               </v-img>
               <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
                 <v-card>
@@ -41,32 +41,32 @@
                   <perfect-scrollbar>
                     <v-card-text v-if="filteImage">
                       <strong>Grayscale ({{ photo.grayscale }})</strong>
-                      <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
+                      <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
                       <strong>Sepia ({{ photo.sepia }})</strong>
-                      <v-slider  v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
+                      <v-slider  v-model="sepia" max="1" min="0" step="0.01"></v-slider>
                       <strong>Saturate ({{ photo.saturate }})</strong>
-                      <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
+                      <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
                       <strong>Hue Rotate ({{ photo.hueRotate }} deg)</strong>
-                      <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
+                      <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
                       <strong>Invert ({{ photo.invert }})</strong>
-                      <v-slider v-model="photo.invert" max="1" min="0" step="0.01"></v-slider>
+                      <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
                       <strong>Brightness ({{ photo.brightness }})</strong>
-                      <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>
+                      <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
                       <strong>Contrast ({{ photo.contrast }})</strong>
-                      <v-slider v-model="photo.contrast" max="1" min="0" step="0.01"></v-slider>
+                      <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
                       <strong>Blur ({{ photo.blur }}px)</strong>
-                      <v-slider v-model="photo.blur" max="50" min="0" step="0.1"></v-slider>
+                      <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
                     </v-card-text>
                     <v-card-text v-else>
                       <v-expansion-panels focusable popout>
-                        <v-expansion-panel v-for="(item, index) in items" :key="index">
+                        <v-expansion-panel v-for="(item, index) in book.options" :key="index">
                           <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                           <v-expansion-panel-content>
                             <br/>
                             <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
                               <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                             </vue-core-image-upload>
-                            <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
+                            <v-text-field v-else @input="hrefOption(index, $event)" :label="item.title" outlined clearable></v-text-field>
                           </v-expansion-panel-content>
                         </v-expansion-panel>
                       </v-expansion-panels>
@@ -106,9 +106,9 @@
             <h2 class="page-header">{{ book.header }}</h2>
             <div class="page-image">
               <v-img :src="book.img" aspect-ratio="1.79" :style="filters">
-                <v-btn v-if="items[1].href" icon fab x-small :href="items[1].href" target="_blank"><v-icon>{{ link }}</v-icon></v-btn>
-                <v-btn v-if="items[2].href" icon fab x-small :href="items[2].href" target="_blank"><v-icon>{{ live }}</v-icon></v-btn>
-                <v-btn v-if="items[3].href" icon fab x-small :href="items[3].href" target="_blank"><v-icon>{{ video }}</v-icon></v-btn>
+                <v-btn v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+                <v-btn v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+                <v-btn v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
               </v-img>
               <div class="page-text">
                 <div class="text">{{ book.text }}</div>
@@ -159,27 +159,8 @@ import * as icon from '@mdi/js'
         total: 0,
         pageFlip: {},
         dialog: false,
-        photo:{
-          grayscale: 0,
-          sepia: 0,
-          saturate: 1,
-          hueRotate: 0,
-          invert: 0,
-          brightness: 1,
-          contrast: 1,
-          blur: 0,
-          suffix: {
-            hueRotate: 'deg',
-            blur: 'px'
-          }
-        },
+        photo:{},
         filteImage: true,
-        items:[
-          { title: 'Update Image', href: '' },
-          { title: 'Add Post Link', href: '' },
-          { title: 'Add Live Stream Link', href: '' },
-          { title: 'Add Video Link', href: 'https://www.youtube.com/watch?v=ov0KsTvLs5g'}
-        ],
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
@@ -197,7 +178,7 @@ import * as icon from '@mdi/js'
         },
         set(newValue){
           if(this.isSave == true) return this.$emit('addPage', newValue)
-          else Swal.fire({
+          else return Swal.fire({
             type: 'warning',
             title: `<h2>Oops...</h2>`,
             html: '<strong>Please Remember To <u style="color:red;">Save Before Add Page!</u></strong>',
@@ -231,10 +212,74 @@ import * as icon from '@mdi/js'
         set(newValue){
           return this.SET_BOOKTEXT(newValue)
         }
+      },
+      grayscale:{
+        get(){
+          return this.photo.grayscale
+        },
+        set(value){
+          return this.SET_GRAYSCALE(value)
+        }
+      },
+      sepia:{
+        get(){
+          return this.photo.sepia
+        },
+        set(value){
+          return this.SET_SEPIA(value)
+        }
+      },
+      saturate:{
+        get(){
+          return this.photo.saturate
+        },
+        set(value){
+          return this.SET_SATURATE(value)
+        }
+      },
+      hueRotate:{
+        get(){
+          return this.photo.hueRotate
+        },
+        set(value){
+          return this.SET_HUEROTATE(value)
+        }
+      },
+      invert:{
+        get(){
+          return this.photo.invert
+        },
+        set(value){
+          return this.SET_INVERT(value)
+        }
+      },
+      brightness:{
+        get(){
+          return this.photo.brightness
+        },
+        set(value){
+          return this.SET_BRIGHTNESS(value)
+        }
+      },
+      contrast:{
+        get(){
+          return this.photo.contrast
+        },
+        set(value){
+          return this.SET_CONTRAST(value)
+        }
+      },
+      blur:{
+        get(){
+          return this.photo.blur
+        },
+        set(value){
+          return this.SET_BLUR(value)
+        }
       }
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKTITLE', 'SET_BOOKIMG', 'SET_BOOKHEADER', 'SET_BOOKTEXT']),
+      ...mapMutations('books', ['SET_BOOKTITLE', 'SET_BOOKHEADER', 'SET_BOOKTEXT', 'SET_BOOKIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
       prev(){
         this.pageFlip.flipPrev()
         this.pageFlip.on("flip", (event) => {
@@ -246,6 +291,18 @@ import * as icon from '@mdi/js'
         this.pageFlip.on("flip", (event) => {
           this.current = event.data + 1
         })
+      },
+      hrefOption(index, e){
+        switch(index){
+          case 1:
+            return this.SET_POSTLINK(e)
+          case 2:
+            return this.SET_LIVESTREAMLINK(e)
+          case 3:
+            return this.SET_VIDEOLINK(e)
+          default:
+            return
+        }
       },
       toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
       imagechanged(res) {
@@ -262,6 +319,7 @@ import * as icon from '@mdi/js'
     },
     mounted() {
       this.upload.src = this.book.img
+      this.photo = this.book.photo
       this.pageFlip = new PageFlip(this.$refs.book, {
         width: 550,
         height: 733,
@@ -276,7 +334,7 @@ import * as icon from '@mdi/js'
         useMouseEvents: this.mouseEvent
       })
 
-      if(this.mouseEvent == false){
+      if(!this.mouseEvent){
         this.pageFlip.loadFromHTML(this.$refs.page)
         this.total = this.pageFlip.getPageCount()
         this.pageFlip.turnToPage(this.page - 1)
@@ -346,7 +404,7 @@ Reference:
 
     .page-text {
       overflow: hidden;
-      height: 32vh;
+      height: 35vh;
       flex-grow: 1;
       font-size: 80%;
       text-align: justify;
