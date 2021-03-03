@@ -245,10 +245,11 @@
 </template>
 
 <script>
-import { PageFlip } from "page-flip";
-import * as icon from "@mdi/js";
+import { PageFlip } from "page-flip"
+import * as icon from "@mdi/js"
 
 export default {
+  name: 'free',
   data() {
     return {
       current: 1,
@@ -390,16 +391,16 @@ export default {
       margin-top: 10px;
       padding-top: 10px;
       box-sizing: border-box;
-      border-top: solid 1px hsl(35, 55, 90);
+      border-top: solid 1px hsl(35, 55%, 90%);
     }
 
     .page-footer {
       position: relative;
       margin-top: 4%;
       height: 30px;
-      border-top: solid 1px hsl(35, 55, 90);
+      border-top: solid 1px hsl(35, 55%, 90%);
       font-size: 80%;
-      color: hsl(35, 20, 50);
+      color: hsl(35, 20%, 50%);
     }
   }
 
@@ -418,7 +419,7 @@ export default {
   }
 
   &.page-cover {
-    border: solid 1px hsl(35, 20, 50);
+    border: solid 1px hsl(35, 20%, 50%);
 
     &.page-cover-top {
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5),

@@ -18,7 +18,7 @@
               <nuxt/>
             </v-sheet>
             <SocialChat :attendants="attendants" class="chat">
-              <div slot="header" class="text-subtitle-1 text-center font-italic">Contact Us With :</div>
+              <div slot="header" class="text-subtitle-1 text-center font-italic">Use the below method to contact with us :</div>
               <template v-slot:button="{ open }">
                 <span v-show="!open"><v-icon color="white">{{ contact }}</v-icon></span>
                 <span v-show="open"><v-icon color="white">{{ close }}</v-icon></span>
@@ -34,12 +34,16 @@
 
 <script>
 import { SocialChat } from 'vue-social-chat'
+import navbar from '~/components/ui/navbar'
+import sidenav from '~/components/ui/sidenav'
 import * as icon from '@mdi/js'
 
   export default {
     middleware: ['check-auth','admin'],
     components: {
-      SocialChat
+      SocialChat,
+      navbar,
+      sidenav
     },
     data() {
       return {
@@ -47,20 +51,10 @@ import * as icon from '@mdi/js'
           {
             app: 'messenger',
             label: 'Technical support',
-            name: 'Chiang Young',
-            id: '100010979950960',
-            avatar: {
-              src: 'https://avatars0.githubusercontent.com/u/8084606?s=460&u=20b6499a416cf7129a18e5c168cf387e159edb1a&v=4',
-              alt: 'Chiang Young avatar'
-            }
-          },
-          {
-            app: 'messenger',
-            label: 'Technical support',
             name: 'Pang',
             id: '101317471923604',
             avatar: {
-              src: 'https://avatars0.githubusercontent.com/u/8084606?s=460&u=20b6499a416cf7129a18e5c168cf387e159edb1a&v=4',
+              src: process.env.BASE_URL + '/avatar.png',
               alt: 'Pang'
             }
           }

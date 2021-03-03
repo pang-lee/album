@@ -1,9 +1,9 @@
 const state = () => ({
     book_info: {
-        title: 'BOOK TITLE',
+        title: '',
         page: 1,
-        header: 'Page Header',
-        text: 'Type Down Your Story.',
+        header: '',
+        text: '',
         img: '',
         photo:{
             grayscale: 0,
@@ -26,6 +26,7 @@ const state = () => ({
             { title: 'Add Video Link', href: ''}
         ]
     },
+    privacy_value: 'Share All'
 })
 
 export default state

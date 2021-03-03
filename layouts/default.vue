@@ -21,8 +21,13 @@
 </template>
 
 <script>
+import navbar from '~/components/ui/navbar'
+import foot from '~/components/ui/foot'
     export default {
-        
+        components:{
+            navbar,
+            foot
+        }
     }
 </script>
 

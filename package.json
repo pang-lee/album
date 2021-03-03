@@ -10,14 +10,13 @@
   },
   "dependencies": {
     "@mdi/js": "^5.9.55",
-    "@nnm/page-translator": "^1.1.1",
     "@nuxt/content": "^1.13.1",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
     "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.9.0",
+    "core-js": "^3.9.1",
     "filepond": "^4.25.1",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.15.2",
@@ -38,6 +37,6 @@
     "@nuxtjs/vuetify": "^1.11.3",
     "fibers": "^5.0.0",
     "sass": "^1.32.8",
-    "sass-loader": "^11.0.1"
+    "sass-loader": "^10.1.1"
   }
 }

@@ -30,7 +30,6 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/validate.js',
-    '~/plugins/translate.js',
     '~/plugins/scrollbar.js',
     { src: '~/plugins/persistedState.js', mode: 'client' },
     { src: '~/plugins/image-crop.js', mode: 'client' },
@@ -58,7 +57,7 @@ export default {
     '@nuxtjs/apollo',
     'cookie-universal-nuxt',
     'nuxt-clipboard2',
-    'vue-social-sharing/nuxt'
+    'vue-social-sharing/nuxt',
   ],
   apollo: {
     clientConfigs: {

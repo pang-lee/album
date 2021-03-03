@@ -2,13 +2,14 @@ import * as icon from '@mdi/js'
 
 export default{
     user: state => state.user_info,
+    sidestate: state => state.sidebar_status,
     sidebar: state => {
         switch (state.sidebar_status) {
             case 'Dashboard':
                 return [
-                    { link: '/dashboard/self1', data: 'a' },
+                    { link: '/dashboard/1', data: 'a' },
                     { link: '/dashboard/self2', data: 'b' },
-                    { link: '/dashboard/self3', data: 'c' },
+                    { link: '/dashboard/self3', data: 'c' }
                 ]
             case 'Profile':
                 return [
@@ -20,11 +21,12 @@ export default{
                     { link: '/setting/privacy', data: 'privacy', icon: icon.mdiAccountLockOutline },
                     { link: '/setting/language', data: 'language', icon: icon.mdiEarth },
                 ]
-            default: return [
-                { link: '/dashboard/self1', data: 'a' },
-                { link: '/dashboard/self2', data: 'b' },
-                { link: '/dashboard/self3', data: 'c' },
-            ]
+            default: 
+                return [
+                    { link: '/dashboard/self1', data: 'a' },
+                    { link: '/dashboard/self2', data: 'b' },
+                    { link: '/dashboard/self3', data: 'c' },
+                ]
         }
     }
 }

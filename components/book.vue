@@ -6,7 +6,7 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
-                <textarea style="text-align: center;" v-model="title"/>
+                <textarea style="text-align: center;" placeholder="Click Me To Set Title" v-model="title"/>
               </span>
             </div>
           </div>
@@ -20,7 +20,7 @@
             </div>
           </div>
           <div v-else class="page-content">
-            <input class="page-header" type="text" v-model="header"/>
+            <input class="page-header" placeholder="Click Me To Set Header" type="text" v-model="header"/>
 
             <div v-if="!upload.src" class="page-image">
               <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
@@ -30,9 +30,9 @@
 
             <div v-else class="page-image" @click="dialog = true">
               <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-                <v-btn v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-                <v-btn v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-                <v-btn v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
               </v-img>
               <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
                 <v-card>
@@ -83,7 +83,7 @@
               </v-dialog>
             </div>
             <div>
-              <textarea rows="8" v-model="text"></textarea>
+              <textarea placeholder="Type Down Your Story" rows="8" v-model="text"></textarea>
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -105,10 +105,10 @@
           <div v-else class="page-content">
             <h2 class="page-header">{{ book.header }}</h2>
             <div class="page-image">
-              <v-img :src="book.img" aspect-ratio="1.79" :style="filters">
-                <v-btn v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-                <v-btn v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-                <v-btn v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+              <v-img :src="book.img" aspect-ratio="1.79" :style="filters" eager>
+                <v-btn class="link-btn-position" v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
               </v-img>
               <div class="page-text">
                 <div class="text">{{ book.text }}</div>
@@ -330,7 +330,7 @@ import * as icon from '@mdi/js'
         maxHeight: 1350,
         maxShadowOpacity: 0.5,
         showCover: true,
-        disableFlipByClick: true,
+        disableFlipByClick: this.mouseEvent,
         useMouseEvents: this.mouseEvent
       })
 
@@ -355,7 +355,6 @@ Reference:
   https://codepen.io/slyka85/pen/opjzPg
 */
 
-
 .container {
   background-size: cover;
   background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
@@ -372,7 +371,7 @@ Reference:
   padding: 20px;
 	background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
   background-size: cover;
-  border: solid 1px hsl(35, 20, 70);
+  border: solid 1px hsl(35, 20%, 70%);
   overflow: hidden;
 
   .page-content {
@@ -411,7 +410,7 @@ Reference:
       margin-top: 10px;
       padding-top: 10px;
       box-sizing: border-box;
-      border-top: solid 1px hsl(35, 55, 90);
+      border-top: solid 1px hsl(35, 55%, 90%);
     }
 
     .text:hover{
@@ -435,9 +434,9 @@ Reference:
       position: relative;
       margin-top: 4%;
       height: 30px;
-      border-top: solid 1px hsl(35, 55, 90);
+      border-top: solid 1px hsl(35, 55%, 90%);
       font-size: 80%;
-      color: hsl(35, 20, 50);
+      color: hsl(35, 20%, 50%);
     }
   }
 
@@ -456,7 +455,7 @@ Reference:
   }
 
   &.page-cover {
-    border: solid 1px hsl(35, 20, 50);
+    border: solid 1px hsl(35, 20%, 50%);
 
     &.page-cover-top {
       box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
@@ -472,6 +471,11 @@ Reference:
     padding-top: 50%;
     font-size: 210%;
   }
+}
+
+.link-btn-position{
+  position: relative;
+  margin-top: 45%;
 }
 
 .ps {

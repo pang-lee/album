@@ -29,3 +29,9 @@ export const SET_POSTLINK = 'SET_POSTLINK'
 export const SET_LIVESTREAMLINK = 'SET_LIVESTREAMLINK'
 
 export const SET_VIDEOLINK = 'SET_VIDEOLINK'
+
+export const CLEAR_PAGE_DATA = 'CLEAR_PAGE_DATA'
+
+export const CLEAR_ALL = 'CLEAR_ALL'
+
+export const PRIVACY = 'PRIVACY'

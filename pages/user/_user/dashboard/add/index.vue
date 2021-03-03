@@ -1,39 +1,39 @@
 <template>
-  <div>
-    <client-only>
-      <book :page="book.page" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
-    </client-only>
-    <br/>
-    <v-divider></v-divider>
-    <div class="d-flex justify-center mt-5">
-      <v-btn-toggle v-model="btnStatus" tile color="primary" mandatory group>
-        <v-btn value="preview" @click="preview()">Preview</v-btn>
-        <v-btn value="edit" @click="edit()">Edit</v-btn>
-        <v-btn value="save" @click="save()">Save</v-btn>
-        <v-btn value="share" @click.stop="share()">Share</v-btn>
-        <v-dialog v-model="dialog">
-          <v-card>
-            <br/>
-            <v-card-subtitle class="text-center font-weight-black font-italic">Share With Your Friend</v-card-subtitle>
-            <v-divider></v-divider>
-            <br/>
-            <v-card-actions>
-              <perfect-scrollbar>
-                <div class="share-network-list">
-                  <ShareNetwork v-for="network in networks" :network="network.network" :key="network.network" :style="{backgroundColor: network.color}" :url="sharing.url" :title="sharing.title" :description="sharing.description" :quote="sharing.quote" :hashtags="sharing.hashtags" :twitterUser="sharing.twitterUser">
-                    <i :class="network.icon"></i>
-                    <span>{{ network.name }}</span>
-                  </ShareNetwork>
-                  <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
-                </div>
-              </perfect-scrollbar>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-btn-toggle>
+    <div>
+        <client-only>
+            <book :page="book.page" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
+        </client-only>
+        <br/>
+        <v-divider></v-divider>
+        <div class="d-flex justify-center mt-5">
+            <v-btn-toggle v-model="btnStatus" tile color="primary" mandatory group>
+                <v-btn value="preview" @click.stop="preview()">Preview</v-btn>
+                <v-btn value="edit" @click.stop="edit()">Edit</v-btn>
+                <v-btn value="save" @click.stop="save()">Save</v-btn>
+                <v-btn value="share" @click.stop="share()">Share</v-btn>
+                <v-dialog v-model="dialog">
+                <v-card>
+                    <br/>
+                    <v-card-subtitle class="text-center font-weight-black font-italic">Share With Your Friend</v-card-subtitle>
+                    <v-divider></v-divider>
+                    <br/>
+                    <v-card-actions>
+                        <perfect-scrollbar>
+                            <div class="share-network-list">
+                                <ShareNetwork v-for="network in networks" :network="network.network" :key="network.network" :style="{backgroundColor: network.color}" :url="sharing.url" :title="sharing.title" :description="sharing.description" :quote="sharing.quote" :hashtags="sharing.hashtags" :twitterUser="sharing.twitterUser">
+                                    <i :class="network.icon"></i>
+                                    <span>{{ network.name }}</span>
+                                </ShareNetwork>
+                                <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
+                            </div>
+                        </perfect-scrollbar>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+          </v-btn-toggle>
+        </div>
+        <br/>
     </div>
-    <br/>
-  </div>
 </template>
 
 <script>
@@ -46,11 +46,10 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
     data() {
       return {
         componentKey: 0,
-        btnStatus: 'preview',
+        btnStatus: 'edit',
         dialog: false,
-        mouseEvent: true,
+        mouseEvent: false,
         isSave: false,
-        firstEntry: true,
         sharing: {
           url: 'https://news.vuejs.org/issues/180',
           // url: process.env.BASE_URL + this.$route.fullPath,
@@ -97,7 +96,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
       ...mapGetters('books', ['book'])
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKPAGE']),
+      ...mapMutations('books', ['CLEAR_ALL', 'SET_BOOKPAGE']),
       forceRerender() {
         this.componentKey += 1
       },
@@ -115,7 +114,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
             text: 'Now You Can Share With Your Friend',
             timer: 3000
           })
-          this.dialog = false
+          return this.dialog = false
         } catch (error) {
           Swal.fire({
             type: 'error',
@@ -127,12 +126,10 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
       },
       edit(){
         this.mouseEvent = false
-        this.firstEntry = false
         this.isSave = false
         this.forceRerender()
       },
       preview(){
-        if(this.firstEntry) return this.mouseEvent = true
         if(!this.isSave) return Swal.fire({
           type: 'warning',
           title: `<h2>Oops...</h2>`,
@@ -143,7 +140,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
         this.forceRerender()
       },
       share(){
-        if(this.firstEntry) return this.dialog = true
         if(!this.isSave) return Swal.fire({
           type: 'warning',
           title: `<h2>Oops...</h2>`,
@@ -158,7 +154,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
       }
     },
     created(){
-      this.sharing.quote = this.book.title
+      this.CLEAR_ALL()
     }
   }
 </script>
