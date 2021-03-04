@@ -3,7 +3,7 @@
         <v-sheet rounded="lg">
             <v-list color="transparent">
                 <v-list-item v-if="sidestate == 'Dashboard'" @click="add()">
-                    <v-icon class="ml-7">{{ addBook }}</v-icon>
+                    <v-icon class="addbook">{{ addBook }}</v-icon>
                 </v-list-item>
                 <v-divider v-if="sidestate == 'Dashboard'"></v-divider>
                 <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + item.link}`">
@@ -34,12 +34,15 @@ import * as icon from '@mdi/js'
         },
         methods: {
             add(){
-                this.$router.push(this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 0), this.$route.fullPath.indexOf('/', 50)))
+                this.$router.push(this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 0), this.$route.fullPath.indexOf('/', 50)) + '/add')
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-
+.addbook{
+    position: relative;
+    margin-left:40%
+}
 </style>
