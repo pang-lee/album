@@ -1,76 +1,19 @@
 import * as types from './mutation-types'
 
 export default {
+    [types.FETCH_BOOK_LIST](state, data){
+        state.bookList = data
+    },
+    [types.SET_BOOKID](state, data){
+        state.book_info.bookid = data
+    },
     [types.SET_BOOKTITLE](state, data){
-        state.book_info.title = data
+        state.bookList.find(element => element.id === data.which_id).pages1.title = data.value
     },
     [types.SET_BOOKPAGE](state, data){
-        state.book_info.page = data
-    },
-    [types.SET_BOOKHEADER](state, data){
-        state.book_info.header = data
-    },
-    [types.SET_BOOKTEXT](state, data){
-        state.book_info.text = data
-    },
-    [types.SET_BOOKIMG](state, data){
-        state.book_info.img = window.URL.createObjectURL(new Blob([data], { type: 'image/*' }))
-    },
-    [types.SET_GRAYSCALE](state, data){
-        state.book_info.photo.grayscale = data
-    },
-    [types.SET_SEPIA](state, data){
-        state.book_info.photo.sepia = data
-    },
-    [types.SET_SATURATE](state, data){
-        state.book_info.photo.saturate = data
-    },
-    [types.SET_HUEROTATE](state, data){
-        state.book_info.photo.hueRotate = data
-    },
-    [types.SET_INVERT](state, data){
-        state.book_info.photo.invert = data
-    },
-    [types.SET_BRIGHTNESS](state, data){
-        state.book_info.photo.brightness = data
-    },
-    [types.SET_CONTRAST](state, data){
-        state.book_info.photo.contrast = data
-    },
-    [types.SET_BLUR](state, data){
-        state.book_info.photo.blur = data
-    },
-    [types.SET_POSTLINK](state, data){
-        state.book_info.options[1].href = data
-    },
-    [types.SET_LIVESTREAMLINK](state, data){
-        state.book_info.options[2].href = data
-    },
-    [types.SET_VIDEOLINK](state, data){
-        state.book_info.options[3].href = data
-    },
-    [types.CLEAR_PAGE_DATA](state, _){
-        state.book_info.title = ''
-        state.book_info.header = ''
-        state.book_info.text = ''
-        state.book_info.img = ''
-        state.book_info.photo.grayscale = 0
-        state.book_info.photo.sepia = 0
-        state.book_info.photo.saturate = 1
-        state.book_info.photo.hueRotate = 0
-        state.book_info.photo.invert = 0
-        state.book_info.photo.brightness = 1
-        state.book_info.photo.contrast = 1
-        state.book_info.photo.blur = 0
-        state.book_info.options[1].href = ''
-        state.book_info.options[2].href = ''
-        state.book_info.options[3].href = ''
-        
-    },
-    [types.CLEAR_ALL](state, _){
-        state.book_info = {
-            title: '',
-            page: 1,
+        let add_page = state.bookList.find(element => element.id === data.which_id)
+        add_page.total_pages += 1
+        add_page[`pages${add_page.total_pages}`] = {
             header: '',
             text: '',
             img: '',
@@ -95,6 +38,48 @@ export default {
                 { title: 'Add Video Link', href: ''}
             ]
         }
+    },
+    [types.SET_BOOKHEADER](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].header = data.value
+    },
+    [types.SET_BOOKTEXT](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].text = data.value
+    },
+    [types.SET_BOOKIMG](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].img = window.URL.createObjectURL(new Blob([data.value], { type: 'image/*' }))
+    },
+    [types.SET_GRAYSCALE](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.grayscale = data.value
+    },
+    [types.SET_SEPIA](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.sepia = data.value
+    },
+    [types.SET_SATURATE](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.saturate = data.value
+    },
+    [types.SET_HUEROTATE](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.hueRotate = data.value
+    },
+    [types.SET_INVERT](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.invert = data.value
+    },
+    [types.SET_BRIGHTNESS](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.brightness = data.value
+    },
+    [types.SET_CONTRAST](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.contrast = data.value
+    },
+    [types.SET_BLUR](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].photo.blur = data.value
+    },
+    [types.SET_POSTLINK](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].options[1].href = data.value
+    },
+    [types.SET_LIVESTREAMLINK](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].options[2].href = data.value
+    },
+    [types.SET_VIDEOLINK](state, data){
+        state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].options[3].href = data.value
     },
     [types.PRIVACY](state, data){
         state.privacy_value = data

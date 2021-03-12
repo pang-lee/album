@@ -27,6 +27,7 @@ export default{
             commit(types.SET_GENDER, user.data.getMe.gender)
             commit(types.SET_DATE, user.data.getMe.birthday)
             dispatch('fetchImage')
+            dispatch('books/fetchBookList', _, { root: true })
         } catch (error) {
             console.log("admin fetchMe error" ,error)
         }

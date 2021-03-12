@@ -1,3 +1,7 @@
+export const FETCH_BOOK_LIST = 'FETCH_BOOK_LIST'
+
+export const SET_BOOKID = 'SET_BOOKID'
+
 export const SET_BOOKTITLE = 'SET_BOOKTITLE'
 
 export const SET_BOOKPAGE = 'SET_BOOKPAGE'
@@ -29,9 +33,5 @@ export const SET_POSTLINK = 'SET_POSTLINK'
 export const SET_LIVESTREAMLINK = 'SET_LIVESTREAMLINK'
 
 export const SET_VIDEOLINK = 'SET_VIDEOLINK'
-
-export const CLEAR_PAGE_DATA = 'CLEAR_PAGE_DATA'
-
-export const CLEAR_ALL = 'CLEAR_ALL'
 
 export const PRIVACY = 'PRIVACY'

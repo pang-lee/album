@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div v-if="!mouseEvent" class="flip-book" ref="book">
-        <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+        <div v-for="(n, index) in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
@@ -19,71 +19,12 @@
               </span>
             </div>
           </div>
+          
           <div v-else class="page-content">
-            <input class="page-header" placeholder="Click Me To Set Header" type="text" v-model="header"/>
-
-            <div v-if="!upload.src" class="page-image">
-              <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
-                <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
-              </vue-core-image-upload>
-            </div>
-
-            <div v-else class="page-image" @click="dialog = true">
-              <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-                <v-btn class="link-btn-position" v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-                <v-btn class="link-btn-position" v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-                <v-btn class="link-btn-position" v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
-              </v-img>
-              <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
-                <v-card>
-                  <div class="text-h6 font-weight-black text-center">Photo Setting</div>
-                  <v-img :src="upload.src" :style="filters"></v-img>
-                  <perfect-scrollbar>
-                    <v-card-text v-if="filteImage">
-                      <strong>Grayscale ({{ photo.grayscale }})</strong>
-                      <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Sepia ({{ photo.sepia }})</strong>
-                      <v-slider  v-model="sepia" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Saturate ({{ photo.saturate }})</strong>
-                      <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Hue Rotate ({{ photo.hueRotate }} deg)</strong>
-                      <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
-                      <strong>Invert ({{ photo.invert }})</strong>
-                      <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Brightness ({{ photo.brightness }})</strong>
-                      <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
-                      <strong>Contrast ({{ photo.contrast }})</strong>
-                      <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Blur ({{ photo.blur }}px)</strong>
-                      <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
-                    </v-card-text>
-                    <v-card-text v-else>
-                      <v-expansion-panels focusable popout>
-                        <v-expansion-panel v-for="(item, index) in book.options" :key="index">
-                          <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
-                          <v-expansion-panel-content>
-                            <br/>
-                            <vue-core-image-upload v-if="item.title == 'Update Image'" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
-                              <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
-                            </vue-core-image-upload>
-                            <v-text-field v-else @input="hrefOption(index, $event)" :label="item.title" outlined clearable></v-text-field>
-                          </v-expansion-panel-content>
-                        </v-expansion-panel>
-                      </v-expansion-panels>
-                    </v-card-text>
-                  </perfect-scrollbar>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
-                    <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
-                    <v-btn color="primary" text @click="dialog = false">OK</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
+            <bookheader class="page-header" :bookId="bookId" :bookpage="index" :bookHead="header[index - 1].header"></bookheader>
+            <bookimg class="page-image" :bookId="bookId" :bookpage="n" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
             <div>
-              <textarea placeholder="Type Down Your Story" rows="8" v-model="text"></textarea>
+              <booktext :bookId="bookId" :bookpage="index" :bookText="text[index - 1].text"></booktext>
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -94,7 +35,7 @@
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
-              <h2 class="page-first-last">{{ book.title }}</h2>
+              <h2 class="page-first-last">{{ bookList.find(element => element.id === bookId).pages1.title }}</h2>
             </div>
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
@@ -102,16 +43,13 @@
               <h2 class="page-first-last">Thank You</h2>
             </div>
           </div>
+
           <div v-else class="page-content">
-            <h2 class="page-header">{{ book.header }}</h2>
+            <h2 class="page-header">{{ bookList.find(element => element.id === bookId)[`pages${n}`].header }}</h2>
             <div class="page-image">
-              <v-img :src="book.img" aspect-ratio="1.79" :style="filters" eager>
-                <v-btn class="link-btn-position" v-if="book.options[1].href" icon fab x-small :href="book.options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-                <v-btn class="link-btn-position" v-if="book.options[2].href" icon fab x-small :href="book.options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-                <v-btn class="link-btn-position" v-if="book.options[3].href" icon fab x-small :href="book.options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
-              </v-img>
+              <bookimg :bookId="bookId" :bookpage="n" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
               <div class="page-text">
-                <div class="text">{{ book.text }}</div>
+                <div class="text">{{ bookList.find(element => element.id === bookId)[`pages${n}`].text }}</div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
@@ -131,12 +69,25 @@
 <script>
 import { PageFlip } from 'page-flip'
 import { mapGetters, mapMutations } from 'vuex'
+import bookheader from '~/components/bookUI/header'
+import booktext from '~/components/bookUI/text'
+import bookimg from '~/components/bookUI/image'
 import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
 
   export default {
     name: 'book',
+    components:{
+      bookheader,
+      booktext,
+      bookimg
+    },
     props: {
+      bookId:{
+        type: String,
+        default: '1',
+        required: true
+      },
       page: {
         type: Number,
         default: 1,
@@ -158,26 +109,20 @@ import * as icon from '@mdi/js'
         current: this.page,
         total: 0,
         pageFlip: {},
-        dialog: false,
-        photo:{},
-        filteImage: true,
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
-        plus: icon.mdiPlusBoxMultipleOutline,
-        upload:{
-          src: ''
-        }
+        plus: icon.mdiPlusBoxMultipleOutline
       }
     },
     computed: {
-      ...mapGetters('books', ['book']),
+      ...mapGetters('books', ['bookList']),
       pages: {
         get(){
           return this.page
         },
         set(newValue){
-          if(this.isSave == true) return this.$emit('addPage', newValue)
+          if(this.isSave == true) return this.$emit('addPage', { which_id: this.bookId, value: newValue })
           else return Swal.fire({
             type: 'warning',
             title: `<h2>Oops...</h2>`,
@@ -186,100 +131,26 @@ import * as icon from '@mdi/js'
           })
         }
       },
-      filters() {
-        return { filter: Object.entries(this._data.photo).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.photo.suffix[item[0]] || ''})`).join(' ') }
-      },
       title:{
         get(){
-          return this.book.title
+          return this.bookList.find(element => element.id === this.bookId).pages1.title
         },
         set(newValue){
-          return this.SET_BOOKTITLE(newValue)
+          return this.SET_BOOKTITLE({ which_id: this.bookId, value: newValue })
         }
       },
-      header:{
-        get(){
-          return this.book.header
-        },
-        set(newValue){
-          return this.SET_BOOKHEADER(newValue)
-        }
+      header(){
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
       },
-      text:{
-        get(){
-          return this.book.text
-        },
-        set(newValue){
-          return this.SET_BOOKTEXT(newValue)
-        }
+      text(){
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
       },
-      grayscale:{
-        get(){
-          return this.photo.grayscale
-        },
-        set(value){
-          return this.SET_GRAYSCALE(value)
-        }
-      },
-      sepia:{
-        get(){
-          return this.photo.sepia
-        },
-        set(value){
-          return this.SET_SEPIA(value)
-        }
-      },
-      saturate:{
-        get(){
-          return this.photo.saturate
-        },
-        set(value){
-          return this.SET_SATURATE(value)
-        }
-      },
-      hueRotate:{
-        get(){
-          return this.photo.hueRotate
-        },
-        set(value){
-          return this.SET_HUEROTATE(value)
-        }
-      },
-      invert:{
-        get(){
-          return this.photo.invert
-        },
-        set(value){
-          return this.SET_INVERT(value)
-        }
-      },
-      brightness:{
-        get(){
-          return this.photo.brightness
-        },
-        set(value){
-          return this.SET_BRIGHTNESS(value)
-        }
-      },
-      contrast:{
-        get(){
-          return this.photo.contrast
-        },
-        set(value){
-          return this.SET_CONTRAST(value)
-        }
-      },
-      blur:{
-        get(){
-          return this.photo.blur
-        },
-        set(value){
-          return this.SET_BLUR(value)
-        }
+      imgfilter(){
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
       }
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKTITLE', 'SET_BOOKHEADER', 'SET_BOOKTEXT', 'SET_BOOKIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
+      ...mapMutations('books', ['SET_BOOKTITLE']),
       prev(){
         this.pageFlip.flipPrev()
         this.pageFlip.on("flip", (event) => {
@@ -291,35 +162,9 @@ import * as icon from '@mdi/js'
         this.pageFlip.on("flip", (event) => {
           this.current = event.data + 1
         })
-      },
-      hrefOption(index, e){
-        switch(index){
-          case 1:
-            return this.SET_POSTLINK(e)
-          case 2:
-            return this.SET_LIVESTREAMLINK(e)
-          case 3:
-            return this.SET_VIDEOLINK(e)
-          default:
-            return
-        }
-      },
-      toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
-      imagechanged(res) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.upload.src = e.target.result
-        }
-        this.SET_BOOKIMG(res)
-        reader.readAsDataURL(res)
-      },
-      imageuploaded(res) {
-        console.log("this is the imageuploaded ", res)
       }
     },
     mounted() {
-      this.upload.src = this.book.img
-      this.photo = this.book.photo
       this.pageFlip = new PageFlip(this.$refs.book, {
         width: 550,
         height: 733,
@@ -394,12 +239,6 @@ Reference:
       background-position: center center;
       background-repeat: no-repeat;
     }
-    
-    @keyframes moveSlideshow {
-      100% {
-        transform: translateY(calc(-100% + 200px));
-      }
-    }
 
     .page-text {
       overflow: hidden;
@@ -414,6 +253,8 @@ Reference:
     }
 
     .text:hover{
+      width: 100%;
+      height: 30vh;
       overflow: auto;
       scrollbar-width: thin;
       &::-webkit-scrollbar {
@@ -425,9 +266,6 @@ Reference:
       &::-webkit-scrollbar-thumb {
         background-color: #BDBDBD;
       }
-      cursor: pointer;
-      animation: moveSlideshow 60s linear;
-      animation-fill-mode: forwards;
     }
 
     .page-footer {

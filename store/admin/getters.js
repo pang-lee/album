@@ -3,14 +3,15 @@ import * as icon from '@mdi/js'
 export default{
     user: state => state.user_info,
     sidestate: state => state.sidebar_status,
-    sidebar: state => {
+    sidebar: (state, _, __, rootGetters) => {
         switch (state.sidebar_status) {
             case 'Dashboard':
-                return [
-                    { link: '/dashboard/1', data: 'a' },
-                    { link: '/dashboard/self2', data: 'b' },
-                    { link: '/dashboard/self3', data: 'c' }
-                ]
+                let list = rootGetters['books/bookList']
+                let arr = []
+                for(let i in list) {
+                    arr[i] = { link: '/dashboard/' + list[i].id , data: list[i].pages1.title }
+                }
+                return arr
             case 'Profile':
                 return [
                     { link: '/profile/sticker', data: 'sticker', icon: icon.mdiStickerCircleOutline},
@@ -20,12 +21,6 @@ export default{
                 return [
                     { link: '/setting/privacy', data: 'privacy', icon: icon.mdiAccountLockOutline },
                     { link: '/setting/language', data: 'language', icon: icon.mdiEarth },
-                ]
-            default: 
-                return [
-                    { link: '/dashboard/self1', data: 'a' },
-                    { link: '/dashboard/self2', data: 'b' },
-                    { link: '/dashboard/self3', data: 'c' },
                 ]
         }
     }
