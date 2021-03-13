@@ -13,3 +13,5 @@ export const SET_DATE = 'SET_DATE'
 export const SET_SIDEBAR_STATUS = 'SET_SIDEBAR_STATUS'
 
 export const SET_BACKGROUND = 'SET_BACKGROUND'
+
+export const SET_PRIVACY = 'SET_PRIVACY'

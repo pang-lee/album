@@ -26,6 +26,7 @@ export default{
             commit(types.SET_LAST, user.data.getMe.username.split(' ')[1])
             commit(types.SET_GENDER, user.data.getMe.gender)
             commit(types.SET_DATE, user.data.getMe.birthday)
+            commit(types.SET_PRIVACY, 'Share I Selected')
             dispatch('fetchImage')
             dispatch('books/fetchBookList', _, { root: true })
         } catch (error) {

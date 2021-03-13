@@ -5,7 +5,8 @@ const state = () => ({
         first: '',
         last: '',
         gender: '',
-        date: ''
+        date: '',
+        privacy: ''
         // background: '',
     },
     sidebar_status: 'Dashboard'

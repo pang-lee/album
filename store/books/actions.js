@@ -21,6 +21,7 @@ export default{
                 {
                     id:'1',
                     total_pages: 4,
+                    share: true,
                     pages1: { title: 'Test BOOK1 TITLE' },
                     pages2: {
                         header: 'Apple on the tree',
@@ -101,6 +102,7 @@ export default{
                 {
                     id: '2',
                     total_pages: 4,
+                    share: false,
                     pages1: { title: 'The Second Apple' },
                     pages2: {
                         header: 'The apple on the tree 2',
@@ -181,6 +183,7 @@ export default{
                 {
                     id: '3',
                     total_pages: 4,
+                    share: true,
                     pages1: { title: 'This is third Apple 3' },
                     pages2: {
                         header: 'The apple on the tree 3',

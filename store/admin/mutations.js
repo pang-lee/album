@@ -16,6 +16,9 @@ export default {
     [types.SET_GENDER](state, data){
         state.user_info.gender = data
     },
+    [types.SET_PRIVACY](state, data){
+        state.user_info.privacy = data
+    },
     [types.SET_DATE](state, data){
         state.user_info.date = data
     },

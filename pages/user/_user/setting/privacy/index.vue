@@ -7,7 +7,7 @@
                     <v-divider></v-divider>
                     <br/>
                     <div class="d-flex flex-column align-center">
-                        <v-select v-model="privated" :items="items" :value="items[0]" label="Choose the album privacy" outlined dense></v-select>
+                        <v-select v-model="privated" :items="items" label="Choose the album privacy" outlined dense></v-select>
                     </div>
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
@@ -32,18 +32,18 @@ import { mapGetters, mapMutations } from 'vuex'
             }
         },
         computed:{
-            ...mapGetters('books', ['privacy']),
+            ...mapGetters('admin', ['user']),
             privated:{
                 get(){
-                    return this.privacy
+                    return this.user.privacy
                 },
                 set(value){
-                    return this.PRIVACY(value)
+                    return this.SET_PRIVACY(value)
                 }
             }
         },
         methods: {
-            ...mapMutations('books', ['PRIVACY'])
+            ...mapMutations('admin', ['SET_PRIVACY'])
         }
     }
 </script>

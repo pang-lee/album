@@ -2,11 +2,11 @@
   <div>
     <client-only>
       <book :page="bookpage" :bookId="bookId" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
+      <br/>
+      <v-divider></v-divider>
+      <botton :btnstatus="btnstatus" :firstIn="firstIn" :isSave="isSave" :bookId="bookId" :mouseEvent="mouseEvent" v-on:savePage="onSavePage($event)" v-on:mouseChange="onMouseChange($event)" v-on:renderKey="onRenderKey" v-on:secondeIn="onSecondIn($event)"></botton>
+      <br/>
     </client-only>
-    <br/>
-    <v-divider></v-divider>
-    <botton :btnstatus="btnstatus" :firstIn="firstIn" :isSave="isSave" :bookId="bookId" :mouseEvent="mouseEvent" v-on:savePage="onSavePage($event)" v-on:mouseChange="onMouseChange($event)" v-on:renderKey="onRenderKey" v-on:secondeIn="onSecondIn($event)"></botton>
-    <br/>
   </div>
 </template>
 

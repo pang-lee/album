@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex justify-center">
+    <div v-if="!displayOrNot" class="d-flex justify-center">
       <v-switch v-model="shareOrNot" inset :label="`${shareOrNot ? 'share' : 'deny'}`"></v-switch>
     </div>
     <div class="d-flex justify-center mt-5">
@@ -8,7 +8,8 @@
           <v-btn value="preview" @click.stop="preview()">Preview</v-btn>
           <v-btn value="edit" @click.stop="edit()">Edit</v-btn>
           <v-btn value="save" @click.stop="save()">Save</v-btn>
-          <v-btn v-if="shareOrNot" value="share" @click.stop="share()">Share</v-btn>
+          <v-btn v-if="displayOrNot && shareOrNot" value="share" @click.stop="share()">Share</v-btn>
+          <v-btn v-if="!displayOrNot && shareOrNot" value="share" @click.stop="share()">Share</v-btn>
           <v-dialog v-model="dialog">
             <v-card>
               <br/>
@@ -35,7 +36,7 @@
 
 <script>
 import * as icon from '@mdi/js'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import Swal from 'sweetalert2'
 
 export default {
@@ -71,7 +72,6 @@ export default {
         return {
           dialog: false,
           btnstate: this.btnstatus,
-          shareOrNot: true,
           cur_book: {},
           sharing: {
             url: 'https://news.vuejs.org/issues/180',
@@ -117,8 +117,20 @@ export default {
     },
     computed:{
       ...mapGetters('books', ['bookList']),
+      ...mapGetters('admin', ['privacy_value']),
+      shareOrNot:{
+        get(){
+          if(!Array.isArray(this.privacy_value.share_btn)) return this.privacy_value.share_btn
+          else return this.privacy_value.share_btn[this.bookId - 1]
+        },
+        set(value){
+          this.SELECTED_SHARE({ which_id: this.bookId, value: value})
+        }
+      },
+      displayOrNot(){
+        return this.privacy_value.notDisplay
+      },
       bookquote(){
-        console.log('call me', this.bookList.find(element => element.id === this.bookId).pages1.title)
         this.bookList.find(element => element.id === this.bookId).pages1.title
       }
     },
@@ -128,6 +140,7 @@ export default {
       }
     },
     methods: {
+      ...mapMutations('books', ['SELECTED_SHARE']),
       edit(){
         this.$emit('mouseChange', false)
         this.$emit('savePage', false)
@@ -179,11 +192,8 @@ export default {
       }
     },
     created(){
-      if(process.client){
-        this.cur_book = this.bookList.find(element => element.id === this.bookId)
-        this.sharing.quote = this.cur_book.pages1.title
-      }
-
+      this.cur_book = this.bookList.find(element => element.id === this.bookId)
+      this.sharing.quote = this.cur_book.pages1.title
     }
 }
 </script>

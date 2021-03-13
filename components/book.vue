@@ -140,13 +140,13 @@ import * as icon from '@mdi/js'
         }
       },
       header(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
       },
       text(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
       },
       imgfilter(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(3, this.page)
+        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
       }
     },
     methods: {

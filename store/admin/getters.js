@@ -2,15 +2,26 @@ import * as icon from '@mdi/js'
 
 export default{
     user: state => state.user_info,
+    privacy_value: (state, _, __, rootGetters) => {
+        let selected = rootGetters['books/bookList']
+        let arr = []
+        for(let i in selected) arr[i] = selected[i].share
+        switch(state.user_info.privacy){
+            case 'Share All':
+                return { notDisplay: true, share_btn: true }
+            case 'Share I Selected':
+                return { notDisplay: false, share_btn: arr }
+            case 'Do Not Share Any':
+                return { notDisplay: true, share_btn: false}
+        }
+    },
     sidestate: state => state.sidebar_status,
     sidebar: (state, _, __, rootGetters) => {
         switch (state.sidebar_status) {
             case 'Dashboard':
                 let list = rootGetters['books/bookList']
                 let arr = []
-                for(let i in list) {
-                    arr[i] = { link: '/dashboard/' + list[i].id , data: list[i].pages1.title }
-                }
+                for(let i in list) arr[i] = { link: '/dashboard/' + list[i].id , data: list[i].pages1.title }
                 return arr
             case 'Profile':
                 return [

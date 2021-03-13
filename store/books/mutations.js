@@ -81,7 +81,7 @@ export default {
     [types.SET_VIDEOLINK](state, data){
         state.bookList.find(element => element.id === data.which_id)[`pages${data.which_page}`].options[3].href = data.value
     },
-    [types.PRIVACY](state, data){
-        state.privacy_value = data
+    [types.SELECTED_SHARE](state, data){
+        state.bookList.find(element => element.id === data.which_id).share = data.value
     }
 }
