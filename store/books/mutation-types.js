@@ -1,6 +1,8 @@
 export const FETCH_BOOK_LIST = 'FETCH_BOOK_LIST'
 
-export const SET_BOOKID = 'SET_BOOKID'
+export const CREATE_BOOK = 'CREATE_BOOK'
+
+export const GENERATE_ID = 'GENERATE_ID'
 
 export const SET_BOOKTITLE = 'SET_BOOKTITLE'
 

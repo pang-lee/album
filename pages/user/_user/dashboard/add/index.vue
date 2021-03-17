@@ -1,12 +1,12 @@
 <template>
   <div>
     <client-only>
-      <book :page="book.page" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
+      <book :page="bookpage" :bookId="bookId" :key="componentKey" :isSave="isSave" v-on:addPage="onAddPage" :mouseEvent="mouseEvent"></book>
+      <br/>
+      <v-divider></v-divider>
+      <botton :btnstatus="btnstatus" :bookId="bookId" :isSave="isSave" :mouseEvent="mouseEvent" v-on:savePage="onSavePage($event)" v-on:mouseChange="onMouseChange($event)" v-on:renderKey="onRenderKey"></botton>
+      <br/>
     </client-only>
-    <br/>
-    <v-divider></v-divider>
-    <botton :btnstatus="btnstatus" :isSave="isSave" :mouseEvent="mouseEvent" v-on:savePage="onSavePage($event)" v-on:mouseChange="onMouseChange($event)" v-on:renderKey="onRenderKey"></botton>
-    <br/>
   </div>
 </template>
 
@@ -25,10 +25,17 @@ import { mapGetters, mapMutations } from 'vuex'
       }
     },
     computed:{
-      ...mapGetters('books', ['book'])
+      ...mapGetters('books', ['bookList']),
+      bookId(){
+        return this.$route.fullPath.slice(this.$route.fullPath.indexOf('?') + 2)
+      },
+      bookpage(){
+        if(process.server) return null
+        return this.bookList.find(element => element.id === this.bookId).total_pages
+      }
     },
     methods: {
-      ...mapMutations('books', ['CLEAR_ALL', 'SET_BOOKPAGE']),
+      ...mapMutations('books', ['SET_BOOKPAGE']),
       forceRerender() {
         this.componentKey += 1
       },
@@ -46,9 +53,6 @@ import { mapGetters, mapMutations } from 'vuex'
       onMouseChange(e){
         this.mouseEvent = e
       }
-    },
-    created(){
-      this.CLEAR_ALL()
     }
   }
 </script>

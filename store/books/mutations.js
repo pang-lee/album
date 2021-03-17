@@ -4,8 +4,13 @@ export default {
     [types.FETCH_BOOK_LIST](state, data){
         state.bookList = data
     },
-    [types.SET_BOOKID](state, data){
-        state.book_info.bookid = data
+    [types.CREATE_BOOK](state, data){
+        state.bookList.push({
+            id: data,
+            total_pages: 1,
+            share: true,
+            pages1: { title: '' }
+        })
     },
     [types.SET_BOOKTITLE](state, data){
         state.bookList.find(element => element.id === data.which_id).pages1.title = data.value

@@ -26,7 +26,7 @@ import { mapGetters, mapMutations } from 'vuex'
       }
     },
     computed:{
-      ...mapGetters('books', ['book', 'bookList']),
+      ...mapGetters('books', ['bookList']),
       bookId(){
         return this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 45) + 1)
       },

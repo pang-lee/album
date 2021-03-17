@@ -5,7 +5,7 @@ export default{
     privacy_value: (state, _, __, rootGetters) => {
         let selected = rootGetters['books/bookList']
         let arr = []
-        for(let i in selected) arr[i] = selected[i].share
+        for(let i in selected) arr[selected[i].id] = selected[i].share
         switch(state.user_info.privacy){
             case 'Share All':
                 return { notDisplay: true, share_btn: true }

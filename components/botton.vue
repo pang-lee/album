@@ -121,7 +121,7 @@ export default {
       shareOrNot:{
         get(){
           if(!Array.isArray(this.privacy_value.share_btn)) return this.privacy_value.share_btn
-          else return this.privacy_value.share_btn[this.bookId - 1]
+          else return this.privacy_value.share_btn[this.bookId]
         },
         set(value){
           this.SELECTED_SHARE({ which_id: this.bookId, value: value})

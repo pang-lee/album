@@ -33,17 +33,17 @@ import * as icon from '@mdi/js'
             ...mapGetters('admin', ['sidebar', 'sidestate'])
         },
         methods: {
-            ...mapMutations('books', ['SET_BOOKID']),
+            ...mapMutations('books', ['CREATE_BOOK']),
             generateUID() {
                 let firstPart = (Math.random() * 46656) | 0
                 let secondPart = (Math.random() * 46656) | 0
                 firstPart = ("000" + firstPart.toString(36)).slice(-3)
                 secondPart = ("000" + secondPart.toString(36)).slice(-3)
-                return firstPart + secondPart
+                return new Date().getMilliseconds() + '_' + firstPart + secondPart
             },
             add(){
                 let bookId = this.generateUID()
-                this.SET_BOOKID(bookId)
+                this.CREATE_BOOK(bookId)
                 this.$router.push(this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 0), this.$route.fullPath.indexOf('/', 50)) + '/add?=' + bookId)
             }
         }

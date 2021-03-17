@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import * as icon from '@mdi/js'
 import Swal from 'sweetalert2'
@@ -104,11 +104,19 @@ export default {
     },
     computed:{
         ...mapGetters('authentication', ['getSuccessVerify', 'getResetStatus']),
-        ...mapGetters('admin', ['user'])
+        ...mapGetters('admin', ['user', 'sidebar'])
     },
     methods:{
         ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
         ...mapActions('admin', ['fetchMe']),
+        ...mapMutations('books', ['CREATE_BOOK']),
+        generateUID() {
+            let firstPart = (Math.random() * 46656) | 0
+            let secondPart = (Math.random() * 46656) | 0
+            firstPart = ("000" + firstPart.toString(36)).slice(-3)
+            secondPart = ("000" + secondPart.toString(36)).slice(-3)
+            return new Date().getMilliseconds() + '_' + firstPart + secondPart
+        },
         async submit(){
             let result = await this.$validate()
             if(result) await this.verify_login(this.login)
@@ -128,10 +136,19 @@ export default {
                     if (!value) return 'You need to write something!'
                 },
                 preConfirm: async (value) => {
-                    await this.fetchToken(value)
-                    if(this.$cookies.getAll().length == 0) return
-                    await this.fetchMe()
-                    if(this.user.id) return this.$router.push(`/user/${this.user.id}/dashboard/self1`)
+                    try {
+                        await this.fetchToken(value)
+                        if(this.$cookies.getAll().length == 0) return
+                        await this.fetchMe()
+                        if(this.user.id && this.sidebar.length !== 0) return this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`)
+                        else {
+                            let bookId = this.generateUID()
+                            this.CREATE_BOOK(bookId)
+                            return this.$router.push(`/user/${this.user.id}/dashboard/add?=${bookId}`)
+                        }
+                    } catch (error) {
+                        throw new Error(error)
+                    }
                 }
             })
         },
