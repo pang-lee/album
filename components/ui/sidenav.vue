@@ -6,7 +6,8 @@
                     <v-icon class="addbook">{{ addBook }}</v-icon>
                 </v-list-item>
                 <v-divider v-if="sidestate == 'Dashboard'"></v-divider>
-                <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + item.link}`">
+                <!-- <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + item.link}`"> -->
+                <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`/user/${$route.params.user}${item.link}`">
                     <v-list-item-content>
                         <v-list-item-title>
                             <v-icon>{{ item.icon }}</v-icon>&nbsp;{{ item.data }}

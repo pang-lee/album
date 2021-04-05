@@ -173,6 +173,7 @@ export default{
         try {
             commit(types.SET_VERIFY, false)
             this.app.$cookies.removeAll()
+            localStorage.clear()
             return await this.app.apolloProvider.defaultClient.mutate({ mutation: invalidate })
         } catch (error) {
             return null

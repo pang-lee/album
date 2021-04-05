@@ -95,7 +95,7 @@ import * as icon from '@mdi/js'
           defaultAvatar: icon.mdiAccountCircle,
           drawer: false,
           links: [
-            { target: 'Dashboard', route: '/dashboard/self1', icon: icon.mdiViewDashboardOutline },
+            { target: 'Dashboard', route: '', icon: icon.mdiViewDashboardOutline },
             { target: 'Profile', route: '/profile/sticker', icon: icon.mdiFaceOutline },
             { target: 'Setting', route: '/setting/privacy', icon: icon.mdiCogOutline },
             { target: 'Logout', route: '/', icon: icon.mdiLogout }
@@ -118,15 +118,23 @@ import * as icon from '@mdi/js'
             return this.$router.push(link.route)
           } else {
             this.SET_SIDEBAR_STATUS(link.target)
-            return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
+            // return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
+            return this.$router.push(`/user/${this.$route.params.user}${link.route}`)
           }
         },
         profile(device){
           this.SET_SIDEBAR_STATUS('Profile')
           if(device == 'mobile') this.drawer = !this.drawer
-          return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
+          // return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
+          return this.$router.push(`/user/${this.$route.params.user}/profile/information`)
         }
-      }
+      },
+      created() {
+        if(process.client) {
+          if(!this.sidebar[0]) return null
+          this.links[0].route = this.sidebar[0].link
+        }
+      },
     }
 </script>
 

@@ -96,12 +96,12 @@ import * as icon from '@mdi/js'
       mouseEvent: {
         type: Boolean,
         default: true,
-        required: true
+        // required: true
       },
       isSave:{
         type: Boolean,
         default: false,
-        required: true
+        // required: true
       }
     },
     data() {

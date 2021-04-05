@@ -59,6 +59,7 @@ export default {
     'nuxt-clipboard2',
     'vue-social-sharing/nuxt',
   ],
+
   apollo: {
     clientConfigs: {
       default: {
@@ -70,11 +71,34 @@ export default {
       }
     }
   },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: process.env.AXIOS_URL,
     credentials: true
   },
+
+  // pwa:{
+  //   icon:{
+  //     source: './static/icon.png'
+  //   },
+  //   meta:{
+  //     mobileAppIOS: true,
+  //     theme_color: "#FFE1C4"
+  //   },
+  //   manifest: {
+  //     name: 'Album',
+  //     lang: 'en',
+  //     useWebmanifestExtension: false,
+  //     start_url: '/',
+  //     display: 'standalone'
+  //   },
+  //   workbox:{
+  //     dev: true,
+  //     preCaching: [
+  //     ]
+  //   }
+  // },
 
   // Content module configuration (https://go.nuxtjs.dev/content-config)
   content: {},

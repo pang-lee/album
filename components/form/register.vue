@@ -104,7 +104,7 @@ import * as icon from '@mdi/js'
                                 let bookId = this.generateUID()
                                 this.CREATE_BOOK(bookId)
                                 return this.$router.push(`/user/${this.user.id}/dashboard/add?=${bookId}`)
-                            }                            
+                            }
                         } catch (error) {
                             throw new Error(error)
                         }

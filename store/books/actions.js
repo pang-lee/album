@@ -267,5 +267,12 @@ export default{
         } catch (error) {
             console.log('This is fetchBook error', error)
         }
+    },
+    async guestView({ commit }, params){
+        try {
+            console.log('call action')
+        } catch (error) {
+            console.log('This is guest view error', error)
+        }
     }
 }

@@ -17,7 +17,7 @@
             </v-tooltip>
                 <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                    <v-icon class="ml-3" color="red" v-bind="attrs" v-on="on">{{ google }}</v-icon>
+                    <v-icon class="ml-3" color="red" v-bind="attrs" v-on="on" @click="googleAuth()">{{ google }}</v-icon>
                 </template>
                 <span>Google</span>
             </v-tooltip>
@@ -169,6 +169,9 @@ export default {
                     })
                 }
             })
+        },
+        googleAuth(){
+            window.location.href = process.env.OAUTH_GOOGLE
         },
         test(){
             console.log('test click')
