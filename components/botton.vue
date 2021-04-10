@@ -36,7 +36,7 @@
 
 <script>
 import * as icon from '@mdi/js'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import Swal from 'sweetalert2'
 
 export default {
@@ -131,16 +131,17 @@ export default {
         return this.privacy_value.notDisplay
       },
       bookquote(){
-        this.bookList.find(element => element.id === this.bookId).pages1.title
+        this.bookList.find(element => element.id === this.bookId).booktitle
       }
     },
     watch:{
-      'cur_book.pages1.title': function(){
-        this.sharing.quote = this.bookList.find(element => element.id === this.bookId).pages1.title
+      'cur_book.book.title': function(){
+        this.sharing.quote = this.bookList.find(element => element.id === this.bookId).booktitle
       }
     },
     methods: {
       ...mapMutations('books', ['SELECTED_SHARE']),
+      ...mapActions('books', ['saveBook']),
       edit(){
         this.$emit('mouseChange', false)
         this.$emit('savePage', false)
@@ -189,11 +190,12 @@ export default {
       },
       async save(){
         this.$emit('savePage', true)
+        this.saveBook(this.bookId)
       }
     },
     created(){
       this.cur_book = this.bookList.find(element => element.id === this.bookId)
-      this.sharing.quote = this.cur_book.pages1.title
+      this.sharing.quote = this.cur_book.booktitle
     }
 }
 </script>

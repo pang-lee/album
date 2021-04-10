@@ -1,8 +1,8 @@
 <template>
-    <v-img v-if="mouseEvent" :src="bookList.find(element => element.id === bookId)[`pages${bookpage}`].img" aspect-ratio="1.79" :style="filters" eager>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+    <v-img v-if="mouseEvent" :src="bookList.find(element => element.id === bookId).bookpage[bookpage].img" aspect-ratio="1.79" :style="filters" eager>
+        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
     </v-img>
     <div v-else-if="!upload.src" class="page-image" @click="editingImg(bookpage)">
       <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
@@ -11,36 +11,36 @@
     </div>
     <div v-else @click="dialog = true">
         <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId)[`pages${bookpage}`].options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
         </v-img>
         <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
             <v-card>
                 <div class="text-h6 font-weight-black text-center">Photo Setting</div>
-                <v-img :src="bookList.find(element => element.id === bookId)[`pages${bookpage}`].img" :style="filters"></v-img>
+                <v-img :src="bookList.find(element => element.id === bookId).bookpage[bookpage].img" :style="filters"></v-img>
                 <perfect-scrollbar>
                     <v-card-text v-if="filteImage">
-                        <strong>Grayscale ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.grayscale }})</strong>
+                        <strong>Grayscale ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
                         <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Sepia ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.sepia }})</strong>
+                        <strong>Sepia ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.sepia }})</strong>
                         <v-slider v-model="sepia" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Saturate ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.saturate }})</strong>
+                        <strong>Saturate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.saturate }})</strong>
                         <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Hue Rotate ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.hueRotate }} deg)</strong>
+                        <strong>Hue Rotate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.hueRotate }} deg)</strong>
                         <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
-                        <strong>Invert ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.invert }})</strong>
+                        <strong>Invert ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.invert }})</strong>
                         <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Brightness ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.brightness }})</strong>
+                        <strong>Brightness ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.brightness }})</strong>
                         <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
-                        <strong>Contrast ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.contrast }})</strong>
+                        <strong>Contrast ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.contrast }})</strong>
                         <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Blur ({{ bookList.find(element => element.id === bookId)[`pages${bookpage}`].photo.blur }}px)</strong>
+                        <strong>Blur ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.blur }}px)</strong>
                         <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
                     </v-card-text>
                     <v-card-text v-else>
                         <v-expansion-panels focusable popout>
-                            <v-expansion-panel v-for="(item, index) in bookList.find(element => element.id === bookId)[`pages${bookpage}`].options" :key="index">
+                            <v-expansion-panel v-for="(item, index) in bookList.find(element => element.id === bookId).bookpage[bookpage].options" :key="index">
                             <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                             <v-expansion-panel-content>
                                 <br/>
@@ -49,7 +49,7 @@
                                         <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                                     </vue-core-image-upload>
                                 </div>
-                                <v-text-field v-else @input="hrefOption(index, $event)" :label="item.title" outlined clearable></v-text-field>
+                                <v-text-field v-else @input="hrefOption(index, $event)" :value="item.href" :label="item.title" outlined clearable></v-text-field>
                             </v-expansion-panel-content>
                             </v-expansion-panel>
                         </v-expansion-panels>
@@ -113,7 +113,7 @@ import * as icon from '@mdi/js'
             },
             grayscale:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.grayscale
+                    return this.imgfilter[this.bookpage].photo.grayscale
                 },
                 set(value){
                     return this.SET_GRAYSCALE({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -121,7 +121,7 @@ import * as icon from '@mdi/js'
             },
             sepia:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.sepia
+                    return this.imgfilter[this.bookpage].photo.sepia
                 },
                 set(value){
                     return this.SET_SEPIA({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -129,7 +129,7 @@ import * as icon from '@mdi/js'
             },
             saturate:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.saturate
+                    return this.imgfilter[this.bookpage].photo.saturate
                 },
                 set(value){
                     return this.SET_SATURATE({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -137,7 +137,7 @@ import * as icon from '@mdi/js'
             },
             hueRotate:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.hueRotate
+                    return this.imgfilter[this.bookpage].photo.hueRotate
                 },
                 set(value){
                     return this.SET_HUEROTATE({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -145,7 +145,7 @@ import * as icon from '@mdi/js'
             },
             invert:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.invert
+                    return this.imgfilter[this.bookpage].photo.invert
                 },
                 set(value){
                     return this.SET_INVERT({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -153,7 +153,7 @@ import * as icon from '@mdi/js'
             },
             brightness:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.brightness
+                    return this.imgfilter[this.bookpage].photo.brightness
                 },
                 set(value){
                     return this.SET_BRIGHTNESS({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -161,7 +161,7 @@ import * as icon from '@mdi/js'
             },
             contrast:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.contrast
+                    return this.imgfilter[this.bookpage].photo.contrast
                 },
                 set(value){
                     return this.SET_CONTRAST({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -169,7 +169,7 @@ import * as icon from '@mdi/js'
             },
             blur:{
                 get(){
-                    return this.imgfilter[this.bookpage - 2].photo.blur
+                    return this.imgfilter[this.bookpage].photo.blur
                 },
                 set(value){
                     return this.SET_BLUR({ which_id: this.bookId, which_page: this.bookpage, value: value})
@@ -177,7 +177,7 @@ import * as icon from '@mdi/js'
             }
         },
         methods: {
-            ...mapMutations('books', [ 'SET_BOOKIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
+            ...mapMutations('books', ['SET_BOOKIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
             hrefOption(index, e){
                 switch(index){
                     case 1:
@@ -187,7 +187,7 @@ import * as icon from '@mdi/js'
                     case 3:
                         return this.SET_VIDEOLINK({ which_id: this.bookId, which_page: this.bookpage, value: e})
                     default:
-                        return
+                        return null
                 }
             },
             editingImg(page){
@@ -196,9 +196,7 @@ import * as icon from '@mdi/js'
             toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
             imagechanged(res) {
                 const reader = new FileReader()
-                reader.onload = (e) => {
-                    this.upload.src = e.target.result
-                }
+                reader.onload = (e) => this.upload.src = e.target.result
                 this.SET_BOOKIMG({ ...this.edit_img_info, value: res})
                 reader.readAsDataURL(res)
             },
@@ -207,8 +205,8 @@ import * as icon from '@mdi/js'
             }
         },
         created() {
-            this.upload.src = this.bookList.find(element => element.id === this.bookId)[`pages${this.bookpage}`].img
-            this.photo = this.bookList.find(element => element.id === this.bookId)[`pages${this.bookpage}`].photo
+            this.upload.src = this.bookList.find(element => element.id === this.bookId).bookpage[this.bookpage].img
+            this.photo = this.bookList.find(element => element.id === this.bookId).bookpage[this.bookpage].photo
         },
     }
 </script>

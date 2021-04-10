@@ -2,7 +2,8 @@
   <div>
     <div class="container">
       <div v-if="!mouseEvent" class="flip-book" ref="book">
-        <div v-for="(n, index) in pages + 1" :key="n" ref="page" class="page">
+        <!-- <div v-for="(n, index) in pages + 1" :key="n" ref="page" class="page"> -->
+        <div v-for="n in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
@@ -21,10 +22,12 @@
           </div>
           
           <div v-else class="page-content">
-            <bookheader class="page-header" :bookId="bookId" :bookpage="index" :bookHead="header[index - 1].header"></bookheader>
-            <bookimg class="page-image" :bookId="bookId" :bookpage="n" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
+            <bookheader class="page-header" :bookId="bookId" :bookpage="n -2" :bookHead="header[n - 2].header"></bookheader>
+            <!-- <bookheader class="page-header" :bookId="bookId" :bookpage="index" :bookHead="header[index - 1].header"></bookheader> -->
+            <bookimg class="page-image" :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
             <div>
-              <booktext :bookId="bookId" :bookpage="index" :bookText="text[index - 1].text"></booktext>
+              <booktext :bookId="bookId" :bookpage="n - 2" :bookText="text[n - 2].text"></booktext>
+              <!-- <booktext :bookId="bookId" :bookpage="index" :bookText="text[index - 1].text"></booktext> -->
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -35,7 +38,7 @@
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
-              <h2 class="page-first-last">{{ bookList.find(element => element.id === bookId).pages1.title }}</h2>
+              <h2 class="page-first-last">{{ bookList.find(element => element.id === bookId).booktitle }}</h2>
             </div>
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
@@ -45,11 +48,11 @@
           </div>
 
           <div v-else class="page-content">
-            <h2 class="page-header">{{ bookList.find(element => element.id === bookId)[`pages${n}`].header }}</h2>
+            <h2 class="page-header">{{ bookList.find(element => element.id === bookId).bookpage[n - 2].header }}</h2>
             <div class="page-image">
-              <bookimg :bookId="bookId" :bookpage="n" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
+              <bookimg :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
               <div class="page-text">
-                <div class="text">{{ bookList.find(element => element.id === bookId)[`pages${n}`].text }}</div>
+                <div class="text">{{ bookList.find(element => element.id === bookId).bookpage[n - 2].text }}</div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
@@ -133,20 +136,20 @@ import * as icon from '@mdi/js'
       },
       title:{
         get(){
-          return this.bookList.find(element => element.id === this.bookId).pages1.title
+          return this.bookList.find(element => element.id === this.bookId).booktitle
         },
         set(newValue){
           return this.SET_BOOKTITLE({ which_id: this.bookId, value: newValue })
         }
       },
       header(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
+        return this.bookList.find((element => element.id === this.bookId)).bookpage
       },
       text(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
+        return this.bookList.find((element => element.id === this.bookId)).bookpage
       },
       imgfilter(){
-        return Object.values(this.bookList.find(element => element.id === this.bookId)).splice(4, this.page)
+        return this.bookList.find((element => element.id === this.bookId)).bookpage
       }
     },
     methods: {

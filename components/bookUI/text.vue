@@ -27,7 +27,7 @@ import { mapMutations } from 'vuex'
                     return this.bookText
                 },
                 set(value){
-                    return this.SET_BOOKTEXT({ which_id: this.bookId, which_page: (this.bookpage + 1), value: value })
+                    return this.SET_BOOKTEXT({ which_id: this.bookId, which_page: this.bookpage, value: value })
                 }
             }
         },

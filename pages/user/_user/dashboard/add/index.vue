@@ -21,21 +21,19 @@ import { mapGetters, mapMutations } from 'vuex'
         componentKey: 0,
         btnstatus: 'edit',
         mouseEvent: false,
-        isSave: false
+        isSave: false,
+        bookId: ''
       }
     },
     computed:{
       ...mapGetters('books', ['bookList']),
-      bookId(){
-        return this.$route.fullPath.slice(this.$route.fullPath.indexOf('?') + 2)
-      },
       bookpage(){
         if(process.server) return null
-        return this.bookList.find(element => element.id === this.bookId).total_pages
+        return this.bookList.find(element => element.id === this.bookId).total_page
       }
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKPAGE']),
+      ...mapMutations('books', ['SET_BOOKPAGE', 'CREATE_BOOK']),
       forceRerender() {
         this.componentKey += 1
       },
@@ -52,7 +50,18 @@ import { mapGetters, mapMutations } from 'vuex'
       },
       onMouseChange(e){
         this.mouseEvent = e
-      }
+      },
+      generateUID() {
+        let firstPart = (Math.random() * 46656) | 0
+        let secondPart = (Math.random() * 46656) | 0
+        firstPart = ("000" + firstPart.toString(36)).slice(-3)
+        secondPart = ("000" + secondPart.toString(36)).slice(-3)
+        this.bookId = new Date().getMilliseconds() + '_' + firstPart + secondPart
+        this.CREATE_BOOK(this.bookId)
+      },
+    },
+    created() {
+      this.generateUID()
     }
   }
 </script>

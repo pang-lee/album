@@ -2,11 +2,10 @@
     <client-only>
         <v-sheet rounded="lg">
             <v-list color="transparent">
-                <v-list-item v-if="sidestate == 'Dashboard'" @click="add()">
+                <v-list-item v-if="sidestate == 'Dashboard'" nuxt :to="`/user/${$route.params.user}/dashboard/add`">
                     <v-icon class="addbook">{{ addBook }}</v-icon>
                 </v-list-item>
                 <v-divider v-if="sidestate == 'Dashboard'"></v-divider>
-                <!-- <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + item.link}`"> -->
                 <v-list-item v-for="(item, index) in sidebar" :key="index" nuxt :to="`/user/${$route.params.user}${item.link}`">
                     <v-list-item-content>
                         <v-list-item-title>
@@ -20,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import * as icon from '@mdi/js'
 
     export default {
@@ -32,21 +31,6 @@ import * as icon from '@mdi/js'
         },
         computed: {
             ...mapGetters('admin', ['sidebar', 'sidestate'])
-        },
-        methods: {
-            ...mapMutations('books', ['CREATE_BOOK']),
-            generateUID() {
-                let firstPart = (Math.random() * 46656) | 0
-                let secondPart = (Math.random() * 46656) | 0
-                firstPart = ("000" + firstPart.toString(36)).slice(-3)
-                secondPart = ("000" + secondPart.toString(36)).slice(-3)
-                return new Date().getMilliseconds() + '_' + firstPart + secondPart
-            },
-            add(){
-                let bookId = this.generateUID()
-                this.CREATE_BOOK(bookId)
-                this.$router.push(this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 0), this.$route.fullPath.indexOf('/', 50)) + '/add?=' + bookId)
-            }
         }
     }
 </script>

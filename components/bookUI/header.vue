@@ -1,5 +1,5 @@
 <template>
-    <input placeholder="Click Me To Set Header" type="text" v-model="edit_header" />
+    <input placeholder="Click Me To Set Header" type="text" v-model="edit_header"/>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
                 return this.bookHead
             },
             set(value){
-                this.SET_BOOKHEADER({ which_id: this.bookId, which_page: (this.bookpage + 1), value: value})
+                this.SET_BOOKHEADER({ which_id: this.bookId, which_page: this.bookpage, value: value})
             }
         }
     },

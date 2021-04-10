@@ -28,11 +28,11 @@ import { mapGetters, mapMutations } from 'vuex'
     computed:{
       ...mapGetters('books', ['bookList']),
       bookId(){
-        return this.$route.fullPath.slice(this.$route.fullPath.indexOf('/', 45) + 1)
+        return this.$route.params.book
       },
       bookpage(){
         if(process.server) return null
-        return this.bookList.find(element => element.id === this.bookId).total_pages
+        return this.bookList.find(element => element.id === this.bookId).total_page
       }
     },
     methods: {

@@ -21,7 +21,7 @@ export default{
             case 'Dashboard':
                 let list = rootGetters['books/bookList']
                 let arr = []
-                for(let i in list) arr[i] = { link: '/dashboard/' + list[i].id , data: list[i].pages1.title }
+                for(let i in list) arr[i] = { link: '/dashboard/' + list[i].id , data: list[i].booktitle }
                 return arr
             case 'Profile':
                 return [
@@ -30,8 +30,7 @@ export default{
                 ]
             case 'Setting':
                 return [
-                    { link: '/setting/privacy', data: 'privacy', icon: icon.mdiAccountLockOutline },
-                    { link: '/setting/language', data: 'language', icon: icon.mdiEarth },
+                    { link: '/setting/privacy', data: 'privacy', icon: icon.mdiAccountLockOutline }
                 ]
         }
     }

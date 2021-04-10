@@ -4,18 +4,43 @@ import gql from 'graphql-tag'
 export default{
     async fetchBookList({ commit }){
         try {
-            // let response = await this.app.apolloProvider.defaultClient.query({
-            //     query:gql`
-            //         query {
-            //             books {
-            //                 title
-            //                 author
-            //             }
-            //         }
-            //     `
-            // })
-            // console.log('this is fetch book list', response)
-            // commit(types.FETCH_BOOK_LIST, response.data)
+            let response = await this.app.apolloProvider.defaultClient.query({
+                query:gql`
+                    query {
+                      books{
+                        id
+                        total_page
+                        share
+                        booktitle
+                        bookpage{
+                          header
+                          text
+                          img
+                          photo{
+                            grayscale
+                            sepia
+                            saturate
+                            hueRotate
+                            invert
+                            brightness
+                            contrast
+                            blur
+                            suffix{
+                              hueRotate
+                              blur
+                            }
+                          }
+                          options{
+                            title
+                            href
+                          }
+                        }
+                      }
+                    }
+                `
+            })
+            console.log(response.data.books)
+            commit(types.FETCH_BOOK_LIST, response.data.books)
 
             // let fake = [
             //     {
@@ -263,9 +288,16 @@ export default{
             //     }
             // ]
             // commit(types.FETCH_BOOK_LIST, fake)
-            commit(types.FETCH_BOOK_LIST, [])
+            // commit(types.FETCH_BOOK_LIST, [])
         } catch (error) {
             console.log('This is fetchBook error', error)
+        }
+    },
+    async saveBook({ getters }, params){
+        try {
+            console.log(getters.bookList.find(element => element.id === params))
+        } catch (error) {
+            console.log('This is save error', error)
         }
     },
     async guestView({ commit }, params){

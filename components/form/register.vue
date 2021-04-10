@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
 import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
@@ -75,7 +75,6 @@ import * as icon from '@mdi/js'
         methods:{
             ...mapActions('authentication', ['verify_signup', 'signup']),
             ...mapActions('admin', ['fetchMe']),
-            ...mapMutations('books', ['CREATE_BOOK']),
             async submit(){
                 let result = await this.$validate()
                 if(result) await this.verify_signup(this.register)
@@ -97,14 +96,11 @@ import * as icon from '@mdi/js'
                     preConfirm: async (value) => {
                         try {
                             await this.signup(value)
-                            if(this.$cookies.getAll().length == 0) return
-                            await this.fetchMe()
-                            if(this.user.id && this.sidebar.length !== 0) return this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`)
-                            else {
-                                let bookId = this.generateUID()
-                                this.CREATE_BOOK(bookId)
-                                return this.$router.push(`/user/${this.user.id}/dashboard/add?=${bookId}`)
+                            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                                await this.fetchMe()
+                                return this.$router.push(`/user/${this.user.id}/dashboard/add`)
                             }
+                            return null
                         } catch (error) {
                             throw new Error(error)
                         }
