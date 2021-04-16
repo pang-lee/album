@@ -190,7 +190,7 @@ export default {
       },
       async save(){
         this.$emit('savePage', true)
-        this.saveBook(this.bookId)
+        this.saveBook({ theId: this.bookId, theUser: this.$route.params.user })
       }
     },
     created(){

@@ -1,0 +1,15 @@
+mutation changebook($userId: ID!, $bookId: ID!, $total_page: Int!, $share: Boolean!, $booktitle: String!, $book: String){
+  set_book(userId: $userId, bookId: $bookId, total_page: $total_page, share: $share, booktitle: $booktitle, bookinfo: $book){
+    id
+    total_page
+    share
+    booktitle
+    bookpage{
+      header
+      text
+      img
+      photo
+      options
+    }
+  }
+}
