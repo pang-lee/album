@@ -11,7 +11,7 @@
                     </div>
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
-                        <v-btn outlined color="primary" class="mb-5">Save</v-btn>
+                        <v-btn outlined color="primary" class="mb-5" @click="setprivacy($route.params.user)">Save</v-btn>
                     </div>
                 </v-card>
             </client-only>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
     export default {
         name: 'privacy',
@@ -43,7 +43,8 @@ import { mapGetters, mapMutations } from 'vuex'
             }
         },
         methods: {
-            ...mapMutations('admin', ['SET_PRIVACY'])
+            ...mapMutations('admin', ['SET_PRIVACY']),
+            ...mapActions('admin', ['setprivacy'])
         }
     }
 </script>

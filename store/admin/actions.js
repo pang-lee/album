@@ -1,7 +1,3 @@
-import changename from '~/static/gql/setname.gql'
-import resetpassword from '~/static/gql/resetpassword.gql'
-import changegender from '~/static/gql/gender.gql'
-import changedate from '~/static/gql/date.gql'
 import * as types from './mutation-types'
 import gql from 'graphql-tag'
 import Swal from 'sweetalert2'
@@ -17,6 +13,7 @@ export default{
                             username
                             gender
                             birthday
+                            privacy
                         }
                     }
                 `
@@ -26,7 +23,7 @@ export default{
             commit(types.SET_LAST, user.data.getMe.username.split(' ')[1])
             commit(types.SET_GENDER, user.data.getMe.gender)
             commit(types.SET_DATE, user.data.getMe.birthday)
-            commit(types.SET_PRIVACY, 'Share I Selected')
+            commit(types.SET_PRIVACY, user.data.getMe.privacy)
             await dispatch('fetchImage')
             await dispatch('books/fetchBookList', _, { root: true })
         } catch (error) {
@@ -60,7 +57,11 @@ export default{
     async setname({ getters }, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: changename,
+                mutation: gql`
+                    mutation($name: String!){
+                        set_username(name: $name)
+                    }
+                `,
                 variables: {
                     "name": params
                 }
@@ -78,7 +79,11 @@ export default{
     async resetpassword(_, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: resetpassword,
+                mutation: gql`
+                    mutation($password: String!){
+                        set_password(password: $password)
+                    }
+                `,
                 variables:{
                     "password": params
                 }
@@ -96,7 +101,11 @@ export default{
     async setgender(_, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: changegender,
+                mutation: gql`
+                    mutation($gender: String!){
+                        set_gender(gender: $gender)
+                    }
+                `,
                 variables: {
                     "gender": params
                 }
@@ -114,7 +123,11 @@ export default{
     async setdate(_, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: changedate,
+                mutation: gql`
+                    mutation($date: String!){
+                        set_date(date: $date)
+                    }
+                `,
                 variables: {
                     "date": params
                 }
@@ -127,6 +140,23 @@ export default{
             })
         } catch (error) {
             console.log('This is set date error', error)
+        }
+    },
+    async setprivacy({ getters }, params){
+        try {
+            let response = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: gql`
+                    mutation($private_value: String!){
+                        set_privacy(privacy_value: $private_value)
+                    }
+                `,
+                variables: {
+                    "private_value": JSON.stringify({ userId: params, privacy: getters.user.privacy, book_share: getters.privacy_value.share_btn })
+                }
+            })
+            console.log('this is set privacy', response)
+        } catch (error) {
+            console.log('This is set privacy error', error)
         }
     }
 }

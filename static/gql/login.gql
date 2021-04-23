@@ -1,8 +1,0 @@
-mutation login($code: String!){
-   login(code: $code){
-		access_token
-    refresh_token
-    access_token_expirationDate
-    refresh_token_expirationDate
-  }
-}

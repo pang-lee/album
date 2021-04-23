@@ -1,9 +1,3 @@
-import registergql from '~/static/gql/register.gql'
-import verloggql from '~/static/gql/verify_login.gql'
-import versingql from '~/static/gql/verify_signup.gql'
-import logingql from '~/static/gql/login.gql'
-import forgetgql from '~/static/gql/forget.gql'
-import invalidate from '~/static/gql/invalid_token.gql'
 import * as types from './mutation-types'
 import Swal from 'sweetalert2'
 import gql from 'graphql-tag'
@@ -12,7 +6,11 @@ export default{
     async verify_login({ commit }, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: verloggql,
+                mutation: gql`
+                    mutation($input: loginInput!){
+                        verify_login(input: $input)
+                    }
+                `,
                 variables: {
                     "input": {
                         "email": params.email,
@@ -37,7 +35,16 @@ export default{
     async fetchToken(_, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: logingql,
+                mutation: gql`
+                    mutation($code: String!){
+                       login(code: $code){
+                    	access_token
+                        refresh_token
+                        access_token_expirationDate
+                        refresh_token_expirationDate
+                      }
+                    }
+                `,
                 variables: {
                    "code": params
                 }
@@ -60,7 +67,11 @@ export default{
     async verify_signup({ commit }, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: versingql,
+                mutation: gql`
+                    mutation($input: signupInput!){
+                      verify_signup(input: $input)
+                    }
+                `,
                 variables: {
                     "input": {
                         "email": params.email,
@@ -85,7 +96,16 @@ export default{
     async signup(_, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: registergql,
+                mutation: gql`
+                    mutation($code: String!){
+                        signup(code: $code){
+		                    access_token
+                            refresh_token
+                            access_token_expirationDate
+                            refresh_token_expirationDate
+                        }
+                    }
+                `,
                 variables: {
                     "code": params
                  }
@@ -108,7 +128,11 @@ export default{
     async forget({ commit }, params){
         try {
             const response = await this.app.apolloProvider.defaultClient.mutate({
-                mutation: forgetgql,
+                mutation: gql`
+                    mutation($email: String!){
+                        forget(email: $email)
+                    }
+                `,
                 variables: {
                     "email": params
                 }
@@ -162,7 +186,13 @@ export default{
             if (new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token) {
                 commit(types.SET_VERIFY, false)
                 params.$cookies.removeAll()
-                return await params.app.apolloProvider.defaultClient.mutate({ mutation: invalidate })
+                return await params.app.apolloProvider.defaultClient.mutate({
+                    mutation: gql`
+                        mutation{
+                            invalidateToken
+                        }
+                    `
+                })
             }
             return commit(types.SET_VERIFY, true)
         } catch (error) {
@@ -174,7 +204,13 @@ export default{
             commit(types.SET_VERIFY, false)
             this.app.$cookies.removeAll()
             localStorage.clear()
-            return await this.app.apolloProvider.defaultClient.mutate({ mutation: invalidate })
+            return await this.app.apolloProvider.defaultClient.mutate({
+                mutation: gql`
+                    mutation{
+                        invalidateToken
+                    }
+                `
+            })
         } catch (error) {
             return null
         }

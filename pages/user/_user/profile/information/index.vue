@@ -40,7 +40,7 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="set_name()">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setname(user.first + ' ' + user.last)">Save</v-btn>
                   </div>
                 </v-card-text>
 
@@ -96,7 +96,7 @@
                   </v-dialog>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="set_date()">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setdate(user.date)">Save</v-btn>
                   </div>
                 </v-card-text>
 
@@ -109,7 +109,7 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="set_gender()">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setgender(user.gender)">Save</v-btn>
                   </div>
                 </v-card-text>
               </v-expansion-panel-content>
@@ -222,25 +222,12 @@ import Swal from 'sweetalert2'
     methods: {
       ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE']),
       ...mapActions('admin', ['setname', 'resetpassword', 'setgender', 'setdate']),
-      async set_name(){
-        let validate = await this.$validate()
-        if(validate){
-          return this.setname(this.user.first + ' ' + this.user.last)
-        } else {
-          return Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: 'Look like you miss something!',
-            timer: 3000,
-          })
-        }
-      },
       async reset_password(mode){
         let validate = await this.$validate()
         if(validate){
           if(mode == 'mobile'){
             this.resetpassword(this.reset)
-            return this.mobile_reset = false            
+            return this.mobile_reset = false
           }
           return this.resetpassword(this.reset)
         } else {
@@ -251,12 +238,6 @@ import Swal from 'sweetalert2'
             timer: 3000,
           })
         }
-      },
-      async set_gender(){
-        return this.setgender(this.user.gender)
-      },
-      async set_date(){
-        return this.setdate(this.user.date)
       }
     }
   }

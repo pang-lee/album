@@ -1,5 +1,4 @@
 import * as types from './mutation-types'
-import changebook from '~/static/gql/book.gql'
 import gql from 'graphql-tag'
 
 export default{
@@ -33,7 +32,11 @@ export default{
       try {
         let modified_book = getters.bookList.find(element => element.id === params.theId)
         let response = await this.app.apolloProvider.defaultClient.mutate({
-          mutation: changebook,
+          mutation: gql`
+            mutation($userId: ID!, $bookId: ID!, $total_page: Int!, $share: Boolean!, $booktitle: String!, $book: String){
+              set_book(userId: $userId, bookId: $bookId, total_page: $total_page, share: $share, booktitle: $booktitle, bookinfo: $book)
+            }
+          `,
           variables: {
             "userId": params.theUser,
             "bookId": modified_book.id,

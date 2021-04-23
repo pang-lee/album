@@ -39,6 +39,7 @@ import sidenav from '~/components/ui/sidenav'
 import * as icon from '@mdi/js'
 
   export default {
+    name: 'user',
     middleware: ['check-auth','admin'],
     components: {
       SocialChat,

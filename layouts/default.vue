@@ -24,6 +24,7 @@
 import navbar from '~/components/ui/navbar'
 import foot from '~/components/ui/foot'
     export default {
+        name: 'default',
         components:{
             navbar,
             foot

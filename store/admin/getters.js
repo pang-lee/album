@@ -3,13 +3,13 @@ import * as icon from '@mdi/js'
 export default{
     user: state => state.user_info,
     privacy_value: (state, _, __, rootGetters) => {
-        let selected = rootGetters['books/bookList']
-        let arr = []
-        for(let i in selected) arr[selected[i].id] = selected[i].share
         switch(state.user_info.privacy){
             case 'Share All':
                 return { notDisplay: true, share_btn: true }
             case 'Share I Selected':
+                let selected = rootGetters['books/bookList']
+                let arr = []
+                for(let i in selected) arr[selected[i].id] = selected[i].share
                 return { notDisplay: false, share_btn: arr }
             case 'Do Not Share Any':
                 return { notDisplay: true, share_btn: false}
