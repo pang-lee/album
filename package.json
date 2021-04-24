@@ -16,13 +16,13 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
     "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.10.1",
+    "core-js": "^3.11.0",
     "filepond": "^4.27.0",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.15.4",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-sweetalert2": "^1.0.0",
-    "page-flip": "^2.0.5",
+    "page-flip": "^2.0.7",
     "simple-vue-validator": "^0.16.0",
     "typeface-roboto": "1.1.13",
     "vue-core-image-upload": "^2.4.13",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3",
     "fibers": "^5.0.0",
-    "sass": "^1.32.8",
+    "sass": "^1.32.11",
     "sass-loader": "^10.1.1"
   }
 }

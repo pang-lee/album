@@ -2,7 +2,6 @@
   <div>
     <div class="container">
       <div v-if="!mouseEvent" class="flip-book" ref="book">
-        <!-- <div v-for="(n, index) in pages + 1" :key="n" ref="page" class="page"> -->
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
@@ -23,11 +22,9 @@
           
           <div v-else class="page-content">
             <bookheader class="page-header" :bookId="bookId" :bookpage="n -2" :bookHead="header[n - 2].header"></bookheader>
-            <!-- <bookheader class="page-header" :bookId="bookId" :bookpage="index" :bookHead="header[index - 1].header"></bookheader> -->
             <bookimg class="page-image" :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
             <div>
               <booktext :bookId="bookId" :bookpage="n - 2" :bookText="text[n - 2].text"></booktext>
-              <!-- <booktext :bookId="bookId" :bookpage="index" :bookText="text[index - 1].text"></booktext> -->
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -98,13 +95,11 @@ import * as icon from '@mdi/js'
       },
       mouseEvent: {
         type: Boolean,
-        default: true,
-        // required: true
+        default: true
       },
       isSave:{
         type: Boolean,
-        default: false,
-        // required: true
+        default: false
       }
     },
     data() {

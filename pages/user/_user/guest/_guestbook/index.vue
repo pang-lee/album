@@ -5,13 +5,20 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'guest',
-        data() {
-            return {
-
+        computed:{
+            ...mapGetters('books', ['bookList']),
+            bookId(){
+                console.log('call bookid', this.$route.params.guestbook)
+                return this.$route.params.guestbook
+            },
+            bookpage(){
+                if(process.server) return null
+                console.log('call page', this.bookList)
+                return this.bookList.find(element => element.id === this.bookId).total_page
             }
         },
         methods: {
@@ -19,7 +26,7 @@ import { mapActions } from 'vuex'
         },
         created() {
             this.guestView({ which_user: this.$route.params.user, which_book: this.$route.params.guestbook })
-        },
+        }
     }
 </script>
 

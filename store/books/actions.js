@@ -23,6 +23,7 @@ export default{
                     }
                 `
             })
+            console.log( response.data.books)
             commit(types.FETCH_BOOK_LIST, response.data.books)
         } catch (error) {
             console.log('This is fetchBook error', error)
@@ -53,7 +54,30 @@ export default{
     },
     async guestView({ commit }, params){
       try {
-          console.log('call action')
+        let response = await this.app.apolloProvider.defaultClient.query({
+          query:gql`
+            query($userId: String!, $bookId: String!){
+              guestBook(userId: $userId, bookId: $bookId){
+                id
+                total_page
+                booktitle
+                bookpage{
+                  header
+                  text
+                  img
+                  photo
+                  options
+                }
+              }
+            }
+          `,
+          variables:{
+            "userId": params.which_user,
+            "bookId": params.which_book
+          }
+        })
+        // console.log('guest test res',[response.data.guestBook])
+        commit(types.FETCH_BOOK_LIST, new Array(response.data.guestBook))
       } catch (error) {
           console.log('This is guest view error', error)
       }
