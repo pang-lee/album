@@ -1,11 +1,11 @@
 <template>
-    <v-img v-if="mouseEvent" :src="bookList.find(element => element.id === bookId).bookpage[bookpage].img" aspect-ratio="1.79" :style="filters" eager>
+    <v-img v-if="mouseEvent" :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager>
         <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
         <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
         <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
     </v-img>
     <div v-else-if="!upload.src" class="page-image" @click="editingImg(bookpage)">
-      <vue-core-image-upload class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+      <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
         <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
       </vue-core-image-upload>
     </div>
@@ -18,7 +18,7 @@
         <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
             <v-card>
                 <div class="text-h6 font-weight-black text-center">Photo Setting</div>
-                <v-img :src="bookList.find(element => element.id === bookId).bookpage[bookpage].img" :style="filters"></v-img>
+                <v-img :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager></v-img>
                 <perfect-scrollbar>
                     <v-card-text v-if="filteImage">
                         <strong>Grayscale ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
@@ -45,7 +45,7 @@
                             <v-expansion-panel-content>
                                 <br/>
                                 <div v-if="item.title == 'Update Image'" @click="editingImg(bookpage)">
-                                    <vue-core-image-upload  class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="/upload">
+                                    <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
                                         <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
                                     </vue-core-image-upload>
                                 </div>
@@ -107,7 +107,7 @@ import * as icon from '@mdi/js'
             }
         },
         computed:{
-            ...mapGetters('books', ['bookList']),
+            ...mapGetters('books', ['bookList', 'bookImg']),
             filters() {
                 return { filter: Object.entries(this._data.photo).filter(item => typeof(item[1]) !== 'object').map(item => `${this.toDash(item[0])}(${item[1]}${this.photo.suffix[item[0]] || ''})`).join(' ') }
             },
@@ -177,15 +177,15 @@ import * as icon from '@mdi/js'
             }
         },
         methods: {
-            ...mapMutations('books', ['SET_BOOKIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
+            ...mapMutations('books', ['SET_BOOKIMG', 'SET_BOOKPAGEIMG', 'SET_GRAYSCALE', 'SET_SEPIA', 'SET_SATURATE', 'SET_HUEROTATE', 'SET_INVERT', 'SET_BRIGHTNESS', 'SET_CONTRAST', 'SET_BLUR', 'SET_POSTLINK', 'SET_LIVESTREAMLINK', 'SET_VIDEOLINK']),
             hrefOption(index, e){
                 switch(index){
                     case 1:
-                        return this.SET_POSTLINK({ which_id: this.bookId, which_page: this.bookpage, value: e})
+                        return this.SET_POSTLINK({ which_id: this.bookId, which_page: this.bookpage, value: e })
                     case 2:
-                        return this.SET_LIVESTREAMLINK({ which_id: this.bookId, which_page: this.bookpage, value: e})
+                        return this.SET_LIVESTREAMLINK({ which_id: this.bookId, which_page: this.bookpage, value: e })
                     case 3:
-                        return this.SET_VIDEOLINK({ which_id: this.bookId, which_page: this.bookpage, value: e})
+                        return this.SET_VIDEOLINK({ which_id: this.bookId, which_page: this.bookpage, value: e })
                     default:
                         return null
                 }
@@ -202,12 +202,13 @@ import * as icon from '@mdi/js'
             },
             imageuploaded(res) {
                 console.log("this is the imageuploaded ", res)
+                this.SET_BOOKPAGEIMG({ ...this.edit_img_info, value: res })
             }
         },
         created() {
-            this.upload.src = this.bookList.find(element => element.id === this.bookId).bookpage[this.bookpage].img
+            if(!this.bookImg.length == 0) this.upload.src = this.bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]
             this.photo = this.bookList.find(element => element.id === this.bookId).bookpage[this.bookpage].photo
-        },
+        }
     }
 </script>
 

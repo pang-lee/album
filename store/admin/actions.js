@@ -27,7 +27,7 @@ export default{
             await dispatch('fetchImage')
             await dispatch('books/fetchBookList', _, { root: true })
         } catch (error) {
-            console.log("admin fetchMe error" ,error)
+            console.log("admin fetchMe error", error)
         }
     },
     async fetchImage({ commit }, _){

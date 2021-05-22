@@ -2,7 +2,7 @@ import * as types from './mutation-types'
 import gql from 'graphql-tag'
 
 export default{
-    async fetchBookList({ commit }){
+    async fetchBookList({ commit, dispatch }){
         try {
             let response = await this.app.apolloProvider.defaultClient.query({
                 query:gql`
@@ -25,9 +25,39 @@ export default{
             })
             console.log( response.data.books)
             commit(types.FETCH_BOOK_LIST, response.data.books)
+            let book_img = []
+            response.data.books.forEach((whole_book) => {
+              let obj = { id: whole_book.id }
+              whole_book.bookpage.forEach((book, index) => obj[`pages${index}`] = book.img)
+              book_img.push(obj)
+            })
+            await dispatch('fetchBookImg', book_img)
         } catch (error) {
             console.log('This is fetchBook error', error)
         }
+    },
+    async fetchBookImg({ commit }, params){
+      let wholeBookImg = await this.$axios.$get('upload/bookImg', { params: { ImgArray: JSON.stringify(params) } })
+      wholeBookImg.forEach((element) => {
+        for(let i in element){
+          if(i !== 'id') element[i] = 'data:image/*;base64,' + element[i]
+        }
+      })
+      commit(types.SET_IMAGE_FROM_ACTION, wholeBookImg)
+
+
+      // const reader = new FileReader()
+      // reader.readAsText(wholeBookImg, 'utf-8')
+      // reader.onload = () => {
+      //   console.log('onload call')
+      //   let a =  JSON.parse(reader.result)
+      //   a[0].pages0 = window.URL.createObjectURL(new Blob([flatted.parse(a[0].pages0)], { type: 'image/*' }))
+      //   commit('SET_IMAGE_FROM_ACTION', a)
+      // }
+
+      // console.log('this is whole book img', flatted.parse(wholeBookImg[0].pages0))
+      // wholeBookImg[0].pages0 = window.URL.createObjectURL(new Blob([flatted.parse(wholeBookImg[0].pages0)], { type: 'image/*' }))
+      // commit('SET_IMAGE_FROM_ACTION', wholeBookImg)
     },
     async saveBook({ getters }, params){
       try {
@@ -76,7 +106,6 @@ export default{
             "bookId": params.which_book
           }
         })
-        // console.log('guest test res',[response.data.guestBook])
         commit(types.FETCH_BOOK_LIST, new Array(response.data.guestBook))
       } catch (error) {
           console.log('This is guest view error', error)

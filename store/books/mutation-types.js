@@ -6,6 +6,8 @@ export const GENERATE_ID = 'GENERATE_ID'
 
 export const SET_BOOKTITLE = 'SET_BOOKTITLE'
 
+export const SET_BOOKPAGEIMG = 'SET_BOOKPAGEIMG'
+
 export const SET_BOOKPAGE = 'SET_BOOKPAGE'
 
 export const SET_BOOKHEADER = 'SET_BOOKHEADER'
@@ -13,6 +15,8 @@ export const SET_BOOKHEADER = 'SET_BOOKHEADER'
 export const SET_BOOKTEXT = 'SET_BOOKTEXT'
 
 export const SET_BOOKIMG = 'SET_BOOKIMG'
+
+export const SET_IMAGE_FROM_ACTION = 'SET_IMAGE_FROM_ACTION'
 
 export const SET_GRAYSCALE = 'SET_GRAYSCALE'
 

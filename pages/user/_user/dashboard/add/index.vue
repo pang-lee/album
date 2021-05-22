@@ -33,12 +33,13 @@ import { mapGetters, mapMutations } from 'vuex'
       }
     },
     methods: {
-      ...mapMutations('books', ['SET_BOOKPAGE', 'CREATE_BOOK']),
+      ...mapMutations('books', ['SET_BOOKPAGE', 'CREATE_BOOK', 'SET_BOOKIMG']),
       forceRerender() {
         this.componentKey += 1
       },
       onAddPage(update) {
         this.SET_BOOKPAGE(update)
+        this.SET_BOOKIMG({ which_id: this.bookId, which_page: update })
         this.isSave = false
         this.forceRerender()
       },

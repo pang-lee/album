@@ -48,11 +48,19 @@ export default {
     [types.SET_BOOKHEADER](state, data){
         state.bookList.find(element => element.id === data.which_id).bookpage[data.which_page].header = data.value
     },
+    [types.SET_BOOKPAGEIMG](state, data){
+        state.bookList.find(element => element.id === data.which_id).bookpage[data.which_page].img = data.value
+    },
     [types.SET_BOOKTEXT](state, data){
         state.bookList.find(element => element.id === data.which_id).bookpage[data.which_page].text = data.value
     },
-    [types.SET_BOOKIMG](state, data){
-        state.bookList.find(element => element.id === data.which_id).bookpage[data.which_page].img = window.URL.createObjectURL(new Blob([data.value], { type: 'image/*' }))
+    [types.SET_BOOKIMG](state, { which_id, which_page, value }){
+        let theBook = state.bookImg.find(element => element.id === which_id)
+        if(!theBook) return state.bookImg.push({ id: which_id, [`pages${which_page}`]: window.URL.createObjectURL(new Blob([value], { type: 'image/*' }))})
+        theBook[`pages${which_page}`] =  window.URL.createObjectURL(new Blob([value], { type: 'image/*' }))
+    },
+    [types.SET_IMAGE_FROM_ACTION](state, params){
+        state.bookImg = params
     },
     [types.SET_GRAYSCALE](state, data){
         state.bookList.find(element => element.id === data.which_id).bookpage[data.which_page].photo.grayscale = data.value

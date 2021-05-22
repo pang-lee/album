@@ -1,5 +1,6 @@
 const state = () => ({
-    bookList:[]
+    bookList:[],
+    bookImg:[]
 })
 
 export default state
