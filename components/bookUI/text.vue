@@ -6,6 +6,7 @@
 import { mapMutations } from 'vuex'
 
     export default {
+        name: 'book_text',
         props:{
             bookpage:{
                 type: Number,

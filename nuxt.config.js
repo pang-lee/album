@@ -33,8 +33,8 @@ export default {
     '~/plugins/scrollbar.js',
     '~/plugins/override.js',
     { src: '~/plugins/persistedState.js', mode: 'client' },
-    { src: '~/plugins/image-crop.js', mode: 'client' },
-    { src: '~/plugins/core-image-upload.js', mode: 'client' }
+    { src: '~/plugins/core-image-upload.js', mode: 'client' },
+    { src: '~/plugins/crop-avatar.js', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

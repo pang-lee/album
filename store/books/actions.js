@@ -44,20 +44,6 @@ export default{
         }
       })
       commit(types.SET_IMAGE_FROM_ACTION, wholeBookImg)
-
-
-      // const reader = new FileReader()
-      // reader.readAsText(wholeBookImg, 'utf-8')
-      // reader.onload = () => {
-      //   console.log('onload call')
-      //   let a =  JSON.parse(reader.result)
-      //   a[0].pages0 = window.URL.createObjectURL(new Blob([flatted.parse(a[0].pages0)], { type: 'image/*' }))
-      //   commit('SET_IMAGE_FROM_ACTION', a)
-      // }
-
-      // console.log('this is whole book img', flatted.parse(wholeBookImg[0].pages0))
-      // wholeBookImg[0].pages0 = window.URL.createObjectURL(new Blob([flatted.parse(wholeBookImg[0].pages0)], { type: 'image/*' }))
-      // commit('SET_IMAGE_FROM_ACTION', wholeBookImg)
     },
     async saveBook({ getters }, params){
       try {

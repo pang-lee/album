@@ -1,69 +1,73 @@
 <template>
-    <v-img v-if="mouseEvent" :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-        <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
-    </v-img>
-    <div v-else-if="!upload.src" class="page-image" @click="editingImg(bookpage)">
-      <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
-        <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
-      </vue-core-image-upload>
-    </div>
-    <div v-else @click="dialog = true">
-        <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
-            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+    <div>
+        <v-img v-if="mouseEvent" :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+            <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
         </v-img>
-        <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
-            <v-card>
-                <div class="text-h6 font-weight-black text-center">Photo Setting</div>
-                <v-img :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager></v-img>
-                <perfect-scrollbar>
-                    <v-card-text v-if="filteImage">
-                        <strong>Grayscale ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
-                        <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Sepia ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.sepia }})</strong>
-                        <v-slider v-model="sepia" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Saturate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.saturate }})</strong>
-                        <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Hue Rotate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.hueRotate }} deg)</strong>
-                        <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
-                        <strong>Invert ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.invert }})</strong>
-                        <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Brightness ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.brightness }})</strong>
-                        <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
-                        <strong>Contrast ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.contrast }})</strong>
-                        <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
-                        <strong>Blur ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.blur }}px)</strong>
-                        <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
-                    </v-card-text>
-                    <v-card-text v-else>
-                        <v-expansion-panels focusable popout>
-                            <v-expansion-panel v-for="(item, index) in bookList.find(element => element.id === bookId).bookpage[bookpage].options" :key="index">
-                            <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                                <br/>
-                                <div v-if="item.title == 'Update Image'" @click="editingImg(bookpage)">
-                                    <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
-                                        <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
-                                    </vue-core-image-upload>
-                                </div>
-                                <v-text-field v-else @input="hrefOption(index, $event)" :value="item.href" :label="item.title" outlined clearable></v-text-field>
-                            </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-expansion-panels>
-                    </v-card-text>
-                </perfect-scrollbar>
-                <v-divider></v-divider>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
-                    <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
-                    <v-btn color="primary" text @click="dialog = false">OK</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+
+        <div v-else-if="upload.src" @click="dialog = true">
+            <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
+                <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[1].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ link }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[2].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ live }}</v-icon></v-btn>
+                <v-btn class="link-btn-position" v-if="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" icon fab x-small :href="bookList.find(element => element.id === bookId).bookpage[bookpage].options[3].href" target="_blank" @click.stop="dialog = false"><v-icon color="#BDBDBD">{{ video }}</v-icon></v-btn>
+            </v-img>
+            <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
+                <v-card>
+                    <div class="text-h6 font-weight-black text-center">Photo Setting</div>
+                    <v-img :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager></v-img>
+                    <perfect-scrollbar>
+                        <v-card-text v-if="filteImage">
+                            <strong>Grayscale ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
+                            <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
+                            <strong>Sepia ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.sepia }})</strong>
+                            <v-slider v-model="sepia" max="1" min="0" step="0.01"></v-slider>
+                            <strong>Saturate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.saturate }})</strong>
+                            <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
+                            <strong>Hue Rotate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.hueRotate }} deg)</strong>
+                            <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
+                            <strong>Invert ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.invert }})</strong>
+                            <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
+                            <strong>Brightness ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.brightness }})</strong>
+                            <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
+                            <strong>Contrast ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.contrast }})</strong>
+                            <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
+                            <strong>Blur ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.blur }}px)</strong>
+                            <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
+                        </v-card-text>
+                        <v-card-text v-else>
+                            <v-expansion-panels focusable popout>
+                                <v-expansion-panel v-for="(item, index) in bookList.find(element => element.id === bookId).bookpage[bookpage].options" :key="index">
+                                <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    <br/>
+                                    <div v-if="item.title == 'Update Image'" @click="editingImg(bookpage)">
+                                        <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
+                                            <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                                        </vue-core-image-upload>
+                                    </div>
+                                    <v-text-field v-else @input="hrefOption(index, $event)" :value="item.href" :label="item.title" outlined clearable></v-text-field>
+                                </v-expansion-panel-content>
+                                </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-card-text>
+                    </perfect-scrollbar>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
+                        <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
+                        <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+
+        <div v-show="!upload.src" @click="editingImg(bookpage)">
+            <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
+                <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+            </vue-core-image-upload>
+        </div>
     </div>
 </template>
 
@@ -72,6 +76,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import * as icon from '@mdi/js'
 
     export default {
+        name: 'book_image',
         props:{
             bookId:{
                 type: String,

@@ -51,10 +51,10 @@
     <v-col class="hidden-sm-and-down">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-avatar size="60" class="ml-2" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
+          <v-avatar size="60" class="ml-2" color="black" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
           <client-only>
             <v-img v-if="user.avatar" :src="user.avatar" alt="avatar"></v-img>
-            <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
+            <v-icon v-else color="white">{{ defaultAvatar }}</v-icon>
           </client-only>
           </v-avatar>
         </template>
@@ -92,7 +92,7 @@ import * as icon from '@mdi/js'
           menu: icon.mdiMenu,
           close: icon.mdiClose,
           chevron: icon.mdiChevronDown,
-          defaultAvatar: icon.mdiAccountCircle,
+          defaultAvatar: icon.mdiAccountCircleOutline,
           drawer: false,
           links: [
             { target: 'Dashboard', route: '', icon: icon.mdiViewDashboardOutline },
@@ -114,18 +114,20 @@ import * as icon from '@mdi/js'
         ...mapMutations('admin', ['SET_SIDEBAR_STATUS']),
         to_destination(link){
           if(link.target == 'Logout'){
+            this.SET_SIDEBAR_STATUS('Dashboard')
             this.logout()
             return this.$router.push(link.route)
+          } else if (link.target == 'Dashboard'){
+            this.SET_SIDEBAR_STATUS(link.target)
+            return this.$router.push(`/user/${this.$route.params.user}${this.sidebar[0].link}`)
           } else {
             this.SET_SIDEBAR_STATUS(link.target)
-            // return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}${link.route}`)
             return this.$router.push(`/user/${this.$route.params.user}${link.route}`)
           }
         },
         profile(device){
           this.SET_SIDEBAR_STATUS('Profile')
           if(device == 'mobile') this.drawer = !this.drawer
-          // return this.$router.push(`/user${this.$route.path.slice(this.$route.path.indexOf('/', 4), this.$route.path.indexOf('/', 6))}/profile/information`)
           return this.$router.push(`/user/${this.$route.params.user}/profile/information`)
         }
       },
