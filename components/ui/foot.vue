@@ -1,20 +1,18 @@
 <template>
   <v-card class="flex brown darken-2" flat tile>
     <v-card-title class="grey darken-2">
-      <strong class="subheading white--text font-weight-bold font-italic">Get connected with us on social networks!</strong>
-
-      <v-spacer></v-spacer>
-
-      <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>
-        <v-icon size="24px">
-          {{ icon }}
-        </v-icon>
-      </v-btn>
+      <v-row>
+        <v-col>
+          <div class="d-flex justify-center">
+            <v-btn v-for="(social, index) in socials" :key="index" class="mx-4" dark icon large :href="social.href" target="_blank">
+              <v-icon size="24px">
+                {{ social.icon }}
+              </v-icon>
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
     </v-card-title>
-
-    <v-card-text class="py-2 white--text text-center">
-      {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -25,7 +23,12 @@ import * as icon from '@mdi/js'
     name: 'foot',
     data(){
       return{
-        icons: [ icon.mdiFacebook, icon.mdiTwitter, icon.mdiLinkedin, icon.mdiInstagram ],
+        socials:[
+          { icon: icon.mdiFacebook, href: process.env.FACEBOOK_OFFICIAL },
+          { icon: icon.mdiInstagram, href: process.env.INSTAGRAM_OFFICIAL },
+          { icon: icon.mdiYoutube, href: process.env.YOUTUBE_OFFICIAL },
+          { icon: icon.mdiLinkedin, href: process.env.LINKEDIN_OFFICIAL }
+        ]
       }
     }
   }

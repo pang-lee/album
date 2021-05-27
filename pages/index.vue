@@ -15,8 +15,10 @@
             	    <keep-alive>
             	      <component :is="form"></component>
             	    </keep-alive>
+                    <v-divider></v-divider>
+                    <br/>
                     <v-btn x-large block outlined color="indigo" nuxt to="/freetrial">
-                        <v-icon>{{ free }}</v-icon>&nbsp;&nbsp;Trial
+                        <v-icon>{{ free }}</v-icon>&nbsp;&nbsp;免費試用
                     </v-btn>
             	  </v-card-text>
             	</v-card>
@@ -40,8 +42,8 @@ import * as icon from '@mdi/js'
             return{
                 form: 'login',
                 status:[
-                    { select: 'login', icon: icon.mdiLogin },
-                    { select: 'register', icon: icon.mdiNotebook }
+                    { select: '登入', icon: icon.mdiLogin },
+                    { select: '註冊', icon: icon.mdiNotebook }
                 ],
                 free: icon.mdiDatabaseEditOutline
             }

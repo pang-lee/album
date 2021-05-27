@@ -2,62 +2,18 @@
     <div>
         <v-form>
             <div class="white" :class="{ error: validation.hasError('login') }">
-                <v-text-field label="Email *" name="login" :prepend-icon="account" clearable :clear-icon="clear" v-model="login.email"/>
+                <v-text-field label="Email 帳號 *" name="login" :prepend-icon="account" clearable :clear-icon="clear" v-model="login.email"/>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('login.email') }}</div>
-                <v-text-field label="Password *" name="password" :prepend-icon="lock" clearable :clear-icon="clear" v-model="login.password" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter/>
+                <v-text-field label="密碼 *" name="password" :prepend-icon="lock" clearable :clear-icon="clear" v-model="login.password" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter/>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('login.password') }}</div>
             </div>
         </v-form>
-        <!-- <v-card-actions class="hidden-sm-and-down d-flex justify-end"> -->
         <v-card-actions class="d-flex justify-end">
-            <!-- <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-icon color="indigo" v-bind="attrs" v-on="on">{{ facebook }}</v-icon>
-                </template>
-                <span>Facebook</span>
-            </v-tooltip>
-                <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-icon class="ml-3" color="red" v-bind="attrs" v-on="on" @click="googleAuth()">{{ google }}</v-icon>
-                </template>
-                <span>Google</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-icon class="ml-3" color="light-blue" v-bind="attrs" v-on="on">{{ twitter }}</v-icon>
-                </template>
-                <span>Twitter</span>
-            </v-tooltip>
-            <v-spacer/> -->
-            <v-btn text x-small :ripple="false" class="mr-4" @click="forget_password()">Forget?</v-btn>
-            <v-btn color="primary" @click="submit()">Login</v-btn>
+            <v-btn text x-small :ripple="false" class="mr-4" @click="forget_password()">忘記密碼 ?</v-btn>
+            <v-btn color="primary" @click="submit()">登入</v-btn>
         </v-card-actions>
         <br/>
         <v-divider></v-divider>
-        <br/>
-
-        <!-- <v-card-actions class="hidden-md-and-up">
-            <v-menu offset-y>
-                <template v-slot:activator="{ on: menu, attrs }">
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on: tooltip }">
-                        <v-btn text icon v-bind="attrs" v-on="{ ...tooltip, ...menu }">
-                            <v-icon>{{ dropmenu }}</v-icon>
-                        </v-btn>
-                        </template>
-                        <span>Login With Option:</span>
-                    </v-tooltip>
-                </template>
-                <v-list>
-                    <v-list-item v-for="(login, index) in options" :key="index">
-                      <v-icon :color="login.color" @click="test()">{{ login.option }}</v-icon>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-spacer/>
-            <v-btn text :ripple="false" class="mr-4" @click="forget_password()">?</v-btn>
-            <v-btn color="primary" @click="submit()">Login</v-btn>
-        </v-card-actions> -->
         <client-only>
             <v-container fluid>
                 <v-row align-content="center">
@@ -69,13 +25,6 @@
                     <v-col>
                         <span class="d-flex justify-center">
                             <v-facebook-login app-id="966242223397117"></v-facebook-login>
-                        </span>
-                    </v-col>
-                    <v-col>
-                        <span class="d-flex justify-center">
-                            <v-btn color="light-blue">
-                                <v-icon>{{ twitter }}</v-icon>&nbsp;Login With Twitter
-                            </v-btn>
                         </span>
                     </v-col>
                 </v-row>   
@@ -114,7 +63,6 @@ export default {
             visibility: icon.mdiEye,
             visibility_off: icon.mdiEyeOff,
             google: icon.mdiGooglePlus,
-            twitter: icon.mdiTwitter,
             dropmenu: icon.mdiChevronDown,
             login:{
                 email:'',
@@ -123,8 +71,7 @@ export default {
             show:false,
             options:[
                 { option: icon.mdiFacebook, color: 'indigo' },
-                { option: icon.mdiGooglePlus, color: 'red' },
-                { option: icon.mdiTwitter, color: 'light-blue' }
+                { option: icon.mdiGooglePlus, color: 'red' }
             ]
         }
     },
@@ -148,18 +95,18 @@ export default {
             if(result) await this.verify_login(this.login)
             else return Swal.fire({
                 type: 'error',
-                title: 'Oops...',
-                text: 'Look like you miss something!',
+                title: '噢噢...',
+                text: '看來有東西輸入錯囉 !',
                 timer: 3000
             })
             if(this.getSuccessVerify == true) return Swal.fire({
-                title: 'Enter your Verification code',
+                title: '輸入您的驗證碼',
                 input: 'text',
                 allowOutsideClick: false,
                 showCloseButton:true,
-                inputPlaceholder: 'Code Number',
+                inputPlaceholder: '驗證碼',
                 inputValidator: (value) => {
-                    if (!value) return 'You need to write something!'
+                    if (!value) return '看來你少輸入東西囉 !'
                 },
                 preConfirm: async (value) => {
                     try {
@@ -178,15 +125,15 @@ export default {
         async forget_password(){
             return await Swal.fire({
                 type: 'question',
-                title: 'Reset Your Password',
+                title: '忘記密碼 ?',
                 input: 'email',
-                inputPlaceholder: 'Enter your email address',
+                inputPlaceholder: '請輸入您的Email',
                 showCloseButton: true,
                 preConfirm: async (value) => {
                     await this.forget(value)
                     if(this.getResetStatus == true) return Swal.fire({
                         type: 'success',
-                        title: 'Please Check Your Email!!',
+                        title: '重設的密碼已經傳入Email !!',
                         showConfirmButton: false,
                         timer: 3000
                     })

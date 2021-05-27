@@ -2,22 +2,22 @@
     <div>
         <v-form>
             <div class="white" :class="{error: validation.hasError('register')}">
-                <v-text-field :prepend-icon="colorize" v-model="register.first" label="FirstName *" clearable :clear-icon="clear"></v-text-field>
+                <v-text-field :prepend-icon="colorize" v-model="register.first" label="姓氏 *" clearable :clear-icon="clear"></v-text-field>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.first') }}</div>
-                <v-text-field :prepend-icon="edit" v-model="register.last" label="LastName *" clearable :clear-icon="clear"></v-text-field>
+                <v-text-field :prepend-icon="edit" v-model="register.last" label="名子 *" clearable :clear-icon="clear"></v-text-field>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.last') }}</div>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.gender') }}</div>
-                <v-text-field label="Email *" :prepend-icon="email" hint="For Example: Joe64@mail.com" v-model="register.email" clearable :clear-icon="clear"></v-text-field>
+                <v-text-field label="Email 帳號 *" :prepend-icon="email" hint="example: apple@mail.com" v-model="register.email" clearable :clear-icon="clear"></v-text-field>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.email') }}</div>
-                <v-text-field label="Password *" name="password" :prepend-icon="lock" clearable :clear-icon="clear" v-model="register.password" :append-icon="show1 ? visibility : visibility_off" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" counter/>
+                <v-text-field label="密碼 *" name="password" :prepend-icon="lock" clearable :clear-icon="clear" v-model="register.password" :append-icon="show1 ? visibility : visibility_off" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" counter/>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.password') }}</div>
-                <v-text-field label="Confirm Password *" name="confirm" :prepend-icon="lock_confirm" clearable :clear-icon="clear" v-model="register.confirm" :append-icon="show2 ? visibility : visibility_off" :type="show2 ? 'text' : 'password'" @click:append="show2 = !show2" counter/>
+                <v-text-field label="確認密碼 *" name="confirm" :prepend-icon="lock_confirm" clearable :clear-icon="clear" v-model="register.confirm" :append-icon="show2 ? visibility : visibility_off" :type="show2 ? 'text' : 'password'" @click:append="show2 = !show2" counter/>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.confirm') }}</div>
             </div>
         </v-form>
         <v-card-actions>
         <v-spacer/>
-            <v-btn color="primary" @click="submit()">Register</v-btn>
+            <v-btn color="primary" @click="submit()">註冊帳號</v-btn>
         </v-card-actions>
     </div>
 </template>
@@ -80,18 +80,18 @@ import * as icon from '@mdi/js'
                 if(result) await this.verify_signup(this.register)
                 else return Swal.fire({
                     type: 'error',
-                    title: 'Oops...',
-                    text: 'Look like you miss something!',
+                    title: '噢噢...',
+                    text: '看來有東西輸入錯囉 !',
                     timer: 3000
                 })
                 if(this.getSuccessVerify == true) return Swal.fire({
-                    title: 'Enter your Verification code',
+                    title: '輸入您的驗證碼',
                     input: 'text',
                     allowOutsideClick: false,
                     showCloseButton:true,
-                    inputPlaceholder: 'Code Number',
+                    inputPlaceholder: '驗證碼',
                     inputValidator: (value) => {
-                      if (!value) return 'You need to write something!'
+                      if (!value) return '看來你少輸入東西囉 !'
                     },
                     preConfirm: async (value) => {
                         try {

@@ -69,13 +69,12 @@
     </v-col>
   </v-row>
   <v-row v-else no-gutters>
-    <v-col cols="11">
-      <div class="text-center mt-6 pl-12">
-        <strong class="font-italic">Create Your's Album Now!</strong>
+    <v-col>
+      <div class="d-flex justify-center">
+        <v-btn text x-large plain nuxt to="/">
+          <div class="font-italic">快來製作屬於你的作品集&nbsp;<strong>!</strong></div>
+        </v-btn>
       </div>
-    </v-col>
-    <v-col cols="1">
-        <!-- <v-select :items="items" label="LANG" dense class="mt-4" :append-icon="drop" eager solo></v-select> -->
     </v-col>
   </v-row>
 </template>

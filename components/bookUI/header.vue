@@ -1,5 +1,5 @@
 <template>
-    <input placeholder="Click Me To Set Header" type="text" v-model="edit_header"/>
+    <input placeholder="點我輸入頁籤" type="text" v-model="edit_header"/>
 </template>
 
 <script>

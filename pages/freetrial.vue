@@ -5,21 +5,21 @@
         <div v-for="n in total" :key="n" ref="page" class="page">
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
-              <input placeholder="Click Me To Set Title" style="text-align: center; margin-top: 50%; font-size: 210%"/>
+              <input placeholder="點我輸入標題" style="text-align: center; margin-top: 50%; font-size: 210%"/>
             </div>
           </div>
           <div v-else-if="n == total" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
-              <h2 class="page-first-last">Thank You</h2>
+              <h2 class="page-first-last">謝謝觀看</h2>
             </div>
           </div>
           <div v-else-if="n == total - 1" class="page-content">
-            <input class="page-header" placeholder="Click Me To Set Header" type="text"/>
+            <input class="page-header" placeholder="點我輸入頁籤" type="text"/>
 
             <div v-show="!upload.src" class="page-image">
               <client-only>
                 <vue-core-image-upload class="empty-state" inputOfFile="bookImg" :crop="false" @imagechanged="imagechanged" :data="upload" url="/">
-                  <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                  <div class="text-h6 text-center text--secondary">點我上傳相片</div>
                 </vue-core-image-upload>
               </client-only>
             </div>
@@ -38,25 +38,25 @@
               </v-img>
               <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
                 <v-card>
-                  <div class="text-h6 font-weight-black text-center">Photo Setting</div>
+                  <div class="text-h6 font-weight-black text-center">相片設定</div>
                   <v-img :src="upload.src" :style="filters"></v-img>
                   <perfect-scrollbar>
                     <v-card-text v-if="filteImage">
-                      <strong>Grayscale ({{ photo.grayscale }})</strong>
+                      <strong>灰階 ({{ photo.grayscale }})</strong>
                       <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Sepia ({{ photo.sepia }})</strong>
+                      <strong>棕褐色 ({{ photo.sepia }})</strong>
                       <v-slider v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Saturate ({{ photo.saturate }})</strong>
+                      <strong>飽和度 ({{ photo.saturate }})</strong>
                       <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Hue Rotate ({{ photo.hueRotate }} deg)</strong>
+                      <strong>色相旋轉 ({{ photo.hueRotate }} 度)</strong>
                       <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
-                      <strong>Invert ({{ photo.invert }})</strong>
+                      <strong>倒置 ({{ photo.invert }})</strong>
                       <v-slider  v-model="photo.invert"  max="1"  min="0"  step="0.01"></v-slider>
-                      <strong>Brightness ({{ photo.brightness }})</strong>
+                      <strong>亮度 ({{ photo.brightness }})</strong>
                       <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>
-                      <strong>Contrast ({{ photo.contrast }})</strong>
+                      <strong>對比 ({{ photo.contrast }})</strong>
                       <v-slider v-model="photo.contrast" max="1" min="0" step="0.01"></v-slider>
-                      <strong>Blur ({{ photo.blur }}px)</strong>
+                      <strong>模糊 ({{ photo.blur }} 像素)</strong>
                       <v-slider v-model="photo.blur" max="50" min="0" step="0.1"></v-slider>
                     </v-card-text>
                     <v-card-text v-else>
@@ -65,8 +65,8 @@
                           <v-expansion-panel-header>{{item.title}}</v-expansion-panel-header>
                           <v-expansion-panel-content>
                             <br />
-                            <vue-core-image-upload  v-if="item.title == 'Update Image'" class="empty-state" inputOfFile="bookImg" :crop="false" @imagechanged="imagechanged" :data="upload" :max-file-size="5242880" url="/">
-                              <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                            <vue-core-image-upload  v-if="item.title == '更換相片'" class="empty-state" inputOfFile="bookImg" :crop="false" @imagechanged="imagechanged" :data="upload" :max-file-size="5242880" url="/">
+                              <div class="text-h6 text-center text--secondary">點我上傳相片</div>
                             </vue-core-image-upload>
                             <v-text-field v-else v-model="item.href" :label="item.title" outlined clearable></v-text-field>
                           </v-expansion-panel-content>
@@ -77,15 +77,15 @@
                   <v-divider></v-divider>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
-                    <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
-                    <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+                    <v-btn color="primary" text @click="filteImage = true">濾鏡</v-btn>
+                    <v-btn color="primary" text @click="filteImage = false">相片設定</v-btn>
+                    <v-btn color="primary" text @click="dialog = false">完成</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
             </div>
             <div>
-              <textarea rows="8"></textarea>
+              <textarea placeholder="點我輸入內容" rows="8"></textarea>
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
@@ -114,9 +114,9 @@
       </div>
     </div>
     <div class="d-flex justify-center mt-5">
-      <v-btn color="primary" outlined @click="prev()">Previous</v-btn>&nbsp;
+      <v-btn color="primary" outlined @click="prev()">上一頁</v-btn>&nbsp;
       <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
-      <v-btn color="primary" outlined @click="next()">Next</v-btn>
+      <v-btn color="primary" outlined @click="next()">下一頁</v-btn>
     </div>
   </div>
 </template>
@@ -148,10 +148,10 @@ export default {
         },
       },
       options: [
-        { title: "Update Image" },
-        { title: "Add Post Link", href: "" },
-        { title: "Add Live Stream Link", href: "" },
-        { title: "Add Video Link", href: "" },
+        { title: "更換相片" },
+        { title: "設定文章連結", href: "" },
+        { title: "設定直播連結", href: "" },
+        { title: "設定影片連結", href: "" },
       ],
       filteImage: true,
       link: icon.mdiLinkVariantPlus,
@@ -220,7 +220,8 @@ export default {
 <style lang="scss" scoped>
 .container {
   background-size: cover;
-  background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
+  background-image: url("http://localhost:3000/bookcover2.png");
+  // background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
 }
 
 .flip-book {
@@ -232,7 +233,8 @@ export default {
 
 .page {
   padding: 20px;
-  background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
+  background-image: url("http://localhost:3000/bookpaper.jpg");
+  // background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
   background-size: cover;
   overflow: hidden;
 

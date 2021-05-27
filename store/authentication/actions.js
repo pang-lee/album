@@ -22,12 +22,12 @@ export default{
             else return commit(types.SET_VERIFY, false)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Password Not Same') displayError = 'Password Incorrect!'
-            else if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found!'
+            if(error == 'Error: GraphQL error: Password Not Same') displayError = '密碼錯囉...!'
+            else if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email...!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Please Try Again!',
+                text: '麻煩在試一次 !',
                 timer: 3000,
             })
         }
@@ -55,11 +55,11 @@ export default{
             return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.login.refresh_token_expirationDate)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
+            if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Please Try Again!',
+                text: '麻煩在試一次 !',
                 timer: 3000,
             })
         }
@@ -84,11 +84,11 @@ export default{
             else return commit(types.SET_VERIFY, false)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Email Duplicate') displayError = 'Email Duplicate!'
+            if(error == 'Error: GraphQL error: Email Duplicate') displayError = '這個Email已經被註冊囉...!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Please try another email address!',
+                text: '麻煩使用另外一個Email帳號 !',
                 timer: 3000,
             })
         }
@@ -116,11 +116,11 @@ export default{
             return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.signup.refresh_token_expirationDate)
         } catch (error) {
             let displayError
-            if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = 'Code Not Found Or Typo!'
+            if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Please Try Again!',
+                text: '麻煩在試一次 !',
                 timer: 3000,
             })
         }
@@ -142,11 +142,11 @@ export default{
         } catch (error) {
             commit(types.SET_PASSWORD, false)
             let displayError
-            if(error == 'Error: GraphQL error: Email Not Found') displayError = 'Email Not Found!'
+            if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email...!'
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: 'Have You Registered already?',
+                text: '你有註冊過了嗎 ?',
                 timer: 3000,
             })
         }
