@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 export default{
     async verify_login({ commit }, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.mutate({
+            let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($input: loginInput!){
                         verify_login(input: $input)
@@ -34,7 +34,7 @@ export default{
     },
     async fetchToken(_, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.mutate({
+            let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($code: String!){
                        login(code: $code){
@@ -66,7 +66,7 @@ export default{
     },
     async verify_signup({ commit }, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.mutate({
+            let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($input: signupInput!){
                       verify_signup(input: $input)
@@ -95,7 +95,7 @@ export default{
     },
     async signup(_, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.mutate({
+            let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($code: String!){
                         signup(code: $code){
@@ -127,7 +127,7 @@ export default{
     },
     async forget({ commit }, params){
         try {
-            const response = await this.app.apolloProvider.defaultClient.mutate({
+            let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($email: String!){
                         forget(email: $email)
@@ -157,44 +157,73 @@ export default{
             let access_token_expirationDate
             let refresh_token
             let refresh_token_expirationDate
+            let provider = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('Idp='))
+            let Idp_company
+            
+            if(provider) Idp_company = provider.split('=')[1]
 
-            if(params.req){
-                if (!params.req.headers.cookie) return null
-                let accessCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token='))
-                let refreshCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token='))
-                if (!accessCookie || !refreshCookie) return null
-                if(accessCookie) access_token = accessCookie.split('=')[1]
-                refresh_token = refreshCookie.split('=')[1]
-                access_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token_expirationDate=')).split('=')[1]
-                refresh_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token_expirationDate=')).split('=')[1]
-            }
-            if(new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token) {
-                params.$cookies.remove('album_access_token')
-                params.$cookies.remove('album_access_token_expirationDate')
-                const refetch = await params.app.apolloProvider.defaultClient.query({
-                    query:gql`
+            if(!provider){
+                    if(params.req){
+                    if (!params.req.headers.cookie) return null
+                    let accessCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token='))
+                    let refreshCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token='))
+                    if (!accessCookie || !refreshCookie) return null
+                    if(accessCookie) access_token = accessCookie.split('=')[1]
+                    refresh_token = refreshCookie.split('=')[1]
+                    access_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token_expirationDate=')).split('=')[1]
+                    refresh_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token_expirationDate=')).split('=')[1]
+                }
+                if(new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token) {
+                    params.$cookies.remove('album_access_token')
+                    params.$cookies.remove('album_access_token_expirationDate')
+                    const refetch = await params.app.apolloProvider.defaultClient.query({
+                        query:gql`
                         query {
-                            getRefresh{
-                                access_token
-                                access_token_expirationDate
+                                getRefresh{
+                                    access_token
+                                    access_token_expirationDate
+                                }
+                            }`
+                    })
+                    params.$cookies.set('album_access_token', refetch.data.getRefresh.access_token)
+                    params.$cookies.set('album_access_token_expirationDate', refetch.data.getRefresh.access_token_expirationDate)
+                }
+                if (new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token) {
+                    commit(types.SET_VERIFY, false)
+                    params.$cookies.removeAll()
+                    return await params.app.apolloProvider.defaultClient.mutate({
+                        mutation: gql`
+                            mutation{
+                                invalidateToken
                             }
-                        }`
-                })
-                params.$cookies.set('album_access_token', refetch.data.getRefresh.access_token)
-                params.$cookies.set('album_access_token_expirationDate', refetch.data.getRefresh.access_token_expirationDate)
+                        `
+                    })
+                }
+                return commit(types.SET_VERIFY, true)
             }
-            if (new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token) {
-                commit(types.SET_VERIFY, false)
-                params.$cookies.removeAll()
-                return await params.app.apolloProvider.defaultClient.mutate({
-                    mutation: gql`
-                        mutation{
-                            invalidateToken
-                        }
-                    `
-                })
+
+            switch (Idp_company) {
+                case 'google':
+                    let googleExpCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('google_expirationDate='))
+                    let googleExp = googleExpCookie.split('=')[1]
+                    if(new Date().getTime() > Number.parseInt(googleExp)){
+                        commit(types.SET_VERIFY, false)
+                        params.$cookies.removeAll()
+                        return await params.app.apolloProvider.defaultClient.mutate({
+                            mutation: gql`
+                                mutation{
+                                    invalidateToken
+                                }
+                            `
+                        })
+                    }
+                    return commit(types.SET_VERIFY, true)
+
+                case 'facebook':
+                    break;
+                case 'twitter':
+                    break;
             }
-            return commit(types.SET_VERIFY, true)
         } catch (error) {
             console.log('authentication initAuth error', error)
         }
@@ -213,6 +242,43 @@ export default{
             })
         } catch (error) {
             return null
+        }
+    },
+    async googleLogin({ commit, dispatch }, params){
+        try {
+            this.app.$cookies.set('google_token', params.qc.access_token)
+            this.app.$cookies.set('google_expirationDate', params.qc.expires_at)
+            this.app.$cookies.set('Idp', params.qc.idpId)
+            let user = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: gql`
+                    mutation($user: String!){
+                        google_login(googleUser: $user){
+                            access_token
+                            id
+                            avatar
+                            username
+                            gender
+                            birthday
+                            privacy
+                        }
+                    }
+                `,
+                variables: {
+                    "user": params.qc.id_token
+                }
+            })
+            this.app.$cookies.set('album_access_token', user.data.google_login.access_token)
+            commit('admin/SET_ID', user.data.google_login.id, { root: true })
+            commit('admin/SET_AVATAR', user.data.google_login.avatar, { root: true })
+            commit('admin/SET_FIRST', user.data.google_login.username.split(' ')[0], { root: true })
+            commit('admin/SET_LAST', user.data.google_login.username.split(' ')[1], { root: true })
+            commit('admin/SET_GENDER', user.data.google_login.gender, { root: true })
+            commit('admin/SET_DATE', user.data.google_login.birthday, { root: true })
+            commit('admin/SET_PRIVACY', user.data.google_login.privacy, { root: true })
+            await dispatch('books/fetchBookList', null, { root: true })
+            return commit(types.SET_VERIFY, true)
+        } catch (error) {
+            console.log('google login error', error)
         }
     }
 }

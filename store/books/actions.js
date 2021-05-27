@@ -23,7 +23,7 @@ export default{
                     }
                 `
             })
-            console.log( response.data.books)
+            console.log('the book/fetchbookList',response.data.books)
             commit(types.FETCH_BOOK_LIST, response.data.books)
             let book_img = []
             response.data.books.forEach((whole_book) => {

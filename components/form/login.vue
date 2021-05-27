@@ -8,8 +8,9 @@
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('login.password') }}</div>
             </div>
         </v-form>
-        <v-card-actions class="hidden-sm-and-down">
-            <v-tooltip bottom>
+        <!-- <v-card-actions class="hidden-sm-and-down d-flex justify-end"> -->
+        <v-card-actions class="d-flex justify-end">
+            <!-- <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                     <v-icon color="indigo" v-bind="attrs" v-on="on">{{ facebook }}</v-icon>
                 </template>
@@ -27,11 +28,15 @@
                 </template>
                 <span>Twitter</span>
             </v-tooltip>
-            <v-spacer/>
+            <v-spacer/> -->
             <v-btn text x-small :ripple="false" class="mr-4" @click="forget_password()">Forget?</v-btn>
             <v-btn color="primary" @click="submit()">Login</v-btn>
         </v-card-actions>
-        <v-card-actions class="hidden-md-and-up">
+        <br/>
+        <v-divider></v-divider>
+        <br/>
+
+        <!-- <v-card-actions class="hidden-md-and-up">
             <v-menu offset-y>
                 <template v-slot:activator="{ on: menu, attrs }">
                     <v-tooltip top>
@@ -52,20 +57,56 @@
             <v-spacer/>
             <v-btn text :ripple="false" class="mr-4" @click="forget_password()">?</v-btn>
             <v-btn color="primary" @click="submit()">Login</v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
+        <client-only>
+            <v-container fluid>
+                <v-row align-content="center">
+                    <v-col cols="12">
+                        <span class="d-flex justify-center">
+                            <GoogleLogin :params="google_params" :renderParams="google_renderParams" :onSuccess="googleOnSuccess" :onFailure="googleOnFailure"></GoogleLogin>
+                        </span>
+                    </v-col>
+                    <v-col>
+                        <span class="d-flex justify-center">
+                            <v-facebook-login app-id="966242223397117"></v-facebook-login>
+                        </span>
+                    </v-col>
+                    <v-col>
+                        <span class="d-flex justify-center">
+                            <v-btn color="light-blue">
+                                <v-icon>{{ twitter }}</v-icon>&nbsp;Login With Twitter
+                            </v-btn>
+                        </span>
+                    </v-col>
+                </v-row>   
+            </v-container>
+        </client-only>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { Validator } from 'simple-vue-validator'
+import GoogleLogin from 'vue-google-login'
 import * as icon from '@mdi/js'
 import Swal from 'sweetalert2'
 
 export default {
     name: 'login',
+    components:{
+        GoogleLogin,
+        VFacebookLogin: () => process.client ? import('vue-facebook-login-component') : null,
+    },
     data(){
         return{
+            google_params: {
+                client_id: process.env.OAUTH_GOOGLE
+            },
+            google_renderParams: {
+                width: 210,
+                height: 35,
+                longtitle: true
+            },
             facebook: icon.mdiFacebook,
             account: icon.mdiAccount,
             clear: icon.mdiClose,
@@ -84,14 +125,7 @@ export default {
                 { option: icon.mdiFacebook, color: 'indigo' },
                 { option: icon.mdiGooglePlus, color: 'red' },
                 { option: icon.mdiTwitter, color: 'light-blue' }
-            ],
-            items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
-
+            ]
         }
     },
     validators:{
@@ -107,7 +141,7 @@ export default {
         ...mapGetters('admin', ['user', 'sidebar'])
     },
     methods:{
-        ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget']),
+        ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget', 'googleLogin']),
         ...mapActions('admin', ['fetchMe']),
         async submit(){
             let result = await this.$validate()
@@ -159,11 +193,14 @@ export default {
                 }
             })
         },
-        googleAuth(){
-            window.location.href = process.env.OAUTH_GOOGLE
+        async googleOnSuccess(googleUser){
+            await this.googleLogin(googleUser)
+            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
+            }
         },
-        test(){
-            console.log('test click')
+        googleOnFailure(error){
+            console.log('fail with google login', error)
         }
     }
 }
