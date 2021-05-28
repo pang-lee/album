@@ -146,8 +146,13 @@ export default {
                 return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
             }
         },
-        googleOnFailure(error){
-            console.log('fail with google login', error)
+        googleOnFailure(){
+            return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: '看來Google登入失敗囉 !',
+                timer: 3000
+            })
         }
     }
 }

@@ -7,9 +7,8 @@ const state = () => ({
         gender: '',
         date: '',
         privacy: ''
-        // background: '',
     },
-    sidebar_status: 'Dashboard'
+    sidebar_status: '作品集'
 })
 
 export default state

@@ -23,7 +23,6 @@ export default{
                     }
                 `
             })
-            console.log('the book/fetchbookList',response.data.books)
             commit(types.FETCH_BOOK_LIST, response.data.books)
             let book_img = []
             response.data.books.forEach((whole_book) => {
@@ -48,7 +47,7 @@ export default{
     async saveBook({ getters }, params){
       try {
         let modified_book = getters.bookList.find(element => element.id === params.theId)
-        let response = await this.app.apolloProvider.defaultClient.mutate({
+        return await this.app.apolloProvider.defaultClient.mutate({
           mutation: gql`
             mutation($userId: ID!, $bookId: ID!, $total_page: Int!, $share: Boolean!, $booktitle: String!, $book: String){
               set_book(userId: $userId, bookId: $bookId, total_page: $total_page, share: $share, booktitle: $booktitle, bookinfo: $book)
@@ -63,7 +62,6 @@ export default{
             "book": JSON.stringify(modified_book.bookpage)
           }
         })
-        console.log('this is after mutation save book', response)
       } catch (error) {
           console.log('This is save error', error)
       }

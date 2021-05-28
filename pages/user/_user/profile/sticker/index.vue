@@ -2,11 +2,11 @@
   <v-row class="mx-auto">
     <v-col>
       <v-card elevation="10">
-        <v-card-subtitle class="font-weight-black font-italic text-center">Profile</v-card-subtitle>
+        <v-card-subtitle class="font-weight-black font-italic text-center">我的頭像</v-card-subtitle>
         <v-divider></v-divider>
         <br/>
         <client-only>
-          <avatar-cropper :withCredentials="true" @uploaded="handleUploaded" trigger="#pick-avatar" upload-form-name="avatar" upload-url="http://localhost:3001/upload/avatar" />
+          <avatar-cropper :withCredentials="true" @uploaded="handleUploaded" trigger="#pick-avatar" upload-form-name="avatar" :upload-url="avatarURL" />
           <div class="d-flex justify-center">
             <v-avatar color="black" size="200">
               <v-img v-if="avatar" :src="avatar"></v-img>
@@ -18,7 +18,7 @@
           <v-divider></v-divider>
           <div class="d-flex justify-center mt-5">
             <v-btn outlined color="primary" id="pick-avatar">
-              <v-icon>{{ setAvatar }}</v-icon>&nbsp;<span class="hidden-sm-and-down">set avatar</span>
+              <v-icon>{{ setAvatar }}</v-icon>&nbsp;<span class="hidden-sm-and-down">設定頭像</span>
             </v-btn>
           </div>
         </v-card-text>
@@ -38,6 +38,7 @@ import * as icon from '@mdi/js'
       return {
         setAvatar: icon.mdiFaceShimmerOutline,
         defaultAvatar: icon.mdiAccountCircleOutline,
+        avatarURL: '',
         avatar: ''
       }
     },
@@ -54,6 +55,7 @@ import * as icon from '@mdi/js'
     },
     created() {
       this.avatar = this.user.avatar
+      this.avatarURL = `${process.env.AXIOS_URL}/upload/avatar`
     }
   }
 </script>

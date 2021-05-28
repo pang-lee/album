@@ -6,7 +6,7 @@
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
-                <textarea style="text-align: center;" placeholder="Click Me To Set Title" v-model="title"/>
+                <textarea style="text-align: center;" placeholder="點我寫下書本標題" v-model="title"/>
               </span>
             </div>
           </div>
@@ -40,7 +40,7 @@
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
-              <h2 class="page-first-last">Thank You</h2>
+              <h2 class="page-first-last">謝謝觀看</h2>
             </div>
           </div>
 
@@ -59,9 +59,9 @@
     </div>
 
     <div v-if="!mouseEvent" class="d-flex justify-center mt-5">
-      <v-btn color="primary" outlined @click="prev()">Previous</v-btn>&nbsp;
+      <v-btn color="primary" outlined @click="prev()">上一頁</v-btn>&nbsp;
       <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
-      <v-btn color="primary" outlined @click="next()">Next</v-btn>
+      <v-btn color="primary" outlined @click="next()">下一頁</v-btn>
     </div>
   </div>
 </template>
@@ -196,11 +196,15 @@ Reference:
   https://nodlik.github.io/StPageFlip/demo.html
   https://codepen.io/casper392945/embed/vYNMPBK?height=600&default-tab=result&embed-version=2 
   https://codepen.io/slyka85/pen/opjzPg
+
+  photo:
+  // background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
+	// background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
 */
 
 .container {
   background-size: cover;
-  background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
+  background-image: url("http://localhost:3000/bookcover2.png");
 }
 
 .flip-book {
@@ -212,7 +216,7 @@ Reference:
 
 .page {
   padding: 20px;
-	background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
+  background-image: url("http://localhost:3000/bookpaper.jpg");
   background-size: cover;
   border: solid 1px hsl(35, 20%, 70%);
   overflow: hidden;

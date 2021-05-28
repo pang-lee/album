@@ -3,15 +3,15 @@
         <v-col>
             <client-only>
                 <v-card elevation="10">
-                    <v-card-subtitle class="font-weight-black font-italic text-center">Privacy</v-card-subtitle>
+                    <v-card-subtitle class="font-weight-black font-italic text-center">隱私權設定</v-card-subtitle>
                     <v-divider></v-divider>
                     <br/>
                     <div class="d-flex flex-column align-center">
-                        <v-select v-model="privated" :items="items" label="Choose the album privacy" outlined dense></v-select>
+                        <v-select v-model="privated" :items="items" label="選擇您作品集的權限" outlined dense></v-select>
                     </div>
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
-                        <v-btn outlined color="primary" class="mb-5" @click="setprivacy($route.params.user)">Save</v-btn>
+                        <v-btn outlined color="primary" class="mb-5" @click="setprivacy($route.params.user)">儲存</v-btn>
                     </div>
                 </v-card>
             </client-only>
@@ -28,7 +28,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
         layout: 'user',
         data(){
             return {
-                items: ['Share All', 'Share I Selected', 'Do Not Share Any']
+                items: ['全部分享', '分享我選擇的', '全部都不要分享']
             }
         },
         computed:{

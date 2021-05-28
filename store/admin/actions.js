@@ -129,7 +129,7 @@ export default{
     },
     async setprivacy({ getters }, params){
         try {
-            let response = await this.app.apolloProvider.defaultClient.mutate({
+            return await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($private_value: String!){
                         set_privacy(privacy_value: $private_value)
@@ -139,7 +139,6 @@ export default{
                     "private_value": JSON.stringify({ userId: params, privacy: getters.user.privacy, book_share: getters.privacy_value.share_btn })
                 }
             })
-            console.log('this is set privacy', response)
         } catch (error) {
             console.log('This is set privacy error', error)
         }

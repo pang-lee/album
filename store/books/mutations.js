@@ -38,10 +38,10 @@ export default {
                 }
             },
             options: [
-                { title: 'Update Image' },
-                { title: 'Add Post Link', href: '' },
-                { title: 'Add Live Stream Link', href: '' },
-                { title: 'Add Video Link', href: ''}
+                { title: '更換相片' },
+                { title: '設定文章連結', href: '' },
+                { title: '設定直播連結', href: '' },
+                { title: '設定影片連結', href: ''}
             ]
         })
     },

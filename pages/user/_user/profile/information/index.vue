@@ -2,7 +2,7 @@
   <v-row class="mx-auto">
     <v-col>
       <v-card elevation="10">
-        <v-card-subtitle class="font-weight-black font-italic text-center">Personal Information</v-card-subtitle>
+        <v-card-subtitle class="font-weight-black font-italic text-center">關於我</v-card-subtitle>
         <v-divider></v-divider>
         <br/>
         <v-card-text>
@@ -40,21 +40,21 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="setname(user.first + ' ' + user.last)">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setname(user.first + ' ' + user.last)">儲存</v-btn>
                   </div>
                 </v-card-text>
 
-                 <v-card-text v-else-if="message.topic == 'Password'">
+                 <v-card-text v-else-if="message.topic == '密碼設定'">
                   <div class="hidden-sm-and-down">
-                    <div class="text-h6 text-center">Do you want to Reset your Password?</div>
+                    <div class="text-h6 text-center">你想要重設密碼 ?</div>
                     <br/>
                     <div class="white" :class="{ error: validation.hasError('reset') }">
-                      <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
+                      <v-text-field label="重設的密碼" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
                       <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
                     </div>               
                     <v-divider></v-divider>
                     <div class="d-flex justify-center mt-5">
-                      <v-btn outlined color="primary" @click="reset_password()">Save</v-btn>
+                      <v-btn outlined color="primary" @click="reset_password()">儲存</v-btn>
                     </div>
                   </div>
 
@@ -86,7 +86,7 @@
                   </div>
                 </v-card-text>
 
-                <v-card-text v-else-if="message.topic == 'Birthday'">
+                <v-card-text v-else-if="message.topic == '生日'">
                   <v-dialog v-model="modal" width="290px">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field v-model="date" label="Birthday" :prepend-icon="year" readonly v-bind="attrs" v-on="on"></v-text-field>
@@ -96,11 +96,11 @@
                   </v-dialog>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="setdate(user.date)">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setdate(user.date)">儲存</v-btn>
                   </div>
                 </v-card-text>
 
-                <v-card-text v-else-if="message.topic == 'Gender'">
+                <v-card-text v-else-if="message.topic == '性別'">
                   <div class="d-flex justify-center">
                     <v-radio-group v-model="gender">
                       <v-radio label="Male" value="Male" color="indigo" :off-icon="unchecked" :on-icon="checked"></v-radio>
@@ -109,7 +109,7 @@
                   </div>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="setgender(user.gender)">Save</v-btn>
+                    <v-btn outlined color="primary" @click="setgender(user.gender)">儲存</v-btn>
                   </div>
                 </v-card-text>
               </v-expansion-panel-content>
@@ -170,17 +170,17 @@ import Swal from 'sweetalert2'
           {
             color: 'red',
             icon: icon.mdiLockOpenAlertOutline,
-            topic: 'Password'
+            topic: '密碼設定'
           },
           {
             color: 'teal',
             icon: icon.mdiCalendarMonthOutline,
-            topic: 'Birthday'
+            topic: '生日'
           },
           {
             color: 'brown darken-1',
             icon: icon.mdiHumanMaleFemale,
-            topic: 'Gender'
+            topic: '性別'
           }
         ]
       },

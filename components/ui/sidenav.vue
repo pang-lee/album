@@ -2,7 +2,7 @@
     <client-only>
         <v-sheet rounded="lg">
             <v-list color="transparent">
-                <v-list-item v-if="sidestate == 'Dashboard'" nuxt :to="`/user/${$route.params.user}/dashboard/add`">
+                <v-list-item v-if="sidestate == '作品集'" nuxt :to="`/user/${$route.params.user}/dashboard/add`">
                     <v-icon class="addbook">{{ addBook }}</v-icon>
                 </v-list-item>
                 <v-divider v-if="sidestate == 'Dashboard'"></v-divider>

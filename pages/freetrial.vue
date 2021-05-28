@@ -44,13 +44,13 @@
                     <v-card-text v-if="filteImage">
                       <strong>灰階 ({{ photo.grayscale }})</strong>
                       <v-slider v-model="photo.grayscale" max="1" min="0" step="0.01"></v-slider>
-                      <strong>棕褐色 ({{ photo.sepia }})</strong>
+                      <strong>懷舊 ({{ photo.sepia }})</strong>
                       <v-slider v-model="photo.sepia" max="1" min="0" step="0.01"></v-slider>
                       <strong>飽和度 ({{ photo.saturate }})</strong>
                       <v-slider v-model="photo.saturate" max="1" min="0" step="0.01"></v-slider>
                       <strong>色相旋轉 ({{ photo.hueRotate }} 度)</strong>
                       <v-slider v-model="photo.hueRotate" max="360" min="0" step="1"></v-slider>
-                      <strong>倒置 ({{ photo.invert }})</strong>
+                      <strong>負片 ({{ photo.invert }})</strong>
                       <v-slider  v-model="photo.invert"  max="1"  min="0"  step="0.01"></v-slider>
                       <strong>亮度 ({{ photo.brightness }})</strong>
                       <v-slider v-model="photo.brightness" max="3" min="0" step="0.01"></v-slider>

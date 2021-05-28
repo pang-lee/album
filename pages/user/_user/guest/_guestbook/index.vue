@@ -12,12 +12,10 @@ import { mapGetters, mapActions } from 'vuex'
         computed:{
             ...mapGetters('books', ['bookList']),
             bookId(){
-                console.log('call bookid', this.$route.params.guestbook)
                 return this.$route.params.guestbook
             },
             bookpage(){
                 if(process.server) return null
-                console.log('call page', this.bookList)
                 return this.bookList.find(element => element.id === this.bookId).total_page
             }
         },

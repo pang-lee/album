@@ -5,7 +5,7 @@ export default{
         try {
             commit(types.SET_IMAGE, params)
         } catch (error) {
-            console.log(error)
+            console.log('set image error', error)
         }
     }
 }

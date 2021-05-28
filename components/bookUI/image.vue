@@ -14,25 +14,25 @@
             </v-img>
             <v-dialog v-model="dialog" width="300" overlay-opacity="0.8">
                 <v-card>
-                    <div class="text-h6 font-weight-black text-center">Photo Setting</div>
+                    <div class="text-h6 font-weight-black text-center">相片設定</div>
                     <v-img :src="bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]" aspect-ratio="1.79" :style="filters" eager></v-img>
                     <perfect-scrollbar>
                         <v-card-text v-if="filteImage">
-                            <strong>Grayscale ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
+                            <strong>灰階 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.grayscale }})</strong>
                             <v-slider v-model="grayscale" max="1" min="0" step="0.01"></v-slider>
-                            <strong>Sepia ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.sepia }})</strong>
+                            <strong>懷舊 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.sepia }})</strong>
                             <v-slider v-model="sepia" max="1" min="0" step="0.01"></v-slider>
-                            <strong>Saturate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.saturate }})</strong>
+                            <strong>飽和度 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.saturate }})</strong>
                             <v-slider v-model="saturate" max="1" min="0" step="0.01"></v-slider>
-                            <strong>Hue Rotate ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.hueRotate }} deg)</strong>
+                            <strong>色相旋轉 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.hueRotate }} 度)</strong>
                             <v-slider v-model="hueRotate" max="360" min="0" step="1"></v-slider>
-                            <strong>Invert ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.invert }})</strong>
+                            <strong>負片 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.invert }})</strong>
                             <v-slider v-model="invert" max="1" min="0" step="0.01"></v-slider>
-                            <strong>Brightness ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.brightness }})</strong>
+                            <strong>亮度 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.brightness }})</strong>
                             <v-slider v-model="brightness" max="3" min="0" step="0.01"></v-slider>
-                            <strong>Contrast ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.contrast }})</strong>
+                            <strong>對比 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.contrast }})</strong>
                             <v-slider v-model="contrast" max="1" min="0" step="0.01"></v-slider>
-                            <strong>Blur ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.blur }}px)</strong>
+                            <strong>模糊 ({{ bookList.find(element => element.id === bookId).bookpage[bookpage].photo.blur }} 像素)</strong>
                             <v-slider v-model="blur" max="50" min="0" step="0.1"></v-slider>
                         </v-card-text>
                         <v-card-text v-else>
@@ -41,9 +41,9 @@
                                 <v-expansion-panel-header>{{ item.title }}</v-expansion-panel-header>
                                 <v-expansion-panel-content>
                                     <br/>
-                                    <div v-if="item.title == 'Update Image'" @click="editingImg(bookpage)">
-                                        <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
-                                            <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+                                    <div v-if="item.title == '更換相片'" @click="editingImg(bookpage)">
+                                        <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="book_img_url">
+                                            <div class="text-h6 text-center text--secondary">點我更新圖片</div>
                                         </vue-core-image-upload>
                                     </div>
                                     <v-text-field v-else @input="hrefOption(index, $event)" :value="item.href" :label="item.title" outlined clearable></v-text-field>
@@ -55,17 +55,17 @@
                     <v-divider></v-divider>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" text @click="filteImage = true">Filter</v-btn>
-                        <v-btn color="primary" text @click="filteImage = false">Image URL</v-btn>
-                        <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+                        <v-btn color="primary" text @click="filteImage = true">濾鏡</v-btn>
+                        <v-btn color="primary" text @click="filteImage = false">相片設定</v-btn>
+                        <v-btn color="primary" text @click="dialog = false">完成</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </div>
 
         <div v-show="!upload.src" @click="editingImg(bookpage)">
-            <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" url="http://localhost:3001/upload/bookImg">
-                <div class="text-h6 text-center text--secondary">Click Me To Upload</div>
+            <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="book_img_url">
+                <div class="text-h6 text-center text--secondary">點我上傳相片</div>
             </vue-core-image-upload>
         </div>
     </div>
@@ -106,6 +106,7 @@ import * as icon from '@mdi/js'
                 video: icon.mdiVideoBox,
                 photo:{},
                 edit_img_info: {},
+                book_img_url: '',
                 upload:{
                     src: ''
                 }
@@ -206,13 +207,13 @@ import * as icon from '@mdi/js'
                 reader.readAsDataURL(res)
             },
             imageuploaded(res) {
-                console.log("this is the imageuploaded ", res)
                 this.SET_BOOKPAGEIMG({ ...this.edit_img_info, value: res })
             }
         },
         created() {
             if(!this.bookImg.length == 0) this.upload.src = this.bookImg.find(element => element.id === this.bookId)[`pages${this.bookpage}`]
             this.photo = this.bookList.find(element => element.id === this.bookId).bookpage[this.bookpage].photo
+            this.book_img_url = `${process.env.AXIOS_URL}/upload/bookImg`
         }
     }
 </script>

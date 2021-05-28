@@ -18,12 +18,12 @@
               <nuxt/>
             </v-sheet>
             <SocialChat :attendants="attendants" class="chat">
-              <div slot="header" class="text-subtitle-1 text-center font-italic">Use the below method to contact with us :</div>
+              <div slot="header" class="text-subtitle-1 text-center font-italic">使用以下方式來聯繫我 :</div>
               <template v-slot:button="{ open }">
                 <span v-show="!open"><v-icon color="white">{{ contact }}</v-icon></span>
                 <span v-show="open"><v-icon color="white">{{ close }}</v-icon></span>
               </template>
-              <div slot="footer" class="text-subtitle-2 text-center font-italic">We will response as soon as possible!</div>
+              <div slot="footer" class="text-subtitle-2 text-center font-italic">我會盡快回復給您 !</div>
             </SocialChat>
           </v-col>
         </v-row>
@@ -51,9 +51,17 @@ import * as icon from '@mdi/js'
         attendants: [
           {
             app: 'messenger',
-            label: 'Technical support',
-            name: 'Pang',
+            label: 'FB Messanger 聯絡製作人',
+            name: 'Pang龐德',
             id: '101317471923604',
+            avatar: {
+              src: process.env.BASE_URL + '/avatar.png',
+              alt: 'Pang'
+            }
+          },
+          {
+            label: 'Email 聯繫製作人',
+            name: '94justpang@gmail.com',
             avatar: {
               src: process.env.BASE_URL + '/avatar.png',
               alt: 'Pang'

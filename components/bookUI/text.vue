@@ -1,5 +1,5 @@
 <template>
-    <textarea placeholder="Type Down Your Story" rows="8" v-model="edit_text"></textarea>
+    <textarea placeholder="點我寫下你的故事" rows="8" v-model="edit_text"></textarea>
 </template>
 
 <script>

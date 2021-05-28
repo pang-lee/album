@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="hidden-sm-and-down">
     <div v-if="!displayOrNot" class="d-flex justify-center">
-      <v-switch v-model="shareOrNot" inset :label="`${shareOrNot ? 'share' : 'deny'}`"></v-switch>
+      <v-switch v-model="shareOrNot" inset :label="`${shareOrNot ? '分享' : '不分享'}`"></v-switch>
     </div>
     <div class="d-flex justify-center mt-5">
       <v-btn-toggle v-model="btnstate" tile color="primary" mandatory group>
-          <v-btn value="preview" @click.stop="preview()">Preview</v-btn>
-          <v-btn value="edit" @click.stop="edit()">Edit</v-btn>
-          <v-btn value="save" @click.stop="save()">Save</v-btn>
-          <v-btn v-if="displayOrNot && shareOrNot" value="share" @click.stop="share()">Share</v-btn>
-          <v-btn v-if="!displayOrNot && shareOrNot" value="share" @click.stop="share()">Share</v-btn>
+          <v-btn value="preview" @click.stop="preview()">預覽</v-btn>
+          <v-btn value="edit" @click.stop="edit()">編輯</v-btn>
+          <v-btn value="save" @click.stop="save()">儲存</v-btn>
+          <v-btn v-if="displayOrNot && shareOrNot" value="share" @click.stop="share()">分享</v-btn>
+          <v-btn v-if="!displayOrNot && shareOrNot" value="share" @click.stop="share()">分享</v-btn>
           <v-dialog v-model="dialog">
             <v-card>
               <br/>
-              <v-card-subtitle class="text-center font-weight-black font-italic">Share With Your Friend</v-card-subtitle>
+              <v-card-subtitle class="text-center font-weight-black font-italic">快分享給其他人吧 <strong>!</strong></v-card-subtitle>
               <v-divider></v-divider>
               <br/>
               <v-card-actions>
@@ -152,8 +152,8 @@ export default {
         if(this.firstIn) return this.$emit('mouseChange', true)
         if(!this.isSave) return Swal.fire({
           type: 'warning',
-          title: `<h2>Oops...</h2>`,
-          html: '<strong>Please Remember To <u style="color:red;">Save Before You Preview!</u></strong>',
+          title: `<h2>噢噢...</h2>`,
+          html: '<strong>預覽前請先記得<u style="color:red;">存檔 !</u></strong>',
           timer: 3000
         })
         this.$emit('mouseChange', true)
@@ -163,8 +163,8 @@ export default {
         if(this.firstIn) return this.dialog = true
         if(!this.isSave) return Swal.fire({
           type: 'warning',
-          title: `<h2>Oops...</h2>`,
-          html: '<strong>Please Remember To <u style="color:red;">Save Before You Share!</u></strong>',
+          title: `<h2>噢噢...</h2>`,
+          html: '<strong>分享前請先記得<u style="color:red;">存檔 !</u></strong>',
           timer: 3000
         })
         return this.dialog = true
@@ -174,16 +174,16 @@ export default {
           await this.$copyText(process.env.BASE_URL + this.$route.fullPath)
           Swal.fire({
             type: 'success',
-            title: 'Success Copy Url',
-            text: 'Now You Can Share With Your Friend',
+            title: '成功複製網址',
+            text: '趕快分享給別人吧 !',
             timer: 3000
           })
           return this.dialog = false
         } catch (error) {
           Swal.fire({
             type: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
+            title: '噢噢...',
+            text: '看來有東西錯誤囉 !',
             timer: 3000
           })
         }

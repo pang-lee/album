@@ -27,7 +27,7 @@
             </div>
           </v-list-item>
 
-          <v-list-group v-for="(link, index) in links" :key="index" :append-icon="`${link.target == 'Logout' ? '' : chevron}`">
+          <v-list-group v-for="(link, index) in links" :key="index" :append-icon="`${link.target == '登出' ? '' : chevron}`">
             <template v-slot:activator>
               <v-list-item-title @click="to_destination(link)">
                 <v-icon>{{ link.icon }}</v-icon>&nbsp;{{ link.target }}
@@ -36,7 +36,7 @@
 
             <v-list-group sub-group v-for="(side, index) in sidebar" :key="index">
               <template v-slot:activator>
-                  <v-list-item nuxt :to="`${$route.fullPath.slice($route.fullPath.indexOf('/', 0), $route.fullPath.indexOf('/', 40)) + side.link}`" @click="drawer = false">
+                  <v-list-item nuxt :to="`/user/${$route.params.user}${side.link}`" @click="drawer = false">
                     <v-list-item-title>
                       <v-icon>{{ side.icon }}</v-icon>&nbsp;{{ side.data }}
                     </v-list-item-title>
@@ -72,7 +72,7 @@
     <v-col>
       <div class="d-flex justify-center">
         <v-btn text x-large plain nuxt to="/">
-          <div class="font-italic">快來製作屬於你的作品集&nbsp;<strong>!</strong></div>
+          <div class="font-italic">點我來製作屬於你的作品集&nbsp;<strong>!</strong></div>
         </v-btn>
       </div>
     </v-col>
@@ -94,10 +94,10 @@ import * as icon from '@mdi/js'
           defaultAvatar: icon.mdiAccountCircleOutline,
           drawer: false,
           links: [
-            { target: 'Dashboard', route: '', icon: icon.mdiViewDashboardOutline },
-            { target: 'Profile', route: '/profile/sticker', icon: icon.mdiFaceOutline },
-            { target: 'Setting', route: '/setting/privacy', icon: icon.mdiCogOutline },
-            { target: 'Logout', route: '/', icon: icon.mdiLogout }
+            { target: '作品集', route: '', icon: icon.mdiViewDashboardOutline },
+            { target: '個人資料', route: '/profile/sticker', icon: icon.mdiFaceOutline },
+            { target: '設定', route: '/setting/privacy', icon: icon.mdiCogOutline },
+            { target: '登出', route: '/', icon: icon.mdiLogout }
           ]
         }
       },
@@ -112,11 +112,11 @@ import * as icon from '@mdi/js'
         ...mapActions('authentication', ['logout']),
         ...mapMutations('admin', ['SET_SIDEBAR_STATUS']),
         to_destination(link){
-          if(link.target == 'Logout'){
-            this.SET_SIDEBAR_STATUS('Dashboard')
+          if(link.target == '登出'){
+            this.SET_SIDEBAR_STATUS('作品集')
             this.logout()
             return this.$router.push(link.route)
-          } else if (link.target == 'Dashboard'){
+          } else if (link.target == '作品集'){
             this.SET_SIDEBAR_STATUS(link.target)
             return this.$router.push(`/user/${this.$route.params.user}${this.sidebar[0].link}`)
           } else {
@@ -125,7 +125,7 @@ import * as icon from '@mdi/js'
           }
         },
         profile(device){
-          this.SET_SIDEBAR_STATUS('Profile')
+          this.SET_SIDEBAR_STATUS('個人資料')
           if(device == 'mobile') this.drawer = !this.drawer
           return this.$router.push(`/user/${this.$route.params.user}/profile/information`)
         }
