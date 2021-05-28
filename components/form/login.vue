@@ -24,7 +24,7 @@
                     </v-col>
                     <v-col>
                         <span class="d-flex justify-center">
-                            <v-facebook-login app-id="966242223397117"></v-facebook-login>
+                            <v-facebook-login :app-id="facebook_id"></v-facebook-login>
                         </span>
                     </v-col>
                 </v-row>   
@@ -56,6 +56,7 @@ export default {
                 height: 35,
                 longtitle: true
             },
+            facebook_id: '',
             facebook: icon.mdiFacebook,
             account: icon.mdiAccount,
             clear: icon.mdiClose,

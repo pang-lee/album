@@ -11,7 +11,7 @@
           <v-btn icon dark @click="drawer = false">
             <v-icon>{{ close }}</v-icon>
           </v-btn>
-          <v-toolbar-title>Album</v-toolbar-title>
+          <v-toolbar-title>歡迎使用作品集</v-toolbar-title>
         </v-toolbar>
         <v-list>
 
@@ -34,15 +34,9 @@
               </v-list-item-title>
             </template>
 
-            <v-list-group sub-group v-for="(side, index) in sidebar" :key="index">
-              <template v-slot:activator>
-                  <v-list-item nuxt :to="`/user/${$route.params.user}${side.link}`" @click="drawer = false">
-                    <v-list-item-title>
-                      <v-icon>{{ side.icon }}</v-icon>&nbsp;{{ side.data }}
-                    </v-list-item-title>
-                  </v-list-item>
-              </template>
-            </v-list-group>
+            <v-btn block text v-for="(side, index) in sidebar" :key="index" @click="drawer = false" nuxt :to="`/user/${$route.params.user}${side.link}`">
+              <v-icon>{{ side.icon }}</v-icon>&nbsp;{{ side.data }}
+            </v-btn>
           </v-list-group>
         </v-list>
       </v-card>
@@ -140,5 +134,8 @@ import * as icon from '@mdi/js'
 </script>
 
 <style lang="scss" scoped>
-
+.sub_group{
+  position: relative;
+  margin-left: 10vw;
+}
 </style>
