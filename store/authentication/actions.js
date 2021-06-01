@@ -280,5 +280,42 @@ export default{
         } catch (error) {
             console.log('google login error', error)
         }
+    },
+    async facebookLogin({ commit, dispatch }, params){
+        try {
+            this.app.$cookies.set('facebook_token', params.facebookAuth.authResponse.access_token)
+            this.app.$cookies.set('facebook_expirationDate', params.facebookAuth.authResponse.data_access_expiration_time)
+            this.app.$cookies.set('Idp', params.facebookAuth.authResponse.graphDomain)
+            let user = await this.app.apolloProvider.defaultClient.mutate({
+                mutation: gql`
+                    mutation($user: String!){
+                        facebook_login(googleUser: $user){
+                            access_token
+                            id
+                            avatar
+                            username
+                            gender
+                            birthday
+                            privacy
+                        }
+                    }
+                `,
+                variables: {
+                    "user": JSON.stringify(params.fbUser)
+                }
+            })
+            this.app.$cookies.set('album_access_token', user.data.facebook_login.access_token)
+            commit('admin/SET_ID', user.data.facebook_login.id, { root: true })
+            commit('admin/SET_AVATAR', user.data.facebook_login.avatar, { root: true })
+            commit('admin/SET_FIRST', user.data.facebook_login.username.split(' ')[0], { root: true })
+            commit('admin/SET_LAST', user.data.facebook_login.username.split(' ')[1], { root: true })
+            commit('admin/SET_GENDER', user.data.facebook_login.gender, { root: true })
+            commit('admin/SET_DATE', user.data.facebook_login.birthday, { root: true })
+            commit('admin/SET_PRIVACY', user.data.facebook_login.privacy, { root: true })
+            await dispatch('books/fetchBookList', null, { root: true })
+            return commit(types.SET_VERIFY, true)
+        } catch (error) {
+            console.log('Fb login error', error)
+        }
     }
 }

@@ -13,6 +13,12 @@
             <v-btn color="primary" @click="submit()">登入</v-btn>
         </v-card-actions>
         <br/>
+        <div class="d-flex justify-end">
+            <v-btn text outlined small nuxt to="/privacy-policy">
+                <span class="font-weight-bold font-italic">隱私權與服務條款</span>
+            </v-btn>
+        </div>
+        <br/>
         <v-divider></v-divider>
         <client-only>
             <v-container fluid>
@@ -24,7 +30,7 @@
                     </v-col>
                     <v-col>
                         <span class="d-flex justify-center">
-                            <v-facebook-login :app-id="facebook_id"></v-facebook-login>
+                            <v-facebook-login :app-id="facebook_id" @sdk-init="fb_init"></v-facebook-login>
                         </span>
                     </v-col>
                 </v-row>   
@@ -56,7 +62,7 @@ export default {
                 height: 35,
                 longtitle: true
             },
-            facebook_id: '',
+            facebook_id: process.env.OAUTH_FACEBOOK,
             facebook: icon.mdiFacebook,
             account: icon.mdiAccount,
             clear: icon.mdiClose,
@@ -73,7 +79,9 @@ export default {
             options:[
                 { option: icon.mdiFacebook, color: 'indigo' },
                 { option: icon.mdiGooglePlus, color: 'red' }
-            ]
+            ],
+            fb:{},
+            scope:{}
         }
     },
     validators:{
@@ -89,7 +97,7 @@ export default {
         ...mapGetters('admin', ['user', 'sidebar'])
     },
     methods:{
-        ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget', 'googleLogin']),
+        ...mapActions('authentication', ['verify_login', 'fetchToken', 'forget', 'googleLogin', 'facebookLogin']),
         ...mapActions('admin', ['fetchMe']),
         async submit(){
             let result = await this.$validate()
@@ -154,6 +162,16 @@ export default {
                 text: '看來Google登入失敗囉 !',
                 timer: 3000
             })
+        },
+        fb_init({ FB }){
+            this.fb = FB
+        },
+        async fb_login(facebookAuth){
+            let fbUser = await this.fb.api('/me', { fields: 'id,name,email,first_name,middle_name,last_name,picture{url}' })
+            await this.facebookLogin({ ...fbUser, ...facebookAuth })
+            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
+            }
         }
     }
 }
