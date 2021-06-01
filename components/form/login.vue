@@ -30,7 +30,7 @@
                     </v-col>
                     <v-col>
                         <span class="d-flex justify-center">
-                            <v-facebook-login :app-id="facebook_id" @sdk-init="fb_init"></v-facebook-login>
+                            <v-facebook-login :app-id="facebook_id" @login="fb_login" @sdk-init="fb_init"></v-facebook-login>
                         </span>
                     </v-col>
                 </v-row>   
@@ -80,8 +80,7 @@ export default {
                 { option: icon.mdiFacebook, color: 'indigo' },
                 { option: icon.mdiGooglePlus, color: 'red' }
             ],
-            fb:{},
-            scope:{}
+            fb:{}
         }
     },
     validators:{
@@ -166,12 +165,13 @@ export default {
         fb_init({ FB }){
             this.fb = FB
         },
-        async fb_login(facebookAuth){
-            let fbUser = await this.fb.api('/me', { fields: 'id,name,email,first_name,middle_name,last_name,picture{url}' })
-            await this.facebookLogin({ ...fbUser, ...facebookAuth })
-            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
-                return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
-            }
+        fb_login(facebookAuth){
+            this.fb.api('/me', { fields: 'id,email,first_name,last_name,picture{url}' }, async(response) => {
+                await this.facebookLogin({ fbUser: response, fbAuth: facebookAuth })
+                if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                    return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
+                }
+            })
         }
     }
 }

@@ -157,9 +157,9 @@ export default{
             let access_token_expirationDate
             let refresh_token
             let refresh_token_expirationDate
-            let provider = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('Idp='))
             let Idp_company
             
+            let provider = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('Idp='))
             if(provider) Idp_company = provider.split('=')[1]
 
             if(!provider){
@@ -220,9 +220,20 @@ export default{
                     return commit(types.SET_VERIFY, true)
 
                 case 'facebook':
-                    break;
-                case 'twitter':
-                    break;
+                    let facebookExpCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('facebook_expirationDate='))
+                    let facebookExp = facebookExpCookie.split('=')[1]
+                    if(new Date().getTime() > Number.parseInt(facebookExp)){
+                        commit(types.SET_VERIFY, false)
+                        params.$cookies.removeAll()
+                        return await params.app.apolloProvider.defaultClient.mutate({
+                            mutation: gql`
+                                mutation{
+                                    invalidateToken
+                                }
+                            `
+                        })
+                    }
+                    return commit(types.SET_VERIFY, true)
             }
         } catch (error) {
             console.log('authentication initAuth error', error)
@@ -283,9 +294,11 @@ export default{
     },
     async facebookLogin({ commit, dispatch }, params){
         try {
-            this.app.$cookies.set('facebook_token', params.facebookAuth.authResponse.access_token)
-            this.app.$cookies.set('facebook_expirationDate', params.facebookAuth.authResponse.data_access_expiration_time)
-            this.app.$cookies.set('Idp', params.facebookAuth.authResponse.graphDomain)
+            if(params.fbAuth){
+                this.app.$cookies.set('facebook_token', params.facebookAuth.authResponse.access_token)
+                this.app.$cookies.set('facebook_expirationDate', params.facebookAuth.authResponse.data_access_expiration_time)
+                this.app.$cookies.set('Idp', params.facebookAuth.authResponse.graphDomain)                
+            }
             let user = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($user: String!){
