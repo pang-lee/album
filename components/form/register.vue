@@ -4,7 +4,7 @@
             <div class="white" :class="{error: validation.hasError('register')}">
                 <v-text-field :prepend-icon="colorize" v-model="register.first" label="姓氏 *" clearable :clear-icon="clear"></v-text-field>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.first') }}</div>
-                <v-text-field :prepend-icon="edit" v-model="register.last" label="名子 *" clearable :clear-icon="clear"></v-text-field>
+                <v-text-field :prepend-icon="edit" v-model="register.last" label="名字 *" clearable :clear-icon="clear"></v-text-field>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.last') }}</div>
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('register.gender') }}</div>
                 <v-text-field label="Email 帳號 *" :prepend-icon="email" hint="example: apple@mail.com" v-model="register.email" clearable :clear-icon="clear"></v-text-field>
