@@ -307,7 +307,7 @@ export default{
             let user = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($user: String!){
-                        facebook_login(googleUser: $user){
+                        facebook_login(facebookUser: $user){
                             access_token
                             id
                             avatar

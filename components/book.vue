@@ -123,8 +123,8 @@ import * as icon from '@mdi/js'
           if(this.isSave == true) return this.$emit('addPage', { which_id: this.bookId, value: newValue })
           else return Swal.fire({
             type: 'warning',
-            title: `<h2>Oops...</h2>`,
-            html: '<strong>Please Remember To <u style="color:red;">Save Before Add Page!</u></strong>',
+            title: `<h2>噢噢...</h2>`,
+            html: '<strong>新增前請先記得<u style="color:red;">存檔 !</u></strong>',
             timer: 3000
           })
         }
