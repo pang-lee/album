@@ -26,13 +26,13 @@
 
             <div v-if="upload.src" class="page-image" @click="dialog = true">
               <v-img :src="upload.src" aspect-ratio="1.79" :style="filters" eager>
-                <v-btn v-if="options[1].href" icon fab x-small :href="options[1].href" target="_blank" @click.stop="dialog = false" >
+                <v-btn class="link-btn-position" v-if="options[1].href" icon fab x-small :href="options[1].href" target="_blank" @click.stop="dialog = false" >
                   <v-icon color="#BDBDBD">{{ link }}</v-icon>
                 </v-btn>
-                <v-btn v-if="options[2].href" icon fab x-small :href="options[2].href" target="_blank" @click.stop="dialog = false">
+                <v-btn class="link-btn-position" v-if="options[2].href" icon fab x-small :href="options[2].href" target="_blank" @click.stop="dialog = false">
                   <v-icon color="#BDBDBD">{{ live }}</v-icon>
                 </v-btn>
-                <v-btn v-if="options[3].href" icon fab x-small :href="options[3].href" target="_blank" @click.stop="dialog = false">
+                <v-btn class="link-btn-position" v-if="options[3].href" icon fab x-small :href="options[3].href" target="_blank" @click.stop="dialog = false">
                   <v-icon color="#BDBDBD">{{ video }}</v-icon>
                 </v-btn>
               </v-img>
@@ -89,27 +89,49 @@
             </div>
             <div class="page-footer">{{ n }}</div>
           </div>
-          <div v-else>
+          <div v-else-if="n == 2">
             <div class="page-content">
-              <h2 class="page-header">Page header {{ n }}</h2>
-              <div class="page-image" style="background-image: url(images/html/1.jpg)"></div>
+              <h2 class="page-header">製作人告白</h2>
+              <v-img class="page-image" aspect-ratio="1.79" :src="page_img1"></v-img>
               <div class="page-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                cursus mollis nibh, non convallis ex convallis eu. Suspendisse
-                potenti. Aenean vitae pellentesque erat. Integer non tristique
-                quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros
-                velit viverra metus, a venenatis tellus tellus id magna. Aliquam
-                ac nulla rhoncus, accumsan eros sed, viverra enim. Pellentesque
-                non justo vel nibh sollicitudin pharetra suscipit ut ipsum.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                cursus mollis nibh, non convallis ex convallis eu. Suspendisse
-                potenti. Aenean vitae pellentesque erat. Integer non tristique
-                quam. Suspendisse rutrum, augue ac sollicitudin mollis, eros
-                velit viverra metus, a venenatis tellus tellus id magna.
+                <div class="text-h6 font-weight-black d-flex justify-center">您好，歡迎使用作品集 !</div>
+                <br/>
+                <div class="text-h6 font-weight-black">在這裡您可以將您最愛的照片製作成一本屬於自己的回憶錄 !</div>
+                <br/>
+                <div class="text-h6 font-weight-black d-flex justify-center">您可以在<span class="font-italic text-decoration-underline">每頁的文字區寫下屬於您的故事</span>&nbsp;!</div>
+                <br/>
+                <div class="text-h6 font-weight-black">製作完成後趕快分享給親朋好友與他們共同分享這份喜悅 !</div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
           </div>
+
+          <div v-else-if="n == 3">
+            <div class="page-content">
+              <h2 class="page-header">製作人作品集示範</h2>
+              <v-img class="page-image" aspect-ratio="1.79" :src="page_img2">
+                <v-btn class="link-btn-position" icon fab x-small href="https://www.facebook.com/permalink.php?story_fbid=113813187340699&id=101317471923604" target="_blank">
+                  <v-icon color="#BDBDBD">{{ link }}</v-icon>
+                </v-btn>
+                <v-btn class="link-btn-position" icon fab x-small href="https://www.youtube.com/watch?v=PljTAXG40VA" target="_blank">
+                  <v-icon color="#BDBDBD">{{ video }}</v-icon>
+                </v-btn>
+              </v-img>
+              <div class="page-text">
+                <div class="text-h6 font-weight-black d-flex justify-center">在照片上傳後，<span class="font-italic text-decoration-underline">可以點擊照片做更多設定</span>&nbsp;!</div>
+                <br/>
+                <div class="text-h6 font-weight-black">可以在相片設定中添加外部的連結，輕鬆紀錄自己的貼文 !</div>
+                <br/>
+                <div class="text-h6 font-weight-black d-flex justify-center">添加貼文後，會在<span class="font-italic text-decoration-underline">照片的左下角出現標示</span>&nbsp;!</div>
+                <br/>
+                <div class="text-h6 font-weight-black d-flex justify-center">製作完成後<span class="font-italic text-decoration-underline">點擊則可以到您文章指定的連結</span>&nbsp;!</div>
+                <br/>
+                <div class="text-h6 font-weight-black d-flex justify-center">輕鬆紀錄下精彩每個瞬間 !</div>
+              </div>
+              <div class="page-footer">{{ n }}</div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -129,6 +151,8 @@ export default {
   name: 'free',
   data() {
     return {
+      page_img1:`${process.env.BASE_URL}/freeTrial_page.jpg`,
+      page_img2:`${process.env.BASE_URL}/freeTrial_page1.jpg`,
       current: 1,
       total: 5,
       pageFlip: {},
@@ -220,7 +244,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   background-size: cover;
-  background-image: url("http://localhost:3000/bookcover2.png");
+  background-image: url("~/static/bookcover2.png");
   // background-image: url("https://github.com/slyka85/assets/blob/master/bookcover2.png?raw=true");
 }
 
@@ -233,7 +257,7 @@ export default {
 
 .page {
   padding: 20px;
-  background-image: url("http://localhost:3000/bookpaper.jpg");
+  background-image: url("~/static/bookpaper.jpg");
   // background-image: url("https://img00.deviantart.net/cbb9/i/2005/258/c/4/paper_texture_v5_by_bashcorpo.jpg");
   background-size: cover;
   overflow: hidden;
@@ -361,4 +385,10 @@ textarea {
     border-color: #3897f0;
   }
 }
+
+.link-btn-position{
+  position: relative;
+  margin-top: 50%;
+}
+
 </style>

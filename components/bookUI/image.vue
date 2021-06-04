@@ -221,7 +221,7 @@ import * as icon from '@mdi/js'
 <style lang="scss" scoped>
 .link-btn-position{
   position: relative;
-  margin-top: 45%;
+  margin-top: 50%;
 }
 
 .ps {

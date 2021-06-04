@@ -24,6 +24,7 @@ export default{
             let displayError
             if(error == 'Error: GraphQL error: Password Not Same') displayError = '密碼錯囉...!'
             else if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email...!'
+            commit(types.SET_VERIFY, false)
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
@@ -85,6 +86,7 @@ export default{
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Email Duplicate') displayError = '這個Email已經被註冊囉...!'
+            commit(types.SET_VERIFY, false)
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
@@ -117,6 +119,7 @@ export default{
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
+            commit(types.SET_VERIFY, false)
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
@@ -141,6 +144,7 @@ export default{
             else return commit(types.SET_PASSWORD, false)
         } catch (error) {
             commit(types.SET_PASSWORD, false)
+            commit(types.SET_VERIFY, false)
             let displayError
             if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email...!'
             return Swal.fire({
@@ -252,7 +256,7 @@ export default{
                 `
             })
         } catch (error) {
-            return null
+            return commit(types.SET_VERIFY, false)
         }
     },
     async googleLogin({ commit, dispatch }, params){
@@ -289,6 +293,7 @@ export default{
             await dispatch('books/fetchBookList', null, { root: true })
             return commit(types.SET_VERIFY, true)
         } catch (error) {
+            commit(types.SET_VERIFY, false)
             console.log('google login error', error)
         }
     },
@@ -328,6 +333,7 @@ export default{
             await dispatch('books/fetchBookList', null, { root: true })
             return commit(types.SET_VERIFY, true)
         } catch (error) {
+            commit(types.SET_VERIFY, false)
             console.log('Fb login error', error)
         }
     }

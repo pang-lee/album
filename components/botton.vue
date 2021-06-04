@@ -24,6 +24,7 @@
                       <span>{{ network.name }}</span>
                     </ShareNetwork>
                     <v-btn icon fab small @click="copy()"><v-icon>{{ copyLink }}</v-icon></v-btn>
+                    <input type="hidden" ref="copy_url" :value="host"/>
                   </div>
                 </perfect-scrollbar>
               </v-card-actions>
@@ -72,15 +73,15 @@ export default {
         return {
           dialog: false,
           btnstate: this.btnstatus,
+          host: '',
           cur_book: {},
           sharing: {
-            url: 'https://news.vuejs.org/issues/180',
-            // url: process.env.BASE_URL + this.$route.fullPath,
-            title: 'Say hi to Vite! A brand new, extremely fast development setup for Vue.',
-            description: 'This week, I’d like to introduce you to "Vite", which means "Fast". It’s a brand new development setup created by Evan You.',
+            url: '',
+            hashtags: 'album,collection',
+            title: '',
+            description: '',
             quote: '',
-            hashtags: 'vuejs,vite,javascript',
-            twitterUser: 'youyuxi'
+            twitterUser: ''
           },
           networks: [
             { network: 'baidu', name: 'Baidu', icon: 'fas fah fa-lg fa-paw', color: '#2529d8' },
@@ -169,24 +170,33 @@ export default {
         })
         return this.dialog = true
       },
-      async copy(){
+      copy(){
+        let testingCodeToCopy = this.$refs.copy_url
+        testingCodeToCopy.setAttribute('type', 'text')
+        testingCodeToCopy.select()
+
         try {
-          await this.$copyText(process.env.BASE_URL + this.$route.fullPath)
-          Swal.fire({
-            type: 'success',
-            title: '成功複製網址',
-            text: '趕快分享給別人吧 !',
-            timer: 3000
-          })
-          return this.dialog = false
-        } catch (error) {
+          var successful = document.execCommand('copy')
+          if(successful){
+            Swal.fire({
+              type: 'success',
+              title: '成功複製網址',
+              text: '趕快分享給別人吧 !',
+              timer: 3000
+            })
+          }
+        } catch (err) {
           Swal.fire({
             type: 'error',
             title: '噢噢...',
-            text: '看來有東西錯誤囉 !',
+            text: '看來有東西錯了喔 !',
             timer: 3000
           })
         }
+
+        testingCodeToCopy.setAttribute('type', 'hidden')
+        window.getSelection().removeAllRanges()
+        return this.dialog = false
       },
       async save(){
         this.$emit('savePage', true)
@@ -196,6 +206,8 @@ export default {
     created(){
       this.cur_book = this.bookList.find(element => element.id === this.bookId)
       this.sharing.quote = this.cur_book.booktitle
+      this.host = `${process.env.BASE_URL}/user/${this.$route.params.user}/guest/${this.$route.params.book}`
+      this.sharing.url = this.host
     }
 }
 </script>

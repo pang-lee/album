@@ -5,10 +5,10 @@ const Fiber = require('fibers')
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
-  components: true,
+  ssr: true,
   head: {
-    titleTemplate: '%s - album',
-    title: 'album',
+    titleTemplate: '%s - collection',
+    title: '作品集',
     meta: [
       { charset: 'utf-8' },
       // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -16,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css',  integrity:'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=', crossorigin: 'anonymous' }
     ]
   },
@@ -57,7 +57,6 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/apollo',
     'cookie-universal-nuxt',
-    'nuxt-clipboard2',
     'vue-social-sharing/nuxt',
   ],
 
@@ -79,27 +78,34 @@ export default {
     credentials: true
   },
 
-  // pwa:{
-  //   icon:{
-  //     source: './static/icon.png'
-  //   },
-  //   meta:{
-  //     mobileAppIOS: true,
-  //     theme_color: "#FFE1C4"
-  //   },
-  //   manifest: {
-  //     name: 'Album',
-  //     lang: 'en',
-  //     useWebmanifestExtension: false,
-  //     start_url: '/',
-  //     display: 'standalone'
-  //   },
-  //   workbox:{
-  //     dev: true,
-  //     preCaching: [
-  //     ]
-  //   }
-  // },
+  pwa:{
+    icon:{
+      source: './static/icon.png'
+    },
+    meta:{
+      mobileAppIOS: true,
+      theme_color: "#FFE1C4"
+    },
+    manifest: {
+      name: 'Collection',
+      lang: 'en',
+      useWebmanifestExtension: false,
+      start_url: '/',
+      display: 'standalone'
+    },
+    workbox:{
+      // dev: true,
+      // cacheAssets: true
+      // preCaching: [
+      //   '_nuxt/pages/index.js',
+      //   '_nuxt/components/form-login.js',
+      //   '_nuxt/components/form-register.js',
+      //   '_nuxt/pages/privacy-policy.js',
+      //   '_nuxt/vendors/components/book/pages/freetrial.js',
+      //   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'
+      // ]
+    }
+  },
 
   // Content module configuration (https://go.nuxtjs.dev/content-config)
   content: {},

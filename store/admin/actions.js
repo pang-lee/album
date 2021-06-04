@@ -74,7 +74,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: 'Successfully Update',
+                title: '密碼已經重設囉 !',
                 type: 'info',
                 text: `${response.data.set_password}`,
                 timer: 3000,
@@ -96,7 +96,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: 'Successfully Update',
+                title: '性別已經重設囉 !',
                 type: 'info',
                 text: `${response.data.set_gender}`,
                 timer: 3000,
@@ -118,7 +118,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: 'Successfully Update',
+                title: '生日已經重設囉!',
                 type: 'info',
                 text: `${response.data.set_date}`,
                 timer: 3000,

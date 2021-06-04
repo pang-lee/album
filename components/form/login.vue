@@ -119,7 +119,7 @@ export default {
                 preConfirm: async (value) => {
                     try {
                         await this.fetchToken(value)
-                        if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                        if(this.$cookies.get('album_access_token') !== undefined){
                             await this.fetchMe()
                             return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
                         }
@@ -150,7 +150,7 @@ export default {
         },
         async googleOnSuccess(googleUser){
             await this.googleLogin(googleUser)
-            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+            if(this.$cookies.get('album_access_token') !== undefined){
                 return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
             }
         },
@@ -168,7 +168,7 @@ export default {
         fb_login(facebookAuth){
             this.fb.api('/me', { fields: 'id,email,first_name,last_name,picture{url}' }, async(response) => {
                 await this.facebookLogin({ fbUser: response, fbAuth: facebookAuth })
-                if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                if(this.$cookies.get('album_access_token') !== undefined){
                     return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
                 }
             })

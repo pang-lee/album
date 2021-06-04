@@ -18,7 +18,7 @@
                     <v-divider></v-divider>
                     <br/>
                     <v-btn x-large block outlined color="indigo" nuxt to="/freetrial">
-                        <v-icon>{{ free }}</v-icon>&nbsp;&nbsp;免費試用
+                        <v-icon>{{ free }}</v-icon>&nbsp;&nbsp;試用與教學
                     </v-btn>
             	  </v-card-text>
             	</v-card>

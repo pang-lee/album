@@ -96,7 +96,7 @@ import * as icon from '@mdi/js'
                     preConfirm: async (value) => {
                         try {
                             await this.signup(value)
-                            if(!(Object.keys(this.$cookies.getAll()).length === 0 && this.$cookies.getAll().constructor === Object)){
+                            if(this.$cookies.get('album_access_token') !== undefined){
                                 await this.fetchMe()
                                 return this.$router.push(`/user/${this.user.id}/dashboard/add`)
                             }
