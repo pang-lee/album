@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden-sm-and-down">
+  <div>
     <div v-if="!displayOrNot" class="d-flex justify-center">
       <v-switch v-model="shareOrNot" inset :label="`${shareOrNot ? '分享' : '不分享'}`"></v-switch>
     </div>

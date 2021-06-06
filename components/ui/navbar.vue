@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="auth" align="center">
+  <v-row v-if="auth !== undefined" align="center">
     <v-col class="hidden-md-and-up">
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>{{ menu }}</v-icon>
@@ -47,7 +47,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-avatar size="60" class="ml-2" color="black" v-bind="attrs" v-on="on" @click.prevent="profile('desktop')">
           <client-only>
-            <v-img v-if="user.avatar" :src="user.avatar" alt="avatar"></v-img>
+            <v-img v-if="user.avatar" :src="user.avatar" aspect-ratio="1.79" alt="avatar"></v-img>
             <v-icon v-else color="white">{{ defaultAvatar }}</v-icon>
           </client-only>
           </v-avatar>
@@ -92,15 +92,12 @@ import * as icon from '@mdi/js'
             { target: '個人資料', route: '/profile/sticker', icon: icon.mdiFaceOutline },
             { target: '設定', route: '/setting/privacy', icon: icon.mdiCogOutline },
             { target: '登出', route: '/', icon: icon.mdiLogout }
-          ]
+          ],
+          auth: this.$cookies.get('album_access_token')
         }
       },
       computed: {
-        ...mapGetters('admin', ['sidebar', 'user']),
-        auth(){
-          if(this.$cookies.get('album_access_token')) return true
-          else return false
-        }
+        ...mapGetters('admin', ['sidebar', 'user'])
       },
       methods: {
         ...mapActions('authentication', ['logout']),

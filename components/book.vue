@@ -49,7 +49,9 @@
             <div class="page-image">
               <bookimg :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
               <div class="page-text">
-                <div class="text">{{ bookList.find(element => element.id === bookId).bookpage[n - 2].text }}</div>
+                <div class="text font-weight-black text-subtitle-1">
+                  {{ bookList.find(element => element.id === bookId).bookpage[n - 2].text }}
+                </div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
@@ -254,10 +256,12 @@ Reference:
       border-top: solid 1px hsl(35, 55%, 90%);
     }
 
-    .text:hover{
+    .text{
+      word-wrap: break-word;
       width: 100%;
       height: 30vh;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       scrollbar-width: thin;
       &::-webkit-scrollbar {
         width: 5px;
@@ -316,10 +320,6 @@ Reference:
 .link-btn-position{
   position: relative;
   margin-top: 45%;
-}
-
-.ps {
-  height: 250px;
 }
 
 textarea {

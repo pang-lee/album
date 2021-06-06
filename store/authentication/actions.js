@@ -60,7 +60,7 @@ export default{
             return Swal.fire({
                 type: 'error',
                 title: `${displayError}`,
-                text: '麻煩在試一次 !',
+                text: '我們將在寄一組新的給您 !',
                 timer: 3000,
             })
         }
@@ -194,14 +194,14 @@ export default{
                 }
                 if (new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token) {
                     commit(types.SET_VERIFY, false)
-                    params.$cookies.removeAll()
-                    return await params.app.apolloProvider.defaultClient.mutate({
+                    await params.app.apolloProvider.defaultClient.mutate({
                         mutation: gql`
                             mutation{
                                 invalidateToken
                             }
                         `
                     })
+                    return params.$cookies.removeAll()
                 }
                 return commit(types.SET_VERIFY, true)
             }
@@ -212,14 +212,14 @@ export default{
                     let googleExp = googleExpCookie.split('=')[1]
                     if(new Date().getTime() > Number.parseInt(googleExp)){
                         commit(types.SET_VERIFY, false)
-                        params.$cookies.removeAll()
-                        return await params.app.apolloProvider.defaultClient.mutate({
+                        await params.app.apolloProvider.defaultClient.mutate({
                             mutation: gql`
                                 mutation{
                                     invalidateToken
                                 }
                             `
                         })
+                        return params.$cookies.removeAll()
                     }
                     return commit(types.SET_VERIFY, true)
 
@@ -228,34 +228,36 @@ export default{
                     let facebookExp = facebookExpCookie.split('=')[1]
                     if(new Date().getTime() > Number.parseInt(facebookExp)){
                         commit(types.SET_VERIFY, false)
-                        params.$cookies.removeAll()
-                        return await params.app.apolloProvider.defaultClient.mutate({
+                        await params.app.apolloProvider.defaultClient.mutate({
                             mutation: gql`
                                 mutation{
                                     invalidateToken
                                 }
                             `
                         })
+                        return params.$cookies.removeAll()
                     }
                     return commit(types.SET_VERIFY, true)
             }
         } catch (error) {
             console.log('authentication initAuth error', error)
+            return commit(types.SET_VERIFY, false)
         }
     },
     async logout({ commit }){
         try {
             commit(types.SET_VERIFY, false)
-            this.app.$cookies.removeAll()
-            localStorage.clear()
-            return await this.app.apolloProvider.defaultClient.mutate({
+            await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation{
                         invalidateToken
                     }
                 `
             })
+            this.app.$cookies.removeAll()
+            return localStorage.clear()
         } catch (error) {
+            console.log('The logout error', error)
             return commit(types.SET_VERIFY, false)
         }
     },
@@ -300,9 +302,9 @@ export default{
     async facebookLogin({ commit, dispatch }, params){
         try {
             if(params.fbAuth){
-                this.app.$cookies.set('facebook_token', params.facebookAuth.authResponse.access_token)
-                this.app.$cookies.set('facebook_expirationDate', params.facebookAuth.authResponse.data_access_expiration_time)
-                this.app.$cookies.set('Idp', params.facebookAuth.authResponse.graphDomain)                
+                this.app.$cookies.set('facebook_token', params.fbAuth.authResponse.access_token)
+                this.app.$cookies.set('facebook_expirationDate', params.fbAuth.authResponse.data_access_expiration_time)
+                this.app.$cookies.set('Idp', params.fbAuth.authResponse.graphDomain)                
             }
             let user = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`

@@ -9,7 +9,7 @@
           <avatar-cropper :withCredentials="true" @uploaded="handleUploaded" trigger="#pick-avatar" upload-form-name="avatar" :upload-url="avatarURL" />
           <div class="d-flex justify-center">
             <v-avatar color="black" size="200">
-              <v-img v-if="avatar" :src="avatar"></v-img>
+              <v-img v-if="avatar" :src="avatar" aspect-ratio="1.79"></v-img>
               <v-icon v-else color="white">{{ defaultAvatar }}</v-icon>
             </v-avatar>
           </div>

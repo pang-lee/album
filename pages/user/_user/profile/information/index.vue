@@ -30,12 +30,12 @@
 
                 <v-card-text v-if="message.name">
                   <div class="white" :class="{ error: validation.hasError('first') }">
-                    <v-text-field v-model="first" label="First" outlined clearable :clear-icon="clear"></v-text-field>
+                    <v-text-field v-model="first" label="姓氏" outlined clearable :clear-icon="clear"></v-text-field>
                     <div class="red--text font-italic font-weight-bold">{{ validation.firstError('first') }}</div>
                   </div>
                   <br/>
                   <div class="white" :class="{ error: validation.hasError('last') }">
-                    <v-text-field v-model="last" label="Last" outlined clearable :clear-icon="clear"></v-text-field>
+                    <v-text-field v-model="last" label="名字" outlined clearable :clear-icon="clear"></v-text-field>
                     <div class="red--text font-italic font-weight-bold">{{ validation.firstError('last') }}</div>
                   </div>
                   <v-divider></v-divider>
@@ -46,7 +46,7 @@
 
                  <v-card-text v-else-if="message.topic == '密碼設定'">
                   <div class="hidden-sm-and-down">
-                    <div class="text-h6 text-center">你想要重設密碼 ?</div>
+                    <div class="text-h6 text-center">您想要重設您的密碼嗎 ?</div>
                     <br/>
                     <div class="white" :class="{ error: validation.hasError('reset') }">
                       <v-text-field label="重設的密碼" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
@@ -62,17 +62,17 @@
                     <v-dialog v-model="mobile_reset" persistent max-width="290">
                       <template v-slot:activator="{ on, attrs }">
                         <div class="d-flex justify-center mt-5">
-                          <v-btn outlined color="blue darken-4" v-bind="attrs" v-on="on">Reset?</v-btn>
+                          <v-btn outlined color="blue darken-4" v-bind="attrs" v-on="on">重設密碼?</v-btn>
                         </div>
                       </template>
                       <v-card>
-                        <div class="text-caption text-center pt-5">Do you want to Reset your Password?</div>
+                        <div class="text-caption text-center pt-5">您想要重設您的密碼嗎 ?</div>
                         <br/>
                         <v-divider></v-divider>
                         <br/>
                         <v-card-text>
                           <div class="white" :class="{ error: validation.hasError('reset') }">
-                            <v-text-field label="Reset Your Password" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
+                            <v-text-field label="重設密碼" name="password" outlined :prepend-icon="lock" clearable :clear-icon="clear" v-model="reset" :append-icon="show ? visibility : visibility_off" :type="show ? 'text' : 'password'" @click:append="show = !show" counter></v-text-field>
                             <div class="red--text font-italic font-weight-bold">{{ validation.firstError('reset') }}</div>
                           </div> 
                         </v-card-text>
@@ -89,7 +89,7 @@
                 <v-card-text v-else-if="message.topic == '生日'">
                   <v-dialog v-model="modal" width="290px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-text-field v-model="date" label="Birthday" :prepend-icon="year" readonly v-bind="attrs" v-on="on"></v-text-field>
+                      <v-text-field v-model="date" label="生日" :prepend-icon="year" readonly v-bind="attrs" v-on="on"></v-text-field>
                     </template>
                     <v-date-picker v-model="date" scrollable :year-icon="year" :prev-icon="preyear" :next-icon="nextyear">
                     </v-date-picker>
@@ -103,8 +103,8 @@
                 <v-card-text v-else-if="message.topic == '性別'">
                   <div class="d-flex justify-center">
                     <v-radio-group v-model="gender">
-                      <v-radio label="Male" value="Male" color="indigo" :off-icon="unchecked" :on-icon="checked"></v-radio>
-                      <v-radio label="Female" value="Female" color="error" :off-icon="unchecked" :on-icon="checked"></v-radio>
+                      <v-radio label="男性" value="Male" color="indigo" :off-icon="unchecked" :on-icon="checked"></v-radio>
+                      <v-radio label="女性" value="Female" color="error" :off-icon="unchecked" :on-icon="checked"></v-radio>
                     </v-radio-group>                    
                   </div>
                   <v-divider></v-divider>

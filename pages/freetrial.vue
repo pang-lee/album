@@ -93,12 +93,12 @@
             <div class="page-content">
               <h2 class="page-header">製作人告白</h2>
               <v-img class="page-image" aspect-ratio="1.79" :src="page_img1"></v-img>
-              <div class="page-text">
-                <div class="text-h6 font-weight-black d-flex justify-center">您好，歡迎使用作品集 !</div>
+              <div class="page-text text">
+                <div class="text-h6 font-weight-black">您好，歡迎使用作品集 !</div>
                 <br/>
                 <div class="text-h6 font-weight-black">在這裡您可以將您最愛的照片製作成一本屬於自己的回憶錄 !</div>
                 <br/>
-                <div class="text-h6 font-weight-black d-flex justify-center">您可以在<span class="font-italic text-decoration-underline">每頁的文字區寫下屬於您的故事</span>&nbsp;!</div>
+                <div class="text-h6 font-weight-black">您可以在<span class="font-italic text-decoration-underline">每頁的文字區寫下屬於您的故事</span>&nbsp;!</div>
                 <br/>
                 <div class="text-h6 font-weight-black">製作完成後趕快分享給親朋好友與他們共同分享這份喜悅 !</div>
               </div>
@@ -117,16 +117,16 @@
                   <v-icon color="#BDBDBD">{{ video }}</v-icon>
                 </v-btn>
               </v-img>
-              <div class="page-text">
-                <div class="text-h6 font-weight-black d-flex justify-center">在照片上傳後，<span class="font-italic text-decoration-underline">可以點擊照片做更多設定</span>&nbsp;!</div>
+              <div class="page-text text">
+                <div class="text-h6 font-weight-black">在照片上傳後，<span class="font-italic text-decoration-underline">可以點擊照片做更多設定</span>&nbsp;!</div>
                 <br/>
                 <div class="text-h6 font-weight-black">可以在相片設定中添加外部的連結，輕鬆紀錄自己的貼文 !</div>
                 <br/>
-                <div class="text-h6 font-weight-black d-flex justify-center">添加貼文後，會在<span class="font-italic text-decoration-underline">照片的左下角出現標示</span>&nbsp;!</div>
+                <div class="text-h6 font-weight-black">添加貼文後，會在<span class="font-italic text-decoration-underline">照片的左下角出現標示</span>&nbsp;!</div>
                 <br/>
-                <div class="text-h6 font-weight-black d-flex justify-center">製作完成後<span class="font-italic text-decoration-underline">點擊則可以到您文章指定的連結</span>&nbsp;!</div>
+                <div class="text-h6 font-weight-black">製作完成後<span class="font-italic text-decoration-underline">點擊則可以到您文章指定的連結</span>&nbsp;!</div>
                 <br/>
-                <div class="text-h6 font-weight-black d-flex justify-center">輕鬆紀錄下精彩每個瞬間 !</div>
+                <div class="text-h6 font-weight-black">輕鬆紀錄下精彩每個瞬間 !</div>
               </div>
               <div class="page-footer">{{ n }}</div>
             </div>
@@ -294,6 +294,24 @@ export default {
       box-sizing: border-box;
       border-top: solid 1px hsl(35, 55%, 90%);
     }
+    
+    .text{
+      word-wrap: break-word;
+      width: 100%;
+      height: 30vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #BDBDBD;
+      }
+    }
 
     .page-footer {
       position: relative;
@@ -338,10 +356,6 @@ export default {
     padding-top: 50%;
     font-size: 210%;
   }
-}
-
-.ps {
-  height: 250px;
 }
 
 textarea {

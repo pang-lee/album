@@ -30,7 +30,6 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/validate.js',
-    '~/plugins/scrollbar.js',
     '~/plugins/override.js',
     { src: '~/plugins/persistedState.js', mode: 'client' },
     { src: '~/plugins/core-image-upload.js', mode: 'client' },

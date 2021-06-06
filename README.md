@@ -17,4 +17,9 @@ $ npm run start
 $ npm run generate
 ```
 
+# modify the route in serveal file
+# .env file api path
+# layout error.vue image path
+# component book.vue image path
+
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
