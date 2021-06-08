@@ -70,7 +70,14 @@ export default{
                 timer: 3000,
             })
         } catch (error) {
-            console.log('set name error', error)
+            let displayError
+            if(error == 'Error: GraphQL error: Missing Somethings') displayError = '看來你少輸入東西囉 !'
+            return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: `${displayError}`,
+                timer: 3000,
+            })
         }        
     },
     async resetpassword(_, params){
@@ -92,7 +99,14 @@ export default{
                 timer: 3000,
             })
         } catch (error) {
-            console.log('reset password error', error)
+            let displayError
+            if(error == 'Error: GraphQL error: Missing Somethings') displayError = '看來你少輸入東西囉 !'
+            return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: `${displayError}`,
+                timer: 3000,
+            })
         }
     },
     async setgender(_, params){
@@ -120,7 +134,14 @@ export default{
                 timer: 3000,
             })
         } catch (error) {
-            console.log('This is set gender error', error)
+            let displayError
+            if(error == 'Error: GraphQL error: Missing Somethings') displayError = '看來你少輸入東西囉 !'
+            return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: `${displayError}`,
+                timer: 3000,
+            })
         }
     },
     async setdate(_, params){
@@ -148,7 +169,14 @@ export default{
                 timer: 3000,
             })
         } catch (error) {
-            console.log('This is set date error', error)
+            let displayError
+            if(error == 'Error: GraphQL error: Missing Somethings') displayError = '看來你少輸入東西囉 !'
+            return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: `${displayError}`,
+                timer: 3000,
+            })
         }
     },
     async setprivacy({ getters }, params){
