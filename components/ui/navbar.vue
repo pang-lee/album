@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="auth !== undefined" align="center">
+  <v-row v-if="!getInvalidStatus" align="center">
     <v-col class="hidden-md-and-up">
       <v-btn icon @click.stop="drawer = !drawer">
         <v-icon>{{ menu }}</v-icon>
@@ -97,7 +97,8 @@ import * as icon from '@mdi/js'
         }
       },
       computed: {
-        ...mapGetters('admin', ['sidebar', 'user'])
+        ...mapGetters('admin', ['sidebar', 'user']),
+        ...mapGetters('authentication', ['getInvalidStatus'])
       },
       methods: {
         ...mapActions('authentication', ['logout']),

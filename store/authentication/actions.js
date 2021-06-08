@@ -33,7 +33,7 @@ export default{
             })
         }
     },
-    async fetchToken(_, params){
+    async fetchToken({ commit }, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
@@ -53,9 +53,11 @@ export default{
             this.app.$cookies.set('album_access_token', response.data.login.access_token)
             this.app.$cookies.set('album_access_token_expirationDate', response.data.login.access_token_expirationDate)
             this.app.$cookies.set('album_refresh_token', response.data.login.refresh_token)
-            return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.login.refresh_token_expirationDate)
+            this.app.$cookies.set('album_refresh_token_expirationDate', response.data.login.refresh_token_expirationDate)
+            return commit(types.SET_INVALID, false)
         } catch (error) {
             let displayError
+            commit(types.SET_INVALID, true)
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
             return Swal.showValidationMessage(`${displayError}`)
         }
@@ -110,9 +112,11 @@ export default{
             this.app.$cookies.set('album_access_token', response.data.signup.access_token)
             this.app.$cookies.set('album_access_token_expirationDate', response.data.signup.access_token_expirationDate)
             this.app.$cookies.set('album_refresh_token', response.data.signup.refresh_token)
-            return this.app.$cookies.set('album_refresh_token_expirationDate', response.data.signup.refresh_token_expirationDate)
+            this.app.$cookies.set('album_refresh_token_expirationDate', response.data.signup.refresh_token_expirationDate)
+            return commit(types.SET_INVALID, false)
         } catch (error) {
             let displayError
+            commit(types.SET_INVALID, true)
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
             return Swal.showValidationMessage(`${displayError}`)
         }
@@ -134,6 +138,7 @@ export default{
         } catch (error) {
             commit(types.SET_PASSWORD, false)
             commit(types.SET_VERIFY, false)
+            commit(types.SET_INVALID, true)
             let displayError
             if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email耶..註冊過了嗎?'
             return Swal.showValidationMessage(`${displayError}`)
@@ -148,7 +153,10 @@ export default{
             let Idp_company = params.$cookies.get('Idp')
             
             if(!Idp_company){
-                if(!access_token && !refresh_token) return commit(types.SET_VERIFY, false)
+                if(!access_token && !refresh_token) {
+                    commit(types.SET_INVALID, true)
+                    return commit(types.SET_VERIFY, false)
+                }
                 if(access_token){
                     if(new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token){
                         let refetch = await params.app.apolloProvider.defaultClient.query({
@@ -163,16 +171,18 @@ export default{
                         params.$cookies.set('album_access_token', refetch.data.getRefresh.access_token)
                         params.$cookies.set('album_access_token_expirationDate', refetch.data.getRefresh.access_token_expirationDate)
                     } else if(new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token){
-                        await params.app.apolloProvider.defaultClient.mutate({
+                        let invalid = await params.app.apolloProvider.defaultClient.mutate({
                             mutation: gql`
                                 mutation{
                                     invalidateToken
                                 }
                             `
                         })
+                        commit(types.SET_INVALID, invalid.data.invalidateToken)
                         params.$cookies.removeAll()
                         return commit(types.SET_VERIFY, false)
                     }
+                    commit(types.SET_INVALID, false)
                     return commit(types.SET_VERIFY, true)
                 }
             }
@@ -183,15 +193,17 @@ export default{
                     let googleExp = googleExpCookie.split('=')[1]
                     if(new Date().getTime() > Number.parseInt(googleExp)){
                         commit(types.SET_VERIFY, false)
-                        await params.app.apolloProvider.defaultClient.mutate({
+                        let invalid = await params.app.apolloProvider.defaultClient.mutate({
                             mutation: gql`
                                 mutation{
                                     invalidateToken
                                 }
                             `
                         })
+                        commit(types.SET_INVALID, invalid.data.invalidateToken)
                         return params.$cookies.removeAll()
                     }
+                    commit(types.SET_INVALID, false)
                     return commit(types.SET_VERIFY, true)
 
                 case 'facebook':
@@ -199,15 +211,17 @@ export default{
                     let facebookExp = facebookExpCookie.split('=')[1]
                     if(new Date().getTime() > Number.parseInt(facebookExp)){
                         commit(types.SET_VERIFY, false)
-                        await params.app.apolloProvider.defaultClient.mutate({
+                        let invalid = await params.app.apolloProvider.defaultClient.mutate({
                             mutation: gql`
                                 mutation{
                                     invalidateToken
                                 }
                             `
                         })
+                        commit(types.SET_INVALID, invalid.data.invalidateToken)
                         return params.$cookies.removeAll()
                     }
+                    commit(types.SET_INVALID, false)
                     return commit(types.SET_VERIFY, true)
             }
         } catch (error) {
@@ -218,17 +232,19 @@ export default{
     async logout({ commit }){
         try {
             commit(types.SET_VERIFY, false)
-            await this.app.apolloProvider.defaultClient.mutate({
+            let invalid = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation{
                         invalidateToken
                     }
                 `
             })
+            commit(types.SET_INVALID, invalid.data.invalidateToken)
             this.app.$cookies.removeAll()
             return localStorage.clear()
         } catch (error) {
             console.log('The logout error', error)
+            commit(types.SET_INVALID, true)
             return commit(types.SET_VERIFY, false)
         }
     },
@@ -264,10 +280,12 @@ export default{
             commit('admin/SET_DATE', user.data.google_login.birthday, { root: true })
             commit('admin/SET_PRIVACY', user.data.google_login.privacy, { root: true })
             await dispatch('books/fetchBookList', null, { root: true })
-            return commit(types.SET_VERIFY, true)
+            commit(types.SET_VERIFY, true)
+            return commit(types.SET_INVALID, false)
         } catch (error) {
-            commit(types.SET_VERIFY, false)
             console.log('google login error', error)
+            commit(types.SET_INVALID, true)
+            return commit(types.SET_VERIFY, false)
         }
     },
     async facebookLogin({ commit, dispatch }, params){
@@ -303,11 +321,13 @@ export default{
             commit('admin/SET_GENDER', user.data.facebook_login.gender, { root: true })
             commit('admin/SET_DATE', user.data.facebook_login.birthday, { root: true })
             commit('admin/SET_PRIVACY', user.data.facebook_login.privacy, { root: true })
-            await dispatch('books/fetchBookList', null, { root: true })
-            return commit(types.SET_VERIFY, true)
+            await dispatch('books/fetchBookList', null, { root: true }) 
+            commit(types.SET_VERIFY, true)
+            return commit(types.SET_INVALID, false)
         } catch (error) {
-            commit(types.SET_VERIFY, false)
             console.log('Fb login error', error)
+            commit(types.SET_INVALID, true)
+            return commit(types.SET_VERIFY, false)
         }
     }
 }

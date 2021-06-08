@@ -1,4 +1,5 @@
 export default{
     getSuccessVerify: state => state.success_verify,
-    getResetStatus: state => state.reset_password
+    getResetStatus: state => state.reset_password,
+    getInvalidStatus: state => state.invalid
 }

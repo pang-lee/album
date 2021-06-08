@@ -6,5 +6,8 @@ export default {
     },
     [types.SET_PASSWORD](state, data){
         state.reset_password = data
+    },
+    [types.SET_INVALID](state, data){
+        state.invalid = data
     }
 }

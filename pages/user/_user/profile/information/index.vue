@@ -78,8 +78,8 @@
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn color="red" outlined @click="mobile_reset = false">Cancel</v-btn>
-                          <v-btn color="primary" outlined @click="reset_password('mobile')">Save</v-btn>
+                          <v-btn color="red" outlined @click="mobile_reset = false">取消</v-btn>
+                          <v-btn color="primary" outlined @click="reset_password('mobile')">儲存</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
