@@ -23,7 +23,7 @@
                   <v-icon v-else color="black">{{ defaultAvatar }}</v-icon>
                 </client-only>
               </v-list-item-avatar>
-              <div class="text-h6 mt-3">{{ user.first }} {{ user.last }}</div>
+              <div class="text-h6 mt-3">{{ user.nickname ? user.nickname : user.fisrt + ' ' + user.last }}</div>
             </div>
           </v-list-item>
 
@@ -52,7 +52,7 @@
           </client-only>
           </v-avatar>
         </template>
-        <span>{{ user.first }} {{ user.last }}</span>
+        <span>{{ user.nickname ? user.nickname : user.fisrt + ' ' + user.last }}</span>
       </v-tooltip>
     </v-col>
 

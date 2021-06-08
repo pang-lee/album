@@ -13,6 +13,9 @@ export default {
     [types.SET_LAST](state, data){
         state.user_info.last = data
     },
+    [types.SET_NICKNAME](state, data){
+        state.user_info.nickname = data
+    },
     [types.SET_GENDER](state, data){
         state.user_info.gender = data
     },
@@ -25,8 +28,4 @@ export default {
     [types.SET_SIDEBAR_STATUS](state, data){
         state.sidebar_status = data
     }
-    // Background mutation
-    // [types.SET_BACKGROUND](state, data){
-    //     state.user_info.background = data
-    // },
 }

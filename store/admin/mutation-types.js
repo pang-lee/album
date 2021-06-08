@@ -6,6 +6,8 @@ export const SET_FIRST = 'SET_FIRST'
 
 export const SET_LAST = 'SET_LAST'
 
+export const SET_NICKNAME = 'SET_NICKNAME'
+
 export const SET_GENDER = 'SET_GENDER'
 
 export const SET_DATE = 'SET_DATE'

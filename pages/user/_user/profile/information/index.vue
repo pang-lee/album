@@ -38,9 +38,11 @@
                     <v-text-field v-model="last" label="名字" outlined clearable :clear-icon="clear"></v-text-field>
                     <div class="red--text font-italic font-weight-bold">{{ validation.firstError('last') }}</div>
                   </div>
+                  <br/>
+                  <v-text-field v-model="nick" label="暱稱" outlined clearable :clear-icon="clear"></v-text-field>
                   <v-divider></v-divider>
                   <div class="d-flex justify-center mt-5">
-                    <v-btn outlined color="primary" @click="setname(user.first + ' ' + user.last)">儲存</v-btn>
+                    <v-btn outlined color="primary" @click="setname({ first: user.first, last: user.last, nickname: user.nickname })">儲存</v-btn>
                   </div>
                 </v-card-text>
 
@@ -164,7 +166,7 @@ import Swal from 'sweetalert2'
         return [
           {
             avatar: this.user.avatar ? this.user.avatar : 'empty',
-            name: `${this.user.first} ${this.user.last}`,
+            name: this.user.nickname ? this.user.nickname : `${this.user.first} ${this.user.last}`,
             icon: icon.mdiAccountCircle,
           },
           {
@@ -202,6 +204,15 @@ import Swal from 'sweetalert2'
           else return this.SET_LAST(value)
         }
       },
+      nick: {
+        get(){
+          return this.user.nickname
+        },
+        set(value){
+          if(!value) return this.SET_NICKNAME('')
+          else return this.SET_NICKNAME(value)
+        }
+      },
       gender: {
         get(){
           return this.user.gender
@@ -220,7 +231,7 @@ import Swal from 'sweetalert2'
       }
     },
     methods: {
-      ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_GENDER', 'SET_DATE']),
+      ...mapMutations('admin', ['SET_FIRST', 'SET_LAST', 'SET_NICKNAME', 'SET_GENDER', 'SET_DATE']),
       ...mapActions('admin', ['setname', 'resetpassword', 'setgender', 'setdate']),
       async reset_password(mode){
         let validate = await this.$validate()
@@ -233,8 +244,8 @@ import Swal from 'sweetalert2'
         } else {
           return Swal.fire({
             type: 'error',
-            title: 'Oops...',
-            text: 'Look like you miss something!',
+            title: '噢噢...',
+            text: '看來你少輸入東西囉 !',
             timer: 3000,
           })
         }

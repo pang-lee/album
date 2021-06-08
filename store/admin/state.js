@@ -4,6 +4,7 @@ const state = () => ({
         avatar: '',
         first: '',
         last: '',
+        nickname: '',
         gender: '',
         date: '',
         privacy: ''

@@ -261,6 +261,7 @@ export default{
                             id
                             avatar
                             username
+                            nickname
                             gender
                             birthday
                             privacy
@@ -276,6 +277,7 @@ export default{
             commit('admin/SET_AVATAR', user.data.google_login.avatar, { root: true })
             commit('admin/SET_FIRST', user.data.google_login.username.split(' ')[0], { root: true })
             commit('admin/SET_LAST', user.data.google_login.username.split(' ')[1], { root: true })
+            commit('admin/SET_NICKNAME', user.data.getMe.nickname, { root: true })
             commit('admin/SET_GENDER', user.data.google_login.gender, { root: true })
             commit('admin/SET_DATE', user.data.google_login.birthday, { root: true })
             commit('admin/SET_PRIVACY', user.data.google_login.privacy, { root: true })
@@ -303,6 +305,7 @@ export default{
                             id
                             avatar
                             username
+                            nickname
                             gender
                             birthday
                             privacy
@@ -318,6 +321,7 @@ export default{
             commit('admin/SET_AVATAR', user.data.facebook_login.avatar, { root: true })
             commit('admin/SET_FIRST', user.data.facebook_login.username.split(' ')[0], { root: true })
             commit('admin/SET_LAST', user.data.facebook_login.username.split(' ')[1], { root: true })
+            commit('admin/SET_NICKNAME', user.data.getMe.nickname, { root: true })
             commit('admin/SET_GENDER', user.data.facebook_login.gender, { root: true })
             commit('admin/SET_DATE', user.data.facebook_login.birthday, { root: true })
             commit('admin/SET_PRIVACY', user.data.facebook_login.privacy, { root: true })

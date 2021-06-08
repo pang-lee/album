@@ -11,6 +11,7 @@ export default{
                         getMe{
                             id
                             username
+                            nickname
                             gender
                             birthday
                             privacy
@@ -21,6 +22,7 @@ export default{
             commit(types.SET_ID, user.data.getMe.id)
             commit(types.SET_FIRST, user.data.getMe.username.split(' ')[0])
             commit(types.SET_LAST, user.data.getMe.username.split(' ')[1])
+            commit(types.SET_NICKNAME, user.data.getMe.nickname)
             commit(types.SET_GENDER, user.data.getMe.gender)
             commit(types.SET_DATE, user.data.getMe.birthday)
             commit(types.SET_PRIVACY, user.data.getMe.privacy)
@@ -41,18 +43,28 @@ export default{
     },
     async setname({ getters }, params){
         try {
+            if(!params.first || !params.last) return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: '看來你少輸入東西囉 !',
+                timer: 3000,
+            })
             let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
-                    mutation($name: String!){
-                        set_username(name: $name)
+                    mutation($input: userNameInput!){
+                        set_username(input: $input)
                     }
                 `,
                 variables: {
-                    "name": params
+                    input:{
+                        "name": params.first + ' ' + params.last,
+                        "nickname": params.nickname
+                    }
                 }
             })
             return Swal.fire({
-                title: getters.user.first + ' ' + getters.user.last,
+                title: `姓名: ${getters.user.first} ${getters.user.last}
+                        暱稱: ${getters.user.nickname}`,
                 type: 'info',
                 text: `${response.data.set_username}`,
                 timer: 3000,
@@ -74,7 +86,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: '密碼已經重設囉 !',
+                title: '密碼重設 !',
                 type: 'info',
                 text: `${response.data.set_password}`,
                 timer: 3000,
@@ -85,6 +97,12 @@ export default{
     },
     async setgender(_, params){
         try {
+            if(!params) return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: '看來你少輸入東西囉 !',
+                timer: 3000,
+            })
             let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($gender: String!){
@@ -96,7 +114,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: '性別已經重設囉 !',
+                title: '性別重設 !',
                 type: 'info',
                 text: `${response.data.set_gender}`,
                 timer: 3000,
@@ -107,6 +125,12 @@ export default{
     },
     async setdate(_, params){
         try {
+            if(!params) return Swal.fire({
+                type: 'error',
+                title: '噢噢...',
+                text: '看來你少輸入東西囉 !',
+                timer: 3000,
+            })
             let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`
                     mutation($date: String!){
@@ -118,7 +142,7 @@ export default{
                 }
             })
             return Swal.fire({
-                title: '生日已經重設囉!',
+                title: '生日重設 !',
                 type: 'info',
                 text: `${response.data.set_date}`,
                 timer: 3000,
