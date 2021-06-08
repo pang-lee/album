@@ -85,26 +85,22 @@ import * as icon from '@mdi/js'
                     timer: 3000
                 })
                 if(this.getSuccessVerify == true) return Swal.fire({
-                    title: '輸入您的驗證碼',
+                    title: '請檢查Email驗證碼',
                     input: 'text',
                     allowOutsideClick: false,
                     showCloseButton:true,
+                    showLoaderOnConfirm: true,
                     inputPlaceholder: '驗證碼',
                     inputValidator: (value) => {
                       if (!value) return '看來你少輸入東西囉 !'
                     },
                     preConfirm: async (value) => {
-                        try {
-                            await this.signup(value)
-                            if(this.$cookies.get('album_access_token') !== undefined){
-                                await this.fetchMe()
-                                return this.$router.push(`/user/${this.user.id}/dashboard/add`)
-                            }
-                            return null
-                        } catch (error) {
-                            throw new Error(error)
+                        await this.signup(value)
+                        if(this.$cookies.get('album_access_token') !== undefined){
+                            await this.fetchMe()
+                            return this.$router.push(`/user/${this.user.id}/dashboard/add`)
                         }
-
+                        return null
                     }
                 })
             }

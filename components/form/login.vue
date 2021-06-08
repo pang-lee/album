@@ -8,18 +8,6 @@
                 <div class="red--text font-italic font-weight-bold ml-8">{{ validation.firstError('login.password') }}</div>
             </div>
         </v-form>
-        <v-card-actions class="d-flex justify-end">
-            <v-btn text x-small :ripple="false" class="mr-4" @click="forget_password()">忘記密碼 ?</v-btn>
-            <v-btn color="primary" @click="submit()">登入</v-btn>
-        </v-card-actions>
-        <br/>
-        <div class="d-flex justify-end">
-            <v-btn text outlined small nuxt to="/privacy-policy">
-                <span class="font-weight-bold font-italic">隱私權與服務條款</span>
-            </v-btn>
-        </div>
-        <br/>
-        <v-divider></v-divider>
         <client-only>
             <v-container fluid>
                 <v-row align-content="center">
@@ -36,6 +24,22 @@
                 </v-row>   
             </v-container>
         </client-only>
+        <v-divider></v-divider>
+        <br/>
+        <v-card-actions class="d-flex flex-column">
+            <v-btn color="primary" @click.prevent="submit()">
+                <span class="text-subtitle-1 font-weight-bold font-italic">登入</span>
+            </v-btn>
+            <br/>
+            <v-btn text outlined :ripple="false" @click="forget_password()">
+                <span class="font-weight-bold font-italic">忘記密碼 ?</span>
+            </v-btn>
+            <br/>
+            <v-btn text outlined nuxt to="/privacy-policy">
+                <span class="font-weight-bold font-italic">隱私權與服務條款</span>
+            </v-btn>
+        </v-card-actions>
+        <br/>
     </div>
 </template>
 
@@ -107,26 +111,23 @@ export default {
                 text: '看來有東西輸入錯囉 !',
                 timer: 3000
             })
-            if(this.getSuccessVerify == true) return Swal.fire({
-                title: '輸入您的驗證碼',
+            if(this.getSuccessVerify == true) return await Swal.fire({
+                title: '請檢查Email驗證碼',
                 input: 'text',
                 allowOutsideClick: false,
                 showCloseButton:true,
+                showLoaderOnConfirm: true,
                 inputPlaceholder: '驗證碼',
                 inputValidator: (value) => {
                     if (!value) return '看來你少輸入東西囉 !'
                 },
                 preConfirm: async (value) => {
-                    try {
-                        await this.fetchToken(value)
-                        if(this.$cookies.get('album_access_token') !== undefined){
-                            await this.fetchMe()
-                            return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
-                        }
-                        return null
-                    } catch (error) {
-                        throw new Error(error)
+                    await this.fetchToken(value)
+                    if(this.$cookies.get('album_access_token') !== undefined){
+                        await this.fetchMe()
+                        return (this.user.id && this.sidebar.length !== 0) ? this.$router.push(`/user/${this.user.id}${this.sidebar[0].link}`) : this.$router.push(`/user/${this.user.id}/dashboard/add`)
                     }
+                    return null
                 }
             })
         },

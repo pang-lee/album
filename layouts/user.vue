@@ -68,7 +68,7 @@ import * as icon from '@mdi/js'
             }
           }
         ],
-        contact: icon.mdiPhoneOutline,
+        contact: icon.mdiMessageProcessingOutline,
         close: icon.mdiClose
       }
     }

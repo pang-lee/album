@@ -57,12 +57,7 @@ export default{
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
-            return Swal.fire({
-                type: 'error',
-                title: `${displayError}`,
-                text: '我們將在寄一組新的給您 !',
-                timer: 3000,
-            })
+            return Swal.showValidationMessage(`${displayError}`)
         }
     },
     async verify_signup({ commit }, params){
@@ -119,13 +114,7 @@ export default{
         } catch (error) {
             let displayError
             if(error == 'Error: GraphQL error: Code Not Found Or Typo') displayError = '驗證碼輸入錯囉...!'
-            commit(types.SET_VERIFY, false)
-            return Swal.fire({
-                type: 'error',
-                title: `${displayError}`,
-                text: '麻煩在試一次 !',
-                timer: 3000,
-            })
+            return Swal.showValidationMessage(`${displayError}`)
         }
     },
     async forget({ commit }, params){
@@ -146,64 +135,46 @@ export default{
             commit(types.SET_PASSWORD, false)
             commit(types.SET_VERIFY, false)
             let displayError
-            if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email...!'
-            return Swal.fire({
-                type: 'error',
-                title: `${displayError}`,
-                text: '你有註冊過了嗎 ?',
-                timer: 3000,
-            })
+            if(error == 'Error: GraphQL error: Email Not Found') displayError = '找不到這個Email耶..註冊過了嗎?'
+            return Swal.showValidationMessage(`${displayError}`)
         }
     },
     async initAuth({ commit }, params){
         try {
-            let access_token
-            let access_token_expirationDate
-            let refresh_token
-            let refresh_token_expirationDate
-            let Idp_company
+            let access_token = params.$cookies.get('album_access_token')
+            let access_token_expirationDate = params.$cookies.get('album_access_token_expirationDate')
+            let refresh_token = params.$cookies.get('album_refresh_token')
+            let refresh_token_expirationDate = params.$cookies.get('album_refresh_token_expirationDate')
+            let Idp_company = params.$cookies.get('Idp')
             
-            let provider = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('Idp='))
-            if(provider) Idp_company = provider.split('=')[1]
-
-            if(!provider){
-                    if(params.req){
-                    if (!params.req.headers.cookie) return null
-                    let accessCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token='))
-                    let refreshCookie = params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token='))
-                    if (!accessCookie || !refreshCookie) return null
-                    if(accessCookie) access_token = accessCookie.split('=')[1]
-                    refresh_token = refreshCookie.split('=')[1]
-                    access_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_access_token_expirationDate=')).split('=')[1]
-                    refresh_token_expirationDate =  params.req.headers.cookie.split(';').find((c) => c.trim().startsWith('album_refresh_token_expirationDate=')).split('=')[1]
-                }
-                if(new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token) {
-                    params.$cookies.remove('album_access_token')
-                    params.$cookies.remove('album_access_token_expirationDate')
-                    const refetch = await params.app.apolloProvider.defaultClient.query({
-                        query:gql`
-                        query {
-                                getRefresh{
-                                    access_token
-                                    access_token_expirationDate
+            if(!Idp_company){
+                if(!access_token && !refresh_token) return commit(types.SET_VERIFY, false)
+                if(access_token){
+                    if(new Date().getTime() > Number.parseInt(access_token_expirationDate) || !access_token){
+                        let refetch = await params.app.apolloProvider.defaultClient.query({
+                            query:gql`
+                                query {
+                                    getRefresh{
+                                        access_token
+                                        access_token_expirationDate
+                                    }
+                                }`
+                        })
+                        params.$cookies.set('album_access_token', refetch.data.getRefresh.access_token)
+                        params.$cookies.set('album_access_token_expirationDate', refetch.data.getRefresh.access_token_expirationDate)
+                    } else if(new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token){
+                        await params.app.apolloProvider.defaultClient.mutate({
+                            mutation: gql`
+                                mutation{
+                                    invalidateToken
                                 }
-                            }`
-                    })
-                    params.$cookies.set('album_access_token', refetch.data.getRefresh.access_token)
-                    params.$cookies.set('album_access_token_expirationDate', refetch.data.getRefresh.access_token_expirationDate)
+                            `
+                        })
+                        params.$cookies.removeAll()
+                        return commit(types.SET_VERIFY, false)
+                    }
+                    return commit(types.SET_VERIFY, true)
                 }
-                if (new Date().getTime() > Number.parseInt(refresh_token_expirationDate) || !refresh_token) {
-                    commit(types.SET_VERIFY, false)
-                    await params.app.apolloProvider.defaultClient.mutate({
-                        mutation: gql`
-                            mutation{
-                                invalidateToken
-                            }
-                        `
-                    })
-                    return params.$cookies.removeAll()
-                }
-                return commit(types.SET_VERIFY, true)
             }
 
             switch (Idp_company) {
