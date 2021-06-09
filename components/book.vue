@@ -40,7 +40,14 @@
           </div>
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
-              <h2 class="page-first-last">謝謝觀看</h2>
+              <div class="page-first-last">
+                <div class="text-h5">
+                  <span class="font-weight-black">使用QR code分享</span>
+                </div>
+                <div>
+                  <div id="qrcode"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -109,6 +116,7 @@ import * as icon from '@mdi/js'
         current: this.page,
         total: 0,
         pageFlip: {},
+        qrcodeObj: {},
         link: icon.mdiLinkVariantPlus,
         live: icon.mdiVideoAccount,
         video: icon.mdiVideoBox,
@@ -177,6 +185,15 @@ import * as icon from '@mdi/js'
         showCover: true,
         disableFlipByClick: this.mouseEvent,
         useMouseEvents: this.mouseEvent
+      })
+
+      this.qrcodeObj = new QRCode('qrcode', {
+        text: `${process.env.BASE_URL}${this.$route.fullPath}`,    
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel : QRCode.CorrectLevel.H
       })
 
       if(!this.mouseEvent){
@@ -314,6 +331,10 @@ Reference:
     text-align: center;
     padding-top: 50%;
     font-size: 210%;
+  }
+
+  #qrcode{
+    display: inline-block;
   }
 }
 

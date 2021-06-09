@@ -17,7 +17,7 @@ export default {
     ],
     script:[
       {
-        src: process.env.BASE_URL + '/qrcodejs-master/qrcode.min.js'
+        src: process.env.BASE_URL + '/qrcode.min.js'
       }
     ],
     link: [
