@@ -3,6 +3,7 @@
     <div class="container">
       <div v-if="!mouseEvent" class="flip-book" ref="book">
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
@@ -10,6 +11,7 @@
               </span>
             </div>
           </div>
+
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
               <span class="page-first-last">
@@ -23,21 +25,23 @@
           <div v-else class="page-content">
             <bookheader class="page-header" :bookId="bookId" :bookpage="n -2" :bookHead="header[n - 2].header"></bookheader>
             <bookimg class="page-image" :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
-            <div>
-              <booktext :bookId="bookId" :bookpage="n - 2" :bookText="text[n - 2].text"></booktext>
-            </div>
+            <booktext :bookId="bookId" :bookpage="n - 2" :bookText="text[n - 2].text"></booktext>
             <div class="page-footer">{{ n }}</div>
           </div>
+
         </div>
       </div>
 
       <div v-else class="flip-book" ref="book">
+
         <div v-for="n in pages + 1" :key="n" ref="page" class="page">
+
           <div v-if="n == 1" class="page-cover page-cover-top" data-density="hard">
             <div class="page-content">
               <h2 class="page-first-last">{{ bookList.find(element => element.id === bookId).booktitle }}</h2>
             </div>
           </div>
+
           <div v-else-if="n == pages + 1" class="page-cover page-cover-bottom" data-density="hard">
             <div class="page-content">
               <div class="page-first-last">
@@ -53,16 +57,13 @@
 
           <div v-else class="page-content">
             <h2 class="page-header">{{ bookList.find(element => element.id === bookId).bookpage[n - 2].header }}</h2>
-            <div class="page-image">
-              <bookimg :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
-              <div class="page-text">
-                <div class="text font-weight-black text-subtitle-1">
-                  {{ bookList.find(element => element.id === bookId).bookpage[n - 2].text }}
-                </div>
-              </div>
-              <div class="page-footer">{{ n }}</div>
+            <bookimg class="page-image" :bookId="bookId" :bookpage="n - 2" :imgfilter="imgfilter" :mouseEvent="mouseEvent"></bookimg>
+            <div class="page-text">
+              <div class="text font-weight-black text-subtitle-1">{{ bookList.find(element => element.id === bookId).bookpage[n - 2].text }}</div>
             </div>
+            <div class="page-footer">{{ n }}</div>
           </div>
+
         </div>
       </div>
     </div>
@@ -72,6 +73,7 @@
       <div class="text-body-2 mt-1">[{{ current }} / {{ total }}]</div>&nbsp;
       <v-btn color="primary" outlined @click="next()">下一頁</v-btn>
     </div>
+
   </div>
 </template>
 
@@ -187,15 +189,6 @@ import * as icon from '@mdi/js'
         useMouseEvents: this.mouseEvent
       })
 
-      this.qrcodeObj = new QRCode('qrcode', {
-        text: `${process.env.BASE_URL}${this.$route.fullPath}`,    
-        width: 200,
-        height: 200,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel : QRCode.CorrectLevel.H
-      })
-
       if(!this.mouseEvent){
         this.pageFlip.loadFromHTML(this.$refs.page)
         this.total = this.pageFlip.getPageCount()
@@ -203,6 +196,15 @@ import * as icon from '@mdi/js'
       } else {
         this.pageFlip.loadFromHTML(this.$refs.page)
         this.pageFlip.turnToPage(this.page - 1)
+        
+        this.qrcodeObj = new QRCode('qrcode', {
+          text: `${process.env.BASE_URL}${this.$route.fullPath}`,    
+          width: 200,
+          height: 200,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel : QRCode.CorrectLevel.H
+        })
       }
     }
   }

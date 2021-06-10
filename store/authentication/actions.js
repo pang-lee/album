@@ -92,7 +92,7 @@ export default{
             })
         }
     },
-    async signup(_, params){
+    async signup({ commit }, params){
         try {
             let response = await this.app.apolloProvider.defaultClient.mutate({
                 mutation: gql`

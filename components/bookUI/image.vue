@@ -63,7 +63,7 @@
             </v-dialog>
         </div>
 
-        <div v-show="!upload.src" @click="editingImg(bookpage)">
+        <div v-show="!upload.src && !mouseEvent" @click="editingImg(bookpage)">
             <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="book_img_url">
                 <div class="text-h6 text-center text--secondary">點我上傳相片</div>
             </vue-core-image-upload>
