@@ -52,7 +52,7 @@ import Swal from 'sweetalert2'
         if(response == 'File too large') return Swal.fire({
           type: 'error',
           title: '照片檔案太大囉...',
-          text: '請在選一張 !',
+          html: '<strong>請在選一張<u style="color:red;">4MB以內 !</u></strong>',
           timer: 3000,
         })
         let img_url = 'data:image/*;base64,' + resp

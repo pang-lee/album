@@ -37,6 +37,7 @@ export default {
     '~/plugins/validate.js',
     '~/plugins/override.js',
     { src: '~/plugins/persistedState.js', mode: 'client' },
+    { src: '~/plugins/scrollbar.js', mode: 'client' },
     { src: '~/plugins/core-image-upload.js', mode: 'client' },
     { src: '~/plugins/crop-avatar.js', mode: 'client' }
   ],

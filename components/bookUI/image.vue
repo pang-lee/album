@@ -42,7 +42,7 @@
                                 <v-expansion-panel-content>
                                     <br/>
                                     <div v-if="item.title == '更換相片'" @click="editingImg(bookpage)">
-                                        <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="book_img_url">
+                                        <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" @errorhandle="imageErrorhandle" :data="upload" :max-file-size="5242880" :url="book_img_url">
                                             <div class="text-h6 text-center text--secondary">點我更新圖片</div>
                                         </vue-core-image-upload>
                                     </div>
@@ -64,7 +64,8 @@
         </div>
 
         <div v-show="!upload.src && !mouseEvent" @click="editingImg(bookpage)">
-            <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" :data="upload" :max-file-size="5242880" :url="book_img_url">
+            <!-- <vue-core-image-upload inputOfFile="bookImg" class="empty-state" :crop="false" @imagechanged="imagechanged" @imageuploaded="imageuploaded" @errorhandle="imageErrorhandle" :data="upload" :max-file-size="5242880" :url="book_img_url"> -->
+            <vue-core-image-upload inputOfFile="bookImg" class="empty-state" crop="local" @imagechanged="imagechanged" @imageuploaded="imageuploaded" @errorhandle="imageErrorhandle" compress="50" :data="upload" :max-file-size=" 4 * 1024 * 1024" :url="book_img_url">
                 <div class="text-h6 text-center text--secondary">點我上傳相片</div>
             </vue-core-image-upload>
         </div>
@@ -73,6 +74,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import Swal from 'sweetalert2'
 import * as icon from '@mdi/js'
 
     export default {
@@ -200,14 +202,23 @@ import * as icon from '@mdi/js'
                 return this.edit_img_info = { which_id: this.bookId, which_page: page }
             },
             toDash: (str) => str.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(),
-            imagechanged(res) {
+            imagechanged(response) {
                 const reader = new FileReader()
                 reader.onload = (e) => this.upload.src = e.target.result
-                this.SET_BOOKIMG({ ...this.edit_img_info, value: res})
-                reader.readAsDataURL(res)
+                this.SET_BOOKIMG({ ...this.edit_img_info, value: response})
+                reader.readAsDataURL(response)
             },
-            imageuploaded(res) {
-                this.SET_BOOKPAGEIMG({ ...this.edit_img_info, value: res })
+            imageuploaded(response) {
+                if(response == 'File too large') return null
+                this.SET_BOOKPAGEIMG({ ...this.edit_img_info, value: response })
+            },
+            imageErrorhandle(){
+                return Swal.fire({
+                    type: 'error',
+                    title: '照片檔案太大囉...',
+                    html: '<strong>請在選一張<u style="color:red;">4MB以內 !</u></strong>',
+                    timer: 3000,
+                })
             }
         },
         created() {
